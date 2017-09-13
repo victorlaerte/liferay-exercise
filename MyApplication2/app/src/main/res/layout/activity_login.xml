@@ -55,7 +55,9 @@
         android:layout_marginBottom="22dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp" />
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/editText2"
