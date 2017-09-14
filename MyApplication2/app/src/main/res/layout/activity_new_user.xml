@@ -36,25 +36,27 @@
         android:layout_below="@id/email"/>
 
     <EditText
-        android:id="@+id/caixatexto1"
+        android:id="@+id/caixanomee"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:layout_toRightOf="@id/nome"/>
     <EditText
-        android:id="@+id/caixatexto2"
+        android:id="@+id/caixaemaill"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/email"
-        android:layout_below="@id/caixatexto1"/>
+        android:layout_below="@id/caixanomee"/>
     <EditText
+        android:id="@+id/caixaSenha"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/senha"
-        android:layout_below="@id/caixatexto2"
-        />
+        android:layout_below="@+id/caixaemaill"
+        android:layout_alignStart="@+id/caixanomee"
+        android:inputType="textPassword"/>
 
     <Button
+        android:id="@+id/criarUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
