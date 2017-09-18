@@ -20,6 +20,6 @@ public class NewUrl extends AppCompatActivity {
         TextView url1 = (TextView) findViewById(R.id.url);
         String url = url1.getText().toString();
 
-        
+
     }
 }
