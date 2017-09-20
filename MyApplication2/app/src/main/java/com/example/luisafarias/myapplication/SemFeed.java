@@ -26,9 +26,28 @@ public class SemFeed extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
+
     }
 
-    public void addNewUrl(View view){
+    public void testandologin(View view){
+
+        weDeploy
+                .auth("https://auth-weread.wedeploy.io")
+                .signIn("luisa@gmail.com","1234")
+                .execute(new Callback() {
+                    public void onSuccess(Response response) {
+
+                        Log.d(Login.class.getName(),"entrei");
+                        //startActivity(intent);
+                    }
+
+                    public void onFailure(Exception e) {
+                        Log.e(NewUser.class.getName(),e.getMessage());
+                    }
+                });
+    }
+
+    public void goAddUrl(View view){
         Intent intent = new Intent(this,NewUrl.class);
         startActivity(intent);
     }
@@ -49,6 +68,7 @@ public class SemFeed extends AppCompatActivity {
                     .execute(new Callback() {
                         public void onSuccess(Response response) {
                             Log.d(SemFeed.class.getName(), "saiu");
+
                         }
 
                         public void onFailure(Exception e) {

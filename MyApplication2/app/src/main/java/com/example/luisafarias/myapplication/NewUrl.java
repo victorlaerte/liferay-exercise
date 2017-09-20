@@ -24,44 +24,29 @@ public class NewUrl extends AppCompatActivity {
         setContentView(R.layout.activity_new_url);
     }
 
-    public void addNewUrl(View view) throws JSONException {
+    public void addNewUrl(View view) throws JSONException, WeDeployException {
         TextView nomeUrl1 = (TextView) findViewById(R.id.nomeUrl);
         String nomeUrl = nomeUrl1.getText().toString();
         TextView url1 = (TextView) findViewById(R.id.url);
         String url = url1.getText().toString();
-        String userId = "userId";
-        weDeploy //get userId nao esta funcionando, preciso saber qual o tipo da variavel para pegar o id
-                .auth("https://auth-weread.wedeploy.io")
-                .getCurrentUser()
-                .execute(new Callback() {
-                    public void onSuccess(Response response) {
-                        // here you receive the movies
-                    }
-
-                    public void onFailure(Exception e) {
-                        Log.e(NewUser.class.getName(),e.getMessage());
-                    }
-                });
-
 
 
         JSONObject feedJsonObject = new JSONObject()
                 .put("name", nomeUrl)
-                .put("userId", userId)
                 .put("url", url);
 
         weDeploy
                 .data("https://data-weread.wedeploy.io")
-               .create("Feeds", feedJsonObject)
-                        .execute(new Callback() {
-                            public void onSuccess(Response response) {
-                                // here you receive the movies
-                            }
+                .create("Feeds", feedJsonObject)
+                .execute(new Callback() {
+                    public void onSuccess(Response response) {
+                        Log.d(NewUrl.class.getName(),"salvo com sucesso");
+                    }
 
-                            public void onFailure(Exception e) {
-                                Log.e(NewUser.class.getName(),e.getMessage());
-                            }
-                        });
+                    public void onFailure(Exception e) {
+                        Log.e(NewUrl.class.getName(),e.getMessage());
+                    }
+                });
 
     }
 }

@@ -6,7 +6,7 @@ tools:context=".SemFeed">
 <item android:id="@+id/logout"
     android:title="@string/logout"
     android:orderInCategory="100"
-    android:icon="@mipmap/ic_launcher"
+    android:icon="@mipmap/go_out"
     app:showAsAction="ifRoom"
     />
 </menu>
