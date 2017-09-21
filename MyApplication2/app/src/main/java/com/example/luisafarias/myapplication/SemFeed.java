@@ -13,11 +13,16 @@ import android.widget.EditText;
 
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
+import com.wedeploy.android.auth.Authorization;
+import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.transport.Response;
 
+import org.json.JSONObject;
+
 public class SemFeed extends AppCompatActivity {
     WeDeploy weDeploy = new WeDeploy.Builder().build();
+    String token, token1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,7 @@ public class SemFeed extends AppCompatActivity {
         setContentView(R.layout.activity_sem_feed);
         Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
+        token1 = getIntent().getExtras().getString(token);
 
 
     }
@@ -49,6 +55,7 @@ public class SemFeed extends AppCompatActivity {
 
     public void goAddUrl(View view){
         Intent intent = new Intent(this,NewUrl.class);
+        intent.putExtra(token,token1);
         startActivity(intent);
     }
 
@@ -58,12 +65,19 @@ public class SemFeed extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
+        String token = "";
         int id = item.getItemId();
+        //String token1 = getIntent().getExtras().getString(token);
+        Log.d("esse é o token",token1);
+
 
         if(id == R.id.logout) {
 
+
+            Authorization authorization = new TokenAuthorization(token1);
+
             weDeploy
-                    .auth("https://auth-weread.wedeploy.io")
+                    .auth("https://auth-weread.wedeploy.io").authorization(authorization)
                     .signOut()
                     .execute(new Callback() {
                         public void onSuccess(Response response) {
