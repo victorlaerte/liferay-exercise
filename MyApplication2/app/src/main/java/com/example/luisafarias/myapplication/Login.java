@@ -92,35 +92,35 @@ public class Login extends AppCompatActivity {
                 });
     }
 
-    public void sairDaqui(View view) {
-
-        Log.d("eu n quero pegar","eu mesmo");
-//        weDeploy //get current user
+//    public void sairDaqui(View view) {
+//
+//        Log.d("eu n quero pegar","eu mesmo");
+////        weDeploy //get current user
+////                .auth("https://auth.weread.wedeploy.io")
+////                .getCurrentUser()
+////                .execute(new Callback() {
+////                    public void onSuccess(Response response) {
+////                        Log.d(Login.class.getName(),"online");
+////                    }
+////
+////                    public void onFailure(Exception e) {
+////                        Log.e(Login.class.getName(),e.getMessage());
+////                    }
+////                });
+//
+//        weDeploy
 //                .auth("https://auth.weread.wedeploy.io")
-//                .getCurrentUser()
+//                .signOut()
 //                .execute(new Callback() {
 //                    public void onSuccess(Response response) {
-//                        Log.d(Login.class.getName(),"online");
+//
 //                    }
 //
 //                    public void onFailure(Exception e) {
 //                        Log.e(Login.class.getName(),e.getMessage());
 //                    }
 //                });
-
-        weDeploy
-                .auth("https://auth.weread.wedeploy.io")
-                .signOut()
-                .execute(new Callback() {
-                    public void onSuccess(Response response) {
-
-                    }
-
-                    public void onFailure(Exception e) {
-                        Log.e(Login.class.getName(),e.getMessage());
-                    }
-                });
-    }
+//    }
 
     public void novaConta(View view) {
         Intent intent = new Intent(this, NewUser.class);

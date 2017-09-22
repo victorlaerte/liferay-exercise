@@ -43,12 +43,9 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="71dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
         android:background="@color/colorPrimary"
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
@@ -60,16 +57,18 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/get_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="59dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:text="login"
-        android:onClick="testandologin"
+        android:layout_marginTop="8dp"
+        android:text="get info"
+        android:onClick="getData"
         app:layout_constraintBottom_toTopOf="@+id/goNewUrl"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
 </android.support.constraint.ConstraintLayout>

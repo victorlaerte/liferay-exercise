@@ -37,6 +37,7 @@ public class NewUrl extends AppCompatActivity {
 
         JSONObject feedJsonObject = new JSONObject()
                 .put("name", nomeUrl)
+                //.put("id","teste1")
                 .put("userId", token1)
                 .put("url", url);
 
@@ -46,6 +47,9 @@ public class NewUrl extends AppCompatActivity {
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
                         Log.d(NewUrl.class.getName(),"salvo com sucesso");
+//talvez usar para pegar informacoes do elemento add
+//                        JSONObject jsonBody = new JSONObject(response.getBody());
+//                        String[] elemento = jsonBody.getJSONArray("info_elemento");
                     }
 
                     public void onFailure(Exception e) {

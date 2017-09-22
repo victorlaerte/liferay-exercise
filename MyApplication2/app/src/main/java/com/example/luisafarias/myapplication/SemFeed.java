@@ -16,9 +16,15 @@ import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.exception.WeDeployException;
+import com.wedeploy.android.query.filter.Filter;
 import com.wedeploy.android.transport.Response;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import static com.wedeploy.android.query.filter.Filter.equal;
+import static com.wedeploy.android.query.filter.Filter.match;
+import static com.wedeploy.android.query.filter.Filter.notEqual;
 
 public class SemFeed extends AppCompatActivity {
     WeDeploy weDeploy = new WeDeploy.Builder().build();
@@ -35,28 +41,77 @@ public class SemFeed extends AppCompatActivity {
 
     }
 
-    public void testandologin(View view){
-
-        weDeploy
-                .auth("https://auth-weread.wedeploy.io")
-                .signIn("luisa@gmail.com","1234")
-                .execute(new Callback() {
-                    public void onSuccess(Response response) {
-
-                        Log.d(Login.class.getName(),"entrei");
-                        //startActivity(intent);
-                    }
-
-                    public void onFailure(Exception e) {
-                        Log.e(NewUser.class.getName(),e.getMessage());
-                    }
-                });
-    }
+//    public void testandologin(View view){
+//
+//        weDeploy
+//                .auth("https://auth-weread.wedeploy.io")
+//                .signIn("luisa@gmail.com","1234")
+//                .execute(new Callback() {
+//                    public void onSuccess(Response response) {
+//
+//                        Log.d(Login.class.getName(),"entrei");
+//                        //startActivity(intent);
+//                    }
+//
+//                    public void onFailure(Exception e) {
+//                        Log.e(NewUser.class.getName(),e.getMessage());
+//                    }
+//                });
+//    }
 
     public void goAddUrl(View view){
         Intent intent = new Intent(this,NewUrl.class);
         intent.putExtra(token,token1);
         startActivity(intent);
+    }
+
+    public void getData(View view){
+
+        Authorization authorization = new TokenAuthorization(token1);
+
+
+        weDeploy
+                .data("https://data-weread.wedeploy.io").authorization(authorization)
+                .where(notEqual("userId",token1))
+                .get("Feeds")
+                .execute(new Callback() {
+                             public void onSuccess(Response response) {
+                                 Log.d(SemFeed.class.getName(), "getData");
+                                 Log.d("response",response.getBody());
+                                 try {
+                                     JSONObject jsonBody = new JSONObject(response.getBody());
+                                     String jsonBodyString = jsonBody.toString();
+                                     Log.d("esses sao os dados", jsonBodyString);
+
+                                 } catch (JSONException e) {
+                                     e.printStackTrace();
+                                 }
+
+
+                                        }
+
+                    public void onFailure(Exception e) {
+                        Log.e(SemFeed.class.getName(), e.getMessage());
+                    }
+                });
+
+//        weDeploy
+//                .data("https://data-weread.wedeploy.io").authorization(authorization)
+//                .get("Feeds/teste")
+//                .execute(new Callback() {
+//                    public void onSuccess(Response response) {
+//                        Log.d("oi", "pegou os dados");
+//
+//
+//                        String bodyDoResponse = response.getBody().toString(); //*** pega
+//                        Log.d("bodyDoResponse", bodyDoResponse);
+//
+//                    }//***
+//
+//                    public void onFailure(Exception e) {
+//                        Log.e(SemFeed.class.getName(), e.getMessage());
+//                    }
+//                });
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
