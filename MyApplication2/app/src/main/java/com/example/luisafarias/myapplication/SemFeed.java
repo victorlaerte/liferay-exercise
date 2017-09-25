@@ -19,6 +19,7 @@ import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.query.filter.Filter;
 import com.wedeploy.android.transport.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,7 +29,12 @@ import static com.wedeploy.android.query.filter.Filter.notEqual;
 
 public class SemFeed extends AppCompatActivity {
     WeDeploy weDeploy = new WeDeploy.Builder().build();
-    String token, token1;
+    String userId, token;
+    Authorization authorization;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,58 +42,76 @@ public class SemFeed extends AppCompatActivity {
         setContentView(R.layout.activity_sem_feed);
         Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-        token1 = getIntent().getExtras().getString(token);
+        token = getIntent().getExtras().getString("tokenKey");
+        authorization = new TokenAuthorization(token);
+
 
 
     }
 
-//    public void testandologin(View view){
-//
-//        weDeploy
-//                .auth("https://auth-weread.wedeploy.io")
-//                .signIn("luisa@gmail.com","1234")
-//                .execute(new Callback() {
-//                    public void onSuccess(Response response) {
-//
-//                        Log.d(Login.class.getName(),"entrei");
-//                        //startActivity(intent);
-//                    }
-//
-//                    public void onFailure(Exception e) {
-//                        Log.e(NewUser.class.getName(),e.getMessage());
-//                    }
-//                });
-//    }
-
     public void goAddUrl(View view){
-        Intent intent = new Intent(this,NewUrl.class);
-        intent.putExtra(token,token1);
-        startActivity(intent);
+        final Intent intent = new Intent(this,NewUrl.class);
+        weDeploy
+                .auth("https://auth-weread.wedeploy.io")
+                .authorization(authorization)
+                .getCurrentUser()
+                .execute(new Callback() {
+                    public void onSuccess(Response response) {
+                        Log.d(SemFeed.class.getName(),"sim bem aqui");
+
+
+                        JSONObject jsonBody = null;
+                        try {
+                            jsonBody = new JSONObject(response.getBody());
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            userId = jsonBody.getString("id");
+                            Log.d(SemFeed.class.getName(),userId);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        intent.putExtra("userId",userId);
+                        intent.putExtra("token",token);
+                        startActivity(intent);
+
+                    }
+
+                    public void onFailure(Exception e) {
+                        Log.e(SemFeed.class.getName(),e.getMessage());
+                    }
+                });
+
     }
 
     public void getData(View view){
 
-        Authorization authorization = new TokenAuthorization(token1);
-
-
         weDeploy
-                .data("https://data-weread.wedeploy.io").authorization(authorization)
-                .where(notEqual("userId",token1))
+                .data("https://data-weread.wedeploy.io")
+                .authorization(authorization)
                 .get("Feeds")
                 .execute(new Callback() {
                              public void onSuccess(Response response) {
-                                 Log.d(SemFeed.class.getName(), "getData");
-                                 Log.d("response",response.getBody());
+                                 //String responseBody = response.getBody();
                                  try {
-                                     JSONObject jsonBody = new JSONObject(response.getBody());
-                                     String jsonBodyString = jsonBody.toString();
-                                     Log.d("esses sao os dados", jsonBodyString);
+                                     JSONArray jsonArray = new JSONArray(response.getBody());
+                                     for(int i = 0; i < jsonArray.length(); i++) {
+                                         JSONObject jsonBody = (JSONObject) jsonArray.get(i);
+                                         String jsonBodyString = jsonBody.toString();
+                                     }
+//                                     for (JSONObject item :
+//                                             jsonArray) {
+//
+//                                         String jsonBodyString = jsonBody.toString();
+//                                     }
+//
 
                                  } catch (JSONException e) {
                                      e.printStackTrace();
                                  }
-
-
                                         }
 
                     public void onFailure(Exception e) {
@@ -95,23 +119,6 @@ public class SemFeed extends AppCompatActivity {
                     }
                 });
 
-//        weDeploy
-//                .data("https://data-weread.wedeploy.io").authorization(authorization)
-//                .get("Feeds/teste")
-//                .execute(new Callback() {
-//                    public void onSuccess(Response response) {
-//                        Log.d("oi", "pegou os dados");
-//
-//
-//                        String bodyDoResponse = response.getBody().toString(); //*** pega
-//                        Log.d("bodyDoResponse", bodyDoResponse);
-//
-//                    }//***
-//
-//                    public void onFailure(Exception e) {
-//                        Log.e(SemFeed.class.getName(), e.getMessage());
-//                    }
-//                });
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -122,14 +129,10 @@ public class SemFeed extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         String token = "";
         int id = item.getItemId();
-        //String token1 = getIntent().getExtras().getString(token);
-        Log.d("esse é o token",token1);
+        Log.d("esse é o token",token);
 
 
         if(id == R.id.logout) {
-
-
-            Authorization authorization = new TokenAuthorization(token1);
 
             weDeploy
                     .auth("https://auth-weread.wedeploy.io").authorization(authorization)

@@ -20,6 +20,7 @@ import org.json.JSONObject;
 public class Login extends AppCompatActivity {
 
     WeDeploy weDeploy = new WeDeploy.Builder().build();
+    String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,37 +33,10 @@ public class Login extends AppCompatActivity {
         String emailogin = emailLogin.getText().toString();
         EditText senhaLogin1 = (EditText) findViewById(R.id.senhalogin);
         String senhalogin = senhaLogin1.getText().toString();
-        String token = null;
-
-//        Response response =
-//                weDeploy
-//                .auth("https://auth-weread.wedeploy.io")
-//                .signIn(emailogin,senhalogin)
-//                        .execute(new Callback() {
-//                            public void onSuccess(Response response) {
-//
-//                            }
-//
-//                            public void onFailure(Exception e) {
-//                                // oops something went wrong
-//                            }
-//                        });
-
-//        JSONObject jsonBody = new JSONObject(response.getBody());
-//        String token = jsonBody.getString("access_token");
-//
-//        Log.d("token:",token);
-
-
-
         weDeploy
                 .auth("https://auth-weread.wedeploy.io")
                 .signIn(emailogin,senhalogin)
                 .execute(new Callback() {
-                    String token;
-                    String tokenKey;
-                    //Bundle bundleToken = intentSemFeed.getExtras();
-
                     public void onSuccess(Response response) {
 
                         Log.d(Login.class.getName(),"entrei");
@@ -76,8 +50,7 @@ public class Login extends AppCompatActivity {
                         try {
                             token = jsonBody.getString("access_token");
                             Log.d("token",token);
-                            intentSemFeed.putExtra(tokenKey,token);
-                            //bundleToken.putString(tokenKey,token);
+                            intentSemFeed.putExtra("tokenKey",token);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -92,35 +65,6 @@ public class Login extends AppCompatActivity {
                 });
     }
 
-//    public void sairDaqui(View view) {
-//
-//        Log.d("eu n quero pegar","eu mesmo");
-////        weDeploy //get current user
-////                .auth("https://auth.weread.wedeploy.io")
-////                .getCurrentUser()
-////                .execute(new Callback() {
-////                    public void onSuccess(Response response) {
-////                        Log.d(Login.class.getName(),"online");
-////                    }
-////
-////                    public void onFailure(Exception e) {
-////                        Log.e(Login.class.getName(),e.getMessage());
-////                    }
-////                });
-//
-//        weDeploy
-//                .auth("https://auth.weread.wedeploy.io")
-//                .signOut()
-//                .execute(new Callback() {
-//                    public void onSuccess(Response response) {
-//
-//                    }
-//
-//                    public void onFailure(Exception e) {
-//                        Log.e(Login.class.getName(),e.getMessage());
-//                    }
-//                });
-//    }
 
     public void novaConta(View view) {
         Intent intent = new Intent(this, NewUser.class);

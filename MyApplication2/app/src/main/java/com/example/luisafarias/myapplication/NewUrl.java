@@ -18,14 +18,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class NewUrl extends AppCompatActivity {
-    String token1, token;
+    String token, userId;
+    Authorization authorization;
 
     WeDeploy weDeploy = new WeDeploy.Builder().build();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_url);
-        token1 = getIntent().getExtras().getString(token);
+        token = getIntent().getExtras().getString("token");
+        userId = getIntent().getExtras().getString("userId");
+
+
     }
 
     public void addNewUrl(View view) throws JSONException, WeDeployException {
@@ -33,12 +37,12 @@ public class NewUrl extends AppCompatActivity {
         String nomeUrl = nomeUrl1.getText().toString();
         TextView url1 = (TextView) findViewById(R.id.url);
         String url = url1.getText().toString();
-        Authorization authorization = new TokenAuthorization(token1);
+        authorization = new TokenAuthorization(token);
+
 
         JSONObject feedJsonObject = new JSONObject()
                 .put("name", nomeUrl)
-                //.put("id","teste1")
-                .put("userId", token1)
+                .put("userId", userId)
                 .put("url", url);
 
         weDeploy
@@ -47,9 +51,6 @@ public class NewUrl extends AppCompatActivity {
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
                         Log.d(NewUrl.class.getName(),"salvo com sucesso");
-//talvez usar para pegar informacoes do elemento add
-//                        JSONObject jsonBody = new JSONObject(response.getBody());
-//                        String[] elemento = jsonBody.getJSONArray("info_elemento");
                     }
 
                     public void onFailure(Exception e) {
