@@ -1,5 +1,6 @@
 package model;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.luisafarias.myapplication.FeedListActivity;
@@ -23,10 +24,22 @@ import java.util.List;
 
 public class Repositorio implements IRepositorio {
 
+    private static Repositorio uniqueInstance;
     WeDeploy weDeploy = new WeDeploy.Builder().build();
     String nomeUrl,userId,url;
     Feed feed;
     ArrayList<Feed> feedList = new ArrayList();
+
+    private Repositorio() {
+    }
+
+    public static Repositorio getInstance(Context context) {
+        if (uniqueInstance == null) {
+            uniqueInstance = new Repositorio();
+        }
+        return uniqueInstance;
+    }
+
 
     @Override
     public void addFeed(Feed feed, Authorization authorization) throws JSONException {

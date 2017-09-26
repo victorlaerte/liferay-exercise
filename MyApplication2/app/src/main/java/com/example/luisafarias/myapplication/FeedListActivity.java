@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
@@ -27,7 +28,7 @@ public class FeedListActivity extends AppCompatActivity {
     WeDeploy weDeploy = new WeDeploy.Builder().build();
     String userId, token;
     Authorization authorization;
-    ArrayList allFeeds;
+    ListView allFeeds;
 
 
 
