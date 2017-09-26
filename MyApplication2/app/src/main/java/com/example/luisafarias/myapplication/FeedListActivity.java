@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.wedeploy.android.Callback;
@@ -22,14 +23,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import model.FeedListAdapter;
+import model.Repositorio;
+
 import static com.wedeploy.android.query.filter.Filter.match;
 
 public class FeedListActivity extends AppCompatActivity {
-    WeDeploy weDeploy = new WeDeploy.Builder().build();
-    String userId, token;
-    Authorization authorization;
-    ListView allFeeds;
-
+    private WeDeploy weDeploy = new WeDeploy.Builder().build();
+    private String userId, token;
+    private Authorization authorization;
+    private ListView allFeeds;
+    private FeedListAdapter mFeedAdapter;
 
 
 
@@ -38,11 +42,18 @@ public class FeedListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed_list);
+
         Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
+
         token = getIntent().getExtras().getString("tokenKey");
         authorization = new TokenAuthorization(token);
-        //allFeeds =
+
+        allFeeds = (ListView) findViewById(R.id.lista_feed);
+        ArrayList<String> listaNomes = Repositorio.getInstance(this).listaNomeUrl(authorization);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listaNomes);
+        allFeeds.setAdapter(adapter);
+        //mFeedAdapter = new FeedListAdapter(this,authorization);
 
 
 

@@ -20,7 +20,7 @@ import model.Feed;
 import model.Repositorio;
 
 public class NewUrlActivity extends AppCompatActivity {
-    Repositorio repositorio = new Repositorio();
+    //Repositorio repositorio = new Repositorio();
     String token, userId;
     Authorization authorization;
     Feed feed;
@@ -43,6 +43,6 @@ public class NewUrlActivity extends AppCompatActivity {
         TextView url1 = (TextView) findViewById(R.id.url);
         String url = url1.getText().toString();
         feed = new Feed(nomeUrl,url,userId);
-        repositorio.addFeed(feed,authorization);
+        Repositorio.getInstance(this).addFeed(feed,authorization);
     }
 }

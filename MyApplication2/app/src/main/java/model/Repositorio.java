@@ -26,9 +26,10 @@ public class Repositorio implements IRepositorio {
 
     private static Repositorio uniqueInstance;
     WeDeploy weDeploy = new WeDeploy.Builder().build();
-    String nomeUrl,userId,url;
+    String nomeUrl,userId,url,nome;
     Feed feed;
     ArrayList<Feed> feedList = new ArrayList();
+    ArrayList<String> nomeLista = new ArrayList();
 
     private Repositorio() {
     }
@@ -145,6 +146,37 @@ public class Repositorio implements IRepositorio {
     @Override
     public List<Feed> feedList() {
         return null;
+    }
+
+    public ArrayList<String> listaNomeUrl(Authorization authorization){
+
+        weDeploy
+                .data("https://data-weread.wedeploy.io")
+                .authorization(authorization)
+                .get("Feeds")
+                .execute(new Callback() {
+                    public void onSuccess(Response response) {
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response.getBody());
+
+                            for(int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonBody = (JSONObject) jsonArray.get(i);
+                                nome = jsonBody.getString("name");
+                                nomeLista.add(nome);
+                                //String jsonBodyString = jsonBody.toString();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    public void onFailure(Exception e) {
+                        Log.e(FeedListActivity.class.getName(), e.getMessage());
+                    }
+                });
+        return nomeLista;
+
     }
 
 
