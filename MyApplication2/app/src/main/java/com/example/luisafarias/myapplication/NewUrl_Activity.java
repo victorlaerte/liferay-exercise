@@ -1,6 +1,5 @@
 package com.example.luisafarias.myapplication;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +16,7 @@ import com.wedeploy.android.transport.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class NewUrl extends AppCompatActivity {
+public class NewUrl_Activity extends AppCompatActivity {
     String token, userId;
     Authorization authorization;
 
@@ -50,11 +49,11 @@ public class NewUrl extends AppCompatActivity {
                 .create("Feeds", feedJsonObject)
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
-                        Log.d(NewUrl.class.getName(),"salvo com sucesso");
+                        Log.d(NewUrl_Activity.class.getName(),"salvo com sucesso");
                     }
 
                     public void onFailure(Exception e) {
-                        Log.e(NewUrl.class.getName(),e.getMessage());
+                        Log.e(NewUrl_Activity.class.getName(),e.getMessage());
                     }
                 });
 

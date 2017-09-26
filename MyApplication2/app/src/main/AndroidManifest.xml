@@ -12,16 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Login">
+        <activity android:name=".Login_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewUser" />
-        <activity android:name=".SemFeed" />
-        <activity android:name=".NewUrl"></activity>
+        <activity android:name=".NewUser_Activity" />
+        <activity android:name=".FeedList_Activity" />
+        <activity android:name=".NewUrl_Activity"></activity>
     </application>
 
 

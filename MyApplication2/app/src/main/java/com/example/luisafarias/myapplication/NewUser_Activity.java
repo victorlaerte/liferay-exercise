@@ -1,10 +1,8 @@
 package com.example.luisafarias.myapplication;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -14,9 +12,7 @@ import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.transport.Response;
 
-import java.net.URL;
-
-public class NewUser extends AppCompatActivity {
+public class NewUser_Activity extends AppCompatActivity {
 
     WeDeploy weDeploy = new WeDeploy.Builder().build();
 
@@ -27,7 +23,7 @@ public class NewUser extends AppCompatActivity {
     }
 
     public void goSemFeed(View view) throws WeDeployException {
-        final Intent intent = new Intent(this,SemFeed.class);
+        final Intent intent = new Intent(this,FeedList_Activity.class);
         EditText nome = (EditText) findViewById(R.id.caixanomee);
         String nome1 = nome.getText().toString();
         EditText email = (EditText) findViewById(R.id.caixaemaill);
@@ -43,7 +39,7 @@ public class NewUser extends AppCompatActivity {
                     }
 
                     public void onFailure(Exception e) {
-                        Log.e(NewUser.class.getName(),e.getMessage());
+                        Log.e(NewUser_Activity.class.getName(),e.getMessage());
                     }
                 });
     }

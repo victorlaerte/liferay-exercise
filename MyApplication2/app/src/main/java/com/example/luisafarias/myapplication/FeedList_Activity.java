@@ -8,29 +8,26 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
-import com.wedeploy.android.exception.WeDeployException;
-import com.wedeploy.android.query.filter.Filter;
 import com.wedeploy.android.transport.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.wedeploy.android.query.filter.Filter.equal;
-import static com.wedeploy.android.query.filter.Filter.match;
-import static com.wedeploy.android.query.filter.Filter.notEqual;
+import java.util.ArrayList;
 
-public class SemFeed extends AppCompatActivity {
+import static com.wedeploy.android.query.filter.Filter.match;
+
+public class FeedList_Activity extends AppCompatActivity {
     WeDeploy weDeploy = new WeDeploy.Builder().build();
     String userId, token;
     Authorization authorization;
+    ArrayList allFeeds;
 
 
 
@@ -44,20 +41,21 @@ public class SemFeed extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         token = getIntent().getExtras().getString("tokenKey");
         authorization = new TokenAuthorization(token);
+        //allFeeds =
 
 
 
     }
 
     public void goAddUrl(View view){
-        final Intent intent = new Intent(this,NewUrl.class);
+        final Intent intent = new Intent(this,NewUrl_Activity.class);
         weDeploy
                 .auth("https://auth-weread.wedeploy.io")
                 .authorization(authorization)
                 .getCurrentUser()
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
-                        Log.d(SemFeed.class.getName(),"sim bem aqui");
+                        Log.d(FeedList_Activity.class.getName(),"sim bem aqui");
 
 
                         JSONObject jsonBody = null;
@@ -69,7 +67,7 @@ public class SemFeed extends AppCompatActivity {
                         }
                         try {
                             userId = jsonBody.getString("id");
-                            Log.d(SemFeed.class.getName(),userId);
+                            Log.d(FeedList_Activity.class.getName(),userId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -81,7 +79,7 @@ public class SemFeed extends AppCompatActivity {
                     }
 
                     public void onFailure(Exception e) {
-                        Log.e(SemFeed.class.getName(),e.getMessage());
+                        Log.e(FeedList_Activity.class.getName(),e.getMessage());
                     }
                 });
 
@@ -98,24 +96,18 @@ public class SemFeed extends AppCompatActivity {
                                  //String responseBody = response.getBody();
                                  try {
                                      JSONArray jsonArray = new JSONArray(response.getBody());
+
                                      for(int i = 0; i < jsonArray.length(); i++) {
                                          JSONObject jsonBody = (JSONObject) jsonArray.get(i);
                                          String jsonBodyString = jsonBody.toString();
                                      }
-//                                     for (JSONObject item :
-//                                             jsonArray) {
-//
-//                                         String jsonBodyString = jsonBody.toString();
-//                                     }
-//
-
                                  } catch (JSONException e) {
                                      e.printStackTrace();
-                                 }
-                                        }
+                                    }
+                             }
 
                     public void onFailure(Exception e) {
-                        Log.e(SemFeed.class.getName(), e.getMessage());
+                        Log.e(FeedList_Activity.class.getName(), e.getMessage());
                     }
                 });
 
@@ -139,12 +131,12 @@ public class SemFeed extends AppCompatActivity {
                     .signOut()
                     .execute(new Callback() {
                         public void onSuccess(Response response) {
-                            Log.d(SemFeed.class.getName(), "saiu");
+                            Log.d(FeedList_Activity.class.getName(), "saiu");
 
                         }
 
                         public void onFailure(Exception e) {
-                            Log.e(SemFeed.class.getName(), e.getMessage());
+                            Log.e(FeedList_Activity.class.getName(), e.getMessage());
                         }
                     });
         }
