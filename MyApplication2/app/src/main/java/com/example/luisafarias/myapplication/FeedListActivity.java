@@ -1,5 +1,6 @@
 package com.example.luisafarias.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,11 +51,42 @@ public class FeedListActivity extends AppCompatActivity {
         authorization = new TokenAuthorization(token);
 
         allFeeds = (ListView) findViewById(R.id.lista_feed);
-        ArrayList<String> listaNomes = Repositorio.getInstance(this).listaNomeUrl(authorization);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listaNomes);
-        allFeeds.setAdapter(adapter);
+
+        final Context context = this;
+
         //mFeedAdapter = new FeedListAdapter(this,authorization);
 
+        weDeploy
+                .data("https://data-weread.wedeploy.io")
+                .authorization(authorization)
+                .get("Feeds")
+                .execute(new Callback() {
+                    public void onSuccess(Response response) {
+
+                        ArrayList<String> listaNomes = new ArrayList<String>();
+                        try {
+                            JSONArray jsonArray = new JSONArray(response.getBody());
+
+
+                            for(int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonBody = (JSONObject) jsonArray.get(i);
+                                String nome = jsonBody.getString("name");
+                                listaNomes.add(nome);
+                                //String jsonBodyString = jsonBody.toString();
+                            }
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context , android.R.layout.simple_list_item_1,listaNomes);
+                            allFeeds.setAdapter(adapter);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    public void onFailure(Exception e) {
+                        Log.e(FeedListActivity.class.getName(), e.getMessage());
+                    }
+                });
 
 
     }
@@ -131,10 +163,11 @@ public class FeedListActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
+        final Intent intent = new Intent(this,LoginActivity.class);
         String token = "";
         int id = item.getItemId();
         Log.d("esse é o token",token);
-
+        //authorization = new TokenAuthorization(token);
 
         if(id == R.id.logout) {
 
@@ -144,6 +177,8 @@ public class FeedListActivity extends AppCompatActivity {
                     .execute(new Callback() {
                         public void onSuccess(Response response) {
                             Log.d(FeedListActivity.class.getName(), "saiu");
+                            startActivity(intent);
+
 
                         }
 
