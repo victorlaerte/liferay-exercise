@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import static com.wedeploy.android.query.filter.Filter.match;
 
-public class FeedList_Activity extends AppCompatActivity {
+public class FeedListActivity extends AppCompatActivity {
     WeDeploy weDeploy = new WeDeploy.Builder().build();
     String userId, token;
     Authorization authorization;
@@ -36,7 +36,7 @@ public class FeedList_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sem_feed);
+        setContentView(R.layout.activity_feed_list);
         Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         token = getIntent().getExtras().getString("tokenKey");
@@ -48,14 +48,14 @@ public class FeedList_Activity extends AppCompatActivity {
     }
 
     public void goAddUrl(View view){
-        final Intent intent = new Intent(this,NewUrl_Activity.class);
+        final Intent intent = new Intent(this,NewUrlActivity.class);
         weDeploy
                 .auth("https://auth-weread.wedeploy.io")
                 .authorization(authorization)
                 .getCurrentUser()
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
-                        Log.d(FeedList_Activity.class.getName(),"sim bem aqui");
+                        Log.d(FeedListActivity.class.getName(),"sim bem aqui");
 
 
                         JSONObject jsonBody = null;
@@ -67,7 +67,7 @@ public class FeedList_Activity extends AppCompatActivity {
                         }
                         try {
                             userId = jsonBody.getString("id");
-                            Log.d(FeedList_Activity.class.getName(),userId);
+                            Log.d(FeedListActivity.class.getName(),userId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -79,39 +79,39 @@ public class FeedList_Activity extends AppCompatActivity {
                     }
 
                     public void onFailure(Exception e) {
-                        Log.e(FeedList_Activity.class.getName(),e.getMessage());
+                        Log.e(FeedListActivity.class.getName(),e.getMessage());
                     }
                 });
 
     }
 
-    public void getData(View view){
-
-        weDeploy
-                .data("https://data-weread.wedeploy.io")
-                .authorization(authorization)
-                .get("Feeds")
-                .execute(new Callback() {
-                             public void onSuccess(Response response) {
-                                 //String responseBody = response.getBody();
-                                 try {
-                                     JSONArray jsonArray = new JSONArray(response.getBody());
-
-                                     for(int i = 0; i < jsonArray.length(); i++) {
-                                         JSONObject jsonBody = (JSONObject) jsonArray.get(i);
-                                         String jsonBodyString = jsonBody.toString();
-                                     }
-                                 } catch (JSONException e) {
-                                     e.printStackTrace();
-                                    }
-                             }
-
-                    public void onFailure(Exception e) {
-                        Log.e(FeedList_Activity.class.getName(), e.getMessage());
-                    }
-                });
-
-    }
+//    public void getData(View view){
+//
+//        weDeploy
+//                .data("https://data-weread.wedeploy.io")
+//                .authorization(authorization)
+//                .get("Feeds")
+//                .execute(new Callback() {
+//                             public void onSuccess(Response response) {
+//                                 //String responseBody = response.getBody();
+//                                 try {
+//                                     JSONArray jsonArray = new JSONArray(response.getBody());
+//
+//                                     for(int i = 0; i < jsonArray.length(); i++) {
+//                                         JSONObject jsonBody = (JSONObject) jsonArray.get(i);
+//                                         String jsonBodyString = jsonBody.toString();
+//                                     }
+//                                 } catch (JSONException e) {
+//                                     e.printStackTrace();
+//                                    }
+//                             }
+//
+//                    public void onFailure(Exception e) {
+//                        Log.e(FeedListActivity.class.getName(), e.getMessage());
+//                    }
+//                });
+//
+//    }
 
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_feed,menu);
@@ -131,12 +131,12 @@ public class FeedList_Activity extends AppCompatActivity {
                     .signOut()
                     .execute(new Callback() {
                         public void onSuccess(Response response) {
-                            Log.d(FeedList_Activity.class.getName(), "saiu");
+                            Log.d(FeedListActivity.class.getName(), "saiu");
 
                         }
 
                         public void onFailure(Exception e) {
-                            Log.e(FeedList_Activity.class.getName(), e.getMessage());
+                            Log.e(FeedListActivity.class.getName(), e.getMessage());
                         }
                     });
         }

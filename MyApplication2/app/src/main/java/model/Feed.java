@@ -8,6 +8,7 @@ public class Feed {
     private String nome;
     private String url;
     private String userId;
+    private String id;
 
     public Feed(String nome, String url, String userId){
         this.nome = nome;
@@ -23,5 +24,9 @@ public class Feed {
     public void setUrl(String url){ this.url = url;}
 
     public String getUserId(){ return this.userId;}
+
+    public String getId(){ return this.id;}
+
+    public void setId(String id){ this.id = id;}
 
 }

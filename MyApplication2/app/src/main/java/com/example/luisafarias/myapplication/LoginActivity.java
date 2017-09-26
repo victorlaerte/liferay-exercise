@@ -15,7 +15,7 @@ import com.wedeploy.android.transport.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Login_Activity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     WeDeploy weDeploy = new WeDeploy.Builder().build();
     String token;
@@ -26,7 +26,7 @@ public class Login_Activity extends AppCompatActivity {
     }
 
     public void login(View view) throws WeDeployException, JSONException {
-        final Intent intentSemFeed = new Intent(this, FeedList_Activity.class);
+        final Intent intentSemFeed = new Intent(this, FeedListActivity.class);
         EditText emailLogin = (EditText) findViewById(R.id.emailogin);
         String emailogin = emailLogin.getText().toString();
         EditText senhaLogin1 = (EditText) findViewById(R.id.senhalogin);
@@ -37,7 +37,7 @@ public class Login_Activity extends AppCompatActivity {
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
 
-                        Log.d(Login_Activity.class.getName(),"entrei");
+                        Log.d(LoginActivity.class.getName(),"entrei");
 
                         JSONObject jsonBody = null;
                         try {
@@ -58,14 +58,14 @@ public class Login_Activity extends AppCompatActivity {
                     }
 
                     public void onFailure(Exception e) {
-                        Log.e(NewUser_Activity.class.getName(),e.getMessage());
+                        Log.e(NewUserActivity.class.getName(),e.getMessage());
                     }
                 });
     }
 
 
     public void novaConta(View view) {
-        Intent intent = new Intent(this, NewUser_Activity.class);
+        Intent intent = new Intent(this, NewUserActivity.class);
         startActivity(intent);
 
 

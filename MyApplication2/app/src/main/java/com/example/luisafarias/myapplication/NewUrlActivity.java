@@ -19,7 +19,7 @@ import org.json.JSONObject;
 import model.Feed;
 import model.Repositorio;
 
-public class NewUrl_Activity extends AppCompatActivity {
+public class NewUrlActivity extends AppCompatActivity {
     Repositorio repositorio = new Repositorio();
     String token, userId;
     Authorization authorization;

@@ -12,7 +12,7 @@ import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.transport.Response;
 
-public class NewUser_Activity extends AppCompatActivity {
+public class NewUserActivity extends AppCompatActivity {
 
     WeDeploy weDeploy = new WeDeploy.Builder().build();
 
@@ -23,7 +23,7 @@ public class NewUser_Activity extends AppCompatActivity {
     }
 
     public void goSemFeed(View view) throws WeDeployException {
-        final Intent intent = new Intent(this,FeedList_Activity.class);
+        final Intent intent = new Intent(this,FeedListActivity.class);
         EditText nome = (EditText) findViewById(R.id.caixanomee);
         String nome1 = nome.getText().toString();
         EditText email = (EditText) findViewById(R.id.caixaemaill);
@@ -39,7 +39,7 @@ public class NewUser_Activity extends AppCompatActivity {
                     }
 
                     public void onFailure(Exception e) {
-                        Log.e(NewUser_Activity.class.getName(),e.getMessage());
+                        Log.e(NewUserActivity.class.getName(),e.getMessage());
                     }
                 });
     }
