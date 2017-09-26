@@ -5,10 +5,11 @@ package model;
  */
 
 public class Feed {
-    String nome;
-    String url;
+    private String nome;
+    private String url;
+    private String userId;
 
-    public Feed(String nome, String url){
+    public Feed(String nome, String url, String userId){
         this.nome = nome;
         this.url = url;
     }
@@ -20,4 +21,7 @@ public class Feed {
     public void setNome(String nome){ this.nome = nome;}
 
     public void setUrl(String url){ this.url = url;}
+
+    public String getUserId(){ return this.userId;}
+
 }

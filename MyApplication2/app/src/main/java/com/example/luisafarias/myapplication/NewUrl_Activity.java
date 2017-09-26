@@ -16,9 +16,14 @@ import com.wedeploy.android.transport.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import model.Feed;
+import model.Repositorio;
+
 public class NewUrl_Activity extends AppCompatActivity {
+    Repositorio repositorio = new Repositorio();
     String token, userId;
     Authorization authorization;
+    Feed feed;
 
     WeDeploy weDeploy = new WeDeploy.Builder().build();
     @Override
@@ -27,6 +32,7 @@ public class NewUrl_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_new_url);
         token = getIntent().getExtras().getString("token");
         userId = getIntent().getExtras().getString("userId");
+        authorization = new TokenAuthorization(token);
 
 
     }
@@ -36,26 +42,7 @@ public class NewUrl_Activity extends AppCompatActivity {
         String nomeUrl = nomeUrl1.getText().toString();
         TextView url1 = (TextView) findViewById(R.id.url);
         String url = url1.getText().toString();
-        authorization = new TokenAuthorization(token);
-
-
-        JSONObject feedJsonObject = new JSONObject()
-                .put("name", nomeUrl)
-                .put("userId", userId)
-                .put("url", url);
-
-        weDeploy
-                .data("https://data-weread.wedeploy.io").authorization(authorization)
-                .create("Feeds", feedJsonObject)
-                .execute(new Callback() {
-                    public void onSuccess(Response response) {
-                        Log.d(NewUrl_Activity.class.getName(),"salvo com sucesso");
-                    }
-
-                    public void onFailure(Exception e) {
-                        Log.e(NewUrl_Activity.class.getName(),e.getMessage());
-                    }
-                });
-
+        feed = new Feed(nomeUrl,url,userId);
+        repositorio.addFeed(feed,authorization);
     }
 }
