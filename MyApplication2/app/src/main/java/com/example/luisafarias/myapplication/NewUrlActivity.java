@@ -1,5 +1,6 @@
 package com.example.luisafarias.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,11 +39,13 @@ public class NewUrlActivity extends AppCompatActivity {
     }
 
     public void addNewUrl(View view) throws JSONException, WeDeployException {
+
         TextView nomeUrl1 = (TextView) findViewById(R.id.nomeUrl);
         String nomeUrl = nomeUrl1.getText().toString();
         TextView url1 = (TextView) findViewById(R.id.url);
         String url = url1.getText().toString();
         feed = new Feed(nomeUrl,url,userId);
         Repositorio.getInstance(this).addFeed(feed,authorization);
+
     }
 }

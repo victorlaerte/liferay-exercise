@@ -13,6 +13,7 @@ public class Feed {
     public Feed(String nome, String url, String userId){
         this.nome = nome;
         this.url = url;
+        this.userId = userId;
     }
 
     public String getNome(){ return this.nome;}

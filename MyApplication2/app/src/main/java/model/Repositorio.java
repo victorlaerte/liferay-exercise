@@ -61,6 +61,7 @@ public class Repositorio implements IRepositorio {
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
                         Log.d(NewUrlActivity.class.getName(),"salvo com sucesso");
+
                     }
 
                     public void onFailure(Exception e) {

@@ -37,8 +37,6 @@ public class FeedListActivity extends AppCompatActivity {
     private FeedListAdapter mFeedAdapter;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +51,6 @@ public class FeedListActivity extends AppCompatActivity {
         allFeeds = (ListView) findViewById(R.id.lista_feed);
 
         final Context context = this;
-
-        //mFeedAdapter = new FeedListAdapter(this,authorization);
 
         weDeploy
                 .data("https://data-weread.wedeploy.io")
@@ -72,10 +68,9 @@ public class FeedListActivity extends AppCompatActivity {
                                 JSONObject jsonBody = (JSONObject) jsonArray.get(i);
                                 String nome = jsonBody.getString("name");
                                 listaNomes.add(nome);
-                                //String jsonBodyString = jsonBody.toString();
                             }
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context , android.R.layout.simple_list_item_1,listaNomes);
+                            ArrayAdapter<String> adapter = new ArrayAdapter(context , android.R.layout.simple_list_item_1,listaNomes);
                             allFeeds.setAdapter(adapter);
 
                         } catch (JSONException e) {
@@ -129,33 +124,6 @@ public class FeedListActivity extends AppCompatActivity {
 
     }
 
-//    public void getData(View view){
-//
-//        weDeploy
-//                .data("https://data-weread.wedeploy.io")
-//                .authorization(authorization)
-//                .get("Feeds")
-//                .execute(new Callback() {
-//                             public void onSuccess(Response response) {
-//                                 //String responseBody = response.getBody();
-//                                 try {
-//                                     JSONArray jsonArray = new JSONArray(response.getBody());
-//
-//                                     for(int i = 0; i < jsonArray.length(); i++) {
-//                                         JSONObject jsonBody = (JSONObject) jsonArray.get(i);
-//                                         String jsonBodyString = jsonBody.toString();
-//                                     }
-//                                 } catch (JSONException e) {
-//                                     e.printStackTrace();
-//                                    }
-//                             }
-//
-//                    public void onFailure(Exception e) {
-//                        Log.e(FeedListActivity.class.getName(), e.getMessage());
-//                    }
-//                });
-//
-//    }
 
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_feed,menu);
