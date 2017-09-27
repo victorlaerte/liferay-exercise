@@ -50,15 +50,10 @@ public class FeedListActivity extends AppCompatActivity {
         allFeeds = (ListView) findViewById(R.id.lista_feed);
 
         final Context context = this;
-
-        weDeploy
-                .data("https://data-weread.wedeploy.io")
-                .authorization(authorization)
-                .get("Feeds")
-                .execute(new Callback() {
-                    public void onSuccess(Response response) {
-
-                        ArrayList<String> listaNomes = new ArrayList<String>();
+        Repositorio.getInstance(this).listaNomeUrl(authorization, new Callback() {
+            @Override
+            public void onSuccess(Response response) {
+                ArrayList<String> listaNomes = new ArrayList<String>();
                         try {
                             JSONArray jsonArray = new JSONArray(response.getBody());
 
@@ -69,22 +64,20 @@ public class FeedListActivity extends AppCompatActivity {
                                 listaNomes.add(nome);
                             }
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter(context , android.R.layout.simple_list_item_1,listaNomes);
+                            ArrayAdapter<String> adapter = new ArrayAdapter(context ,android.R.layout.simple_list_item_1,listaNomes);
                             allFeeds.setAdapter(adapter);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }
+            }
 
-                    public void onFailure(Exception e) {
-                        Log.e(FeedListActivity.class.getName(), e.getMessage());
-                    }
-                });
+            @Override
+            public void onFailure(Exception e) {
 
-
+            }
+        });
     }
-
+    
     public void goAddUrl(View view){
         final Intent intent = new Intent(this,NewUrlActivity.class);
         weDeploy
@@ -93,8 +86,6 @@ public class FeedListActivity extends AppCompatActivity {
                 .getCurrentUser()
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
-                        Log.d(FeedListActivity.class.getName(),"sim bem aqui");
-
 
                         JSONObject jsonBody = null;
                         try {

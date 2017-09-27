@@ -39,13 +39,16 @@ public class NewUrlActivity extends AppCompatActivity {
     }
 
     public void addNewUrl(View view) throws JSONException, WeDeployException {
-
+        Intent intent = new Intent(this,FeedListActivity.class);
         TextView nomeUrl1 = (TextView) findViewById(R.id.nomeUrl);
         String nomeUrl = nomeUrl1.getText().toString();
         TextView url1 = (TextView) findViewById(R.id.url);
         String url = url1.getText().toString();
         feed = new Feed(nomeUrl,url,userId);
         Repositorio.getInstance(this).addFeed(feed,authorization);
+        //startActivity(intent);
+
+
 
     }
 }

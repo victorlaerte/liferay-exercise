@@ -149,34 +149,12 @@ public class Repositorio implements IRepositorio {
         return null;
     }
 
-    public ArrayList<String> listaNomeUrl(Authorization authorization){
-
+    public void listaNomeUrl(Authorization authorization, Callback callback){
         weDeploy
                 .data("https://data-weread.wedeploy.io")
                 .authorization(authorization)
                 .get("Feeds")
-                .execute(new Callback() {
-                    public void onSuccess(Response response) {
-
-                        try {
-                            JSONArray jsonArray = new JSONArray(response.getBody());
-
-                            for(int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonBody = (JSONObject) jsonArray.get(i);
-                                nome = jsonBody.getString("name");
-                                nomeLista.add(nome);
-                                //String jsonBodyString = jsonBody.toString();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    public void onFailure(Exception e) {
-                        Log.e(FeedListActivity.class.getName(), e.getMessage());
-                    }
-                });
-        return nomeLista;
+                .execute(callback);
 
     }
 
