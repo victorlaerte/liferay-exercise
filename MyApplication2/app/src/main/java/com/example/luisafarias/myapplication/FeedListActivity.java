@@ -36,7 +36,6 @@ public class FeedListActivity extends AppCompatActivity {
     private ListView allFeeds;
     private FeedListAdapter mFeedAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
