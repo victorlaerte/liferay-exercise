@@ -12,6 +12,7 @@ import com.example.luisafarias.myapplication.R;
 import com.wedeploy.android.auth.Authorization;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by luisafarias on 26/09/17.
@@ -19,14 +20,14 @@ import java.util.ArrayList;
 
 public class FeedListAdapter extends BaseAdapter{
 
-    private final ArrayList<Feed> mFeed;
+    private final List<Feed> mFeed;
     Context mContext;
     LayoutInflater mInflater;
     //private final Activity activity;
 
-    public FeedListAdapter(Context context, Authorization authorization){
+    public FeedListAdapter(Context context,Authorization authorization, List<Feed> feeds){
         this.mContext = context;
-        this.mFeed = Repositorio.getInstance(mContext).getAllFeeds(authorization);
+        this.mFeed = feeds;
         this.mContext = mContext;
         this.mInflater = LayoutInflater.from(mContext);
         //this.activity = activity;

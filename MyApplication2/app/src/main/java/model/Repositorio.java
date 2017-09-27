@@ -43,7 +43,7 @@ public class Repositorio implements IRepositorio {
 
 
     @Override
-    public void addFeed(Feed feed, Authorization authorization) throws JSONException {
+    public void addFeed(Feed feed, Authorization authorization, final CallbackFeed callbackFeed) throws JSONException {
         nomeUrl = feed.getNome();
         userId = feed.getUserId();
         url = feed.getUrl();
@@ -60,12 +60,25 @@ public class Repositorio implements IRepositorio {
                 .create("Feeds", feedJsonObject)
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
-                        Log.d(NewUrlActivity.class.getName(),"salvo com sucesso");
+                        Log.d(NewUrlActivity.class.getName(), "salvo com sucesso");
 
+                        try {
+                            JSONObject jsonBody = new JSONObject(response.getBody());
+
+                            Feed feed = new Feed();
+                            feed.setNome(jsonBody.getString("name"));
+                            feed.setUrl(jsonBody.getString("url"));
+                            feed.setId(jsonBody.getString("id"));
+
+                            callbackFeed.onSuccess(feed);
+                        } catch (Exception e) {
+                            callbackFeed.onFailure(e);
+                        }
                     }
 
                     public void onFailure(Exception e) {
                         Log.e(NewUrlActivity.class.getName(),e.getMessage());
+                        callbackFeed.onFailure(e);
                     }
                 });
         }
@@ -149,13 +162,55 @@ public class Repositorio implements IRepositorio {
         return null;
     }
 
-    public void feedListAll(Authorization authorization, Callback callback){
+    public void feedListAll(Authorization authorization, final CallbackFeeds callbackFeeds){
         weDeploy
                 .data("https://data-weread.wedeploy.io")
                 .authorization(authorization)
                 .get("Feeds")
-                .execute(callback);
+                .execute(new Callback() {
+                    @Override
+                    public void onSuccess(Response response) {
+                        ArrayList<String> listaNomes = new ArrayList<String>();
+                        try {
+                            JSONArray jsonArray = new JSONArray(response.getBody());
 
+                            List<Feed> listaFeed = new ArrayList<Feed>();
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonBody = (JSONObject) jsonArray.get(i);
+                                Feed feed = new Feed();
+                                feed.setNome(jsonBody.getString("name"));
+                                feed.setUrl(jsonBody.getString("url"));
+                                feed.setId(jsonBody.getString("id"));
+                                listaFeed.add(feed);
+
+
+                            }
+
+                            callbackFeeds.onSuccess(listaFeed);
+
+                        }
+                        catch (Exception e) {
+                            callbackFeeds.onFailure(e);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        callbackFeeds.onFailure(e);
+                    }
+                });
+
+    }
+
+    public interface CallbackFeeds {
+        void onSuccess(List<Feed> feedList);
+        void onFailure(Exception e);
+    }
+
+    public interface CallbackFeed {
+        void onSuccess(Feed feed);
+        void onFailure(Exception e);
     }
 
 

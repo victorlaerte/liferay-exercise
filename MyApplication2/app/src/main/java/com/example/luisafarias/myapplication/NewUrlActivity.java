@@ -45,7 +45,17 @@ public class NewUrlActivity extends AppCompatActivity {
         TextView url1 = (TextView) findViewById(R.id.url);
         String url = url1.getText().toString();
         feed = new Feed(nomeUrl,url,userId);
-        Repositorio.getInstance(this).addFeed(feed,authorization);
+        Repositorio.getInstance(this).addFeed(feed, authorization, new Repositorio.CallbackFeed() {
+            @Override
+            public void onSuccess(Feed feed) {
+
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
         //startActivity(intent);
 
 

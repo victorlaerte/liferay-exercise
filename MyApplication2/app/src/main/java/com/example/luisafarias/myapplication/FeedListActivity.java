@@ -24,7 +24,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import model.Feed;
 import model.FeedListAdapter;
 import model.Repositorio;
 
@@ -50,27 +52,15 @@ public class FeedListActivity extends AppCompatActivity {
 
         allFeeds = (ListView) findViewById(R.id.lista_feed);
 
+    }
+
+    private void reloadFeeds() {
         final Context context = this;
-        Repositorio.getInstance(this).feedListAll(authorization, new Callback() {
+        Repositorio.getInstance(this).feedListAll(authorization, new Repositorio.CallbackFeeds() {
             @Override
-            public void onSuccess(Response response) {
-                ArrayList<String> listaNomes = new ArrayList<String>();
-                        try {
-                            JSONArray jsonArray = new JSONArray(response.getBody());
-
-
-                            for(int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonBody = (JSONObject) jsonArray.get(i);
-                                String nome = jsonBody.getString("name");
-                                listaNomes.add(nome);
-                            }
-                              mFeedAdapter = new FeedListAdapter(context,authorization);
-                              allFeeds.setAdapter(mFeedAdapter);
-//                            ArrayAdapter<String> adapter = new ArrayAdapter(context ,android.R.layout.simple_list_item_1,listaNomes);
-//                            allFeeds.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+            public void onSuccess(List<Feed> feedList) {
+                    mFeedAdapter = new FeedListAdapter(context,authorization, feedList);
+                    allFeeds.setAdapter(mFeedAdapter);
             }
 
             @Override
@@ -149,5 +139,11 @@ public class FeedListActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        reloadFeeds();
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface IRepositorio {
 
-    public abstract void addFeed(Feed feed, Authorization authorization) throws JSONException;
+    public abstract void addFeed(Feed feed, Authorization authorization, Repositorio.CallbackFeed callbackFeed) throws JSONException;
     public abstract void updateFeed(Feed feed, Authorization authorization) throws JSONException;
     public abstract void removeFeed(Feed feed, Authorization authorization);
     public abstract Feed getFeed(Feed feed, Authorization authorization);
