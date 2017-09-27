@@ -149,7 +149,7 @@ public class Repositorio implements IRepositorio {
         return null;
     }
 
-    public void listaNomeUrl(Authorization authorization, Callback callback){
+    public void feedListAll(Authorization authorization, Callback callback){
         weDeploy
                 .data("https://data-weread.wedeploy.io")
                 .authorization(authorization)

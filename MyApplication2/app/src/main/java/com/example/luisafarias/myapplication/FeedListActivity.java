@@ -1,5 +1,6 @@
 package com.example.luisafarias.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -50,7 +51,7 @@ public class FeedListActivity extends AppCompatActivity {
         allFeeds = (ListView) findViewById(R.id.lista_feed);
 
         final Context context = this;
-        Repositorio.getInstance(this).listaNomeUrl(authorization, new Callback() {
+        Repositorio.getInstance(this).feedListAll(authorization, new Callback() {
             @Override
             public void onSuccess(Response response) {
                 ArrayList<String> listaNomes = new ArrayList<String>();
@@ -63,9 +64,10 @@ public class FeedListActivity extends AppCompatActivity {
                                 String nome = jsonBody.getString("name");
                                 listaNomes.add(nome);
                             }
-
-                            ArrayAdapter<String> adapter = new ArrayAdapter(context ,android.R.layout.simple_list_item_1,listaNomes);
-                            allFeeds.setAdapter(adapter);
+                              mFeedAdapter = new FeedListAdapter(context,authorization);
+                              allFeeds.setAdapter(mFeedAdapter);
+//                            ArrayAdapter<String> adapter = new ArrayAdapter(context ,android.R.layout.simple_list_item_1,listaNomes);
+//                            allFeeds.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -77,7 +79,7 @@ public class FeedListActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     public void goAddUrl(View view){
         final Intent intent = new Intent(this,NewUrlActivity.class);
         weDeploy
@@ -125,7 +127,6 @@ public class FeedListActivity extends AppCompatActivity {
         String token = "";
         int id = item.getItemId();
         Log.d("esse é o token",token);
-        //authorization = new TokenAuthorization(token);
 
         if(id == R.id.logout) {
 

@@ -51,9 +51,9 @@
         android:id="@+id/caixaSenha"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:layout_below="@+id/caixaemaill"
-        android:layout_alignStart="@+id/caixanomee"
-        android:inputType="textPassword"/>
+        android:layout_toEndOf="@+id/senha" />
 
     <Button
         android:id="@+id/criarUser"
