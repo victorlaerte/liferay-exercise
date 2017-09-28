@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
@@ -150,10 +151,20 @@ public class FeedListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == ACCESS_RESULT_NEW_FEED){
-            Response response = (Response) data.getExtras().get("data");
+            Bundle data = intent.getExtras();
+            if(data!=null){
+                String nomeUrl = data.getString("nomeUrl");
+                String url = data.getString("url");
+                String userId = data.getString("UserId");
+                Feed feed = new Feed();
+                feed.setNome(nomeUrl);
+                feed.setUrl(url);
+                //feed.setUserId(userId);
+                Toast.makeText(this,nomeUrl+" "+url+" "+userId,Toast.LENGTH_LONG).show();
+            }
 
 
 

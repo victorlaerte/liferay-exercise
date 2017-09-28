@@ -31,9 +31,9 @@ public class NewUrlActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_url);
-        token = getIntent().getExtras().getString("token");
-        userId = getIntent().getExtras().getString("userId");
-        authorization = new TokenAuthorization(token);
+        //token = getIntent().getExtras().getString("token");
+        //userId = getIntent().getExtras().getString("userId");
+        //authorization = new TokenAuthorization(token);
 
 
     }
@@ -44,10 +44,10 @@ public class NewUrlActivity extends AppCompatActivity {
         String nomeUrl = nomeUrl1.getText().toString();
         TextView url1 = (TextView) findViewById(R.id.url);
         String url = url1.getText().toString();
-        feed = new Feed(nomeUrl,url,userId);
+        //feed = new Feed(nomeUrl,url,userId);
         intent.putExtra("nomeUrl",nomeUrl);
         intent.putExtra("url",url);
-        intent.putExtra("userId",userId);
+        //intent.putExtra("userId",userId);
         setResult(1,intent);
         finish();
 //        Repositorio.getInstance(this).addFeed(feed, authorization, new Repositorio.CallbackFeed() {
