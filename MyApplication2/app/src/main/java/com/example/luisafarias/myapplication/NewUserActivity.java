@@ -17,7 +17,7 @@ public class NewUserActivity extends AppCompatActivity {
     WeDeploy weDeploy = new WeDeploy.Builder().build();
 //Teste
     //test
-    //test 3
+    //test 34
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
