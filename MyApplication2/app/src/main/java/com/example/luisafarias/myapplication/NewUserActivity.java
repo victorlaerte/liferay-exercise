@@ -15,7 +15,7 @@ import com.wedeploy.android.transport.Response;
 public class NewUserActivity extends AppCompatActivity {
 
     WeDeploy weDeploy = new WeDeploy.Builder().build();
-
+//Teste
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
