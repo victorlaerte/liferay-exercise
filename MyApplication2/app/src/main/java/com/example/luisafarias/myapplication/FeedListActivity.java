@@ -38,6 +38,7 @@ public class FeedListActivity extends AppCompatActivity {
     private Authorization authorization;
     private ListView allFeeds;
     private FeedListAdapter mFeedAdapter;
+    private final int ACCESS_RESULT_NEW_FEED = 1234;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +56,11 @@ public class FeedListActivity extends AppCompatActivity {
     }
 
     private void reloadFeeds() {
-        final Context context = this;
+        final Context CONTEXT = this;
         Repositorio.getInstance(this).feedListAll(authorization, new Repositorio.CallbackFeeds() {
             @Override
             public void onSuccess(List<Feed> feedList) {
-                    mFeedAdapter = new FeedListAdapter(context,authorization, feedList);
+                    mFeedAdapter = new FeedListAdapter(CONTEXT,authorization, feedList);
                     allFeeds.setAdapter(mFeedAdapter);
             }
 
@@ -71,7 +72,7 @@ public class FeedListActivity extends AppCompatActivity {
     }
 
     public void goAddUrl(View view){
-        final Intent intent = new Intent(this,NewUrlActivity.class);
+        final Intent INTENT = new Intent(this,NewUrlActivity.class);
         weDeploy
                 .auth("https://auth-weread.wedeploy.io")
                 .authorization(authorization)
@@ -93,9 +94,10 @@ public class FeedListActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        intent.putExtra("userId",userId);
-                        intent.putExtra("token",token);
-                        startActivity(intent);
+                        INTENT.putExtra("userId",userId);
+                        INTENT.putExtra("token",token);
+                        startActivityForResult(INTENT,ACCESS_RESULT_NEW_FEED);
+                        //startActivity(INTENT);
 
                     }
 
@@ -113,7 +115,7 @@ public class FeedListActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-        final Intent intent = new Intent(this,LoginActivity.class);
+        final Intent INTENT = new Intent(this,LoginActivity.class);
         String token = "";
         int id = item.getItemId();
         Log.d("esse é o token",token);
@@ -126,7 +128,7 @@ public class FeedListActivity extends AppCompatActivity {
                     .execute(new Callback() {
                         public void onSuccess(Response response) {
                             Log.d(FeedListActivity.class.getName(), "saiu");
-                            startActivity(intent);
+                            startActivity(INTENT);
 
 
                         }
@@ -145,5 +147,16 @@ public class FeedListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         reloadFeeds();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ACCESS_RESULT_NEW_FEED){
+            Response response = (Response) data.getExtras().get("data");
+
+
+
+        }
     }
 }
