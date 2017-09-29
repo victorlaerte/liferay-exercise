@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.luisafarias.myapplication">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -21,8 +20,7 @@
         </activity>
         <activity android:name=".NewUserActivity" />
         <activity android:name=".FeedListActivity" />
-        <activity android:name=".NewUrlActivity"></activity>
+        <activity android:name=".NewUrlActivity" />
     </application>
-
 
 </manifest>

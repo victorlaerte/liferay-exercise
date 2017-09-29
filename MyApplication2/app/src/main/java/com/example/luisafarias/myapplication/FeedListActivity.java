@@ -43,6 +43,8 @@ public class FeedListActivity extends AppCompatActivity {
     private ListView allFeeds;
     private FeedListAdapter mFeedAdapter;
     private final int ACCESS_RESULT_NEW_FEED = 1234;
+    Context context = this;
+    Feed feed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class FeedListActivity extends AppCompatActivity {
         reloadFeeds();
 
         //allFeeds.isClickable();
-
+//
 //        allFeeds.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -70,10 +72,13 @@ public class FeedListActivity extends AppCompatActivity {
 //        allFeeds.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 //            @Override
 //            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getBaseContext(),"long click",Toast.LENGTH_LONG).show();
+//                Feed feed = mFeedAdapter.getItem(i);
+//
+//                Toast.makeText(getBaseContext(),feed.getNome(),Toast.LENGTH_LONG).show();
 //                return true;
 //            }
 //        });
+
     }
 
     private void reloadFeeds() {
@@ -83,6 +88,7 @@ public class FeedListActivity extends AppCompatActivity {
             public void onSuccess(List<Feed> feedList) {
                     mFeedAdapter = new FeedListAdapter(CONTEXT,authorization, feedList);
                     allFeeds.setAdapter(mFeedAdapter);
+
             }
 
             @Override
@@ -166,9 +172,8 @@ public class FeedListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == ACCESS_RESULT_NEW_FEED){
-            Feed feed = intent.getExtras().getParcelable("feed");
-            if(feed!=null){
-
+            if(intent!=null){
+                Feed feed = intent.getExtras().getParcelable("feed");
                 try {
                     Repositorio.getInstance(this).addFeed(feed, authorization, new Repositorio.CallbackFeed() {
                         @Override

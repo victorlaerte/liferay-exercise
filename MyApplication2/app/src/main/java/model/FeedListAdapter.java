@@ -26,12 +26,13 @@ public class FeedListAdapter extends BaseAdapter{
     private final List<Feed> mFeed;
     Context mContext;
     LayoutInflater mInflater;
+    Authorization authorization;
 
     public FeedListAdapter(Context context,Authorization authorization, List<Feed> feeds){
         this.mContext = context;
         this.mFeed = feeds;
         this.mInflater = LayoutInflater.from(mContext);
-
+        this.authorization = authorization;
     }
 
     public int getCount(){ return mFeed.size();}
@@ -43,7 +44,7 @@ public class FeedListAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent){
 
         final View view = mInflater.inflate(R.layout.feed_body,parent,false);
-        Feed feed = mFeed.get(position);
+        final Feed feed = mFeed.get(position);
 
         TextView nome = view.findViewById(R.id.nome_url_recebida);
         nome.setText(feed.getNome());
@@ -59,8 +60,10 @@ public class FeedListAdapter extends BaseAdapter{
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+
                 Log.d(FeedListAdapter.class.getName(),"click long");
-                //Toast.makeText(,"long click",Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"long click",Toast.LENGTH_LONG).show();
+                Repositorio.getInstance(mContext).removeFeed(feed,authorization);
                 return true;
             }
         });

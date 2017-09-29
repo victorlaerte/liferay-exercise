@@ -29,7 +29,7 @@ public class Repositorio implements IRepositorio {
     String nomeUrl,userId,url,nome;
     Feed feed;
     ArrayList<Feed> feedList = new ArrayList();
-    ArrayList<String> nomeLista = new ArrayList();
+    //ArrayList<String> nomeLista = new ArrayList();
 
     private Repositorio() {
     }
@@ -50,12 +50,13 @@ public class Repositorio implements IRepositorio {
 
         if(feed!=null){
 
-        JSONObject feedJsonObject = new JSONObject()
+            //feedList.add(feed);
+            JSONObject feedJsonObject = new JSONObject()
                 .put("name", nomeUrl)
                 .put("userId", userId)
                 .put("url", url);
 
-        weDeploy
+            weDeploy
                 .data("https://data-weread.wedeploy.io").authorization(authorization)
                 .create("Feeds", feedJsonObject)
                 .execute(new Callback() {
@@ -89,31 +90,44 @@ public class Repositorio implements IRepositorio {
         nomeUrl = feed.getNome();
         url = feed.getUrl();
 
-        JSONObject feedJsonObject = new JSONObject()
-                .put("name", nomeUrl)
-                .put("url",url);
+        if(feed!= null) {
 
-        weDeploy
-                .data("https://data-weread.wedeploy.io").authorization(authorization)
-                .update("Feeds/"+feed.getId(), feedJsonObject) //nao foi testado ainda, pego o id quando listo os feeds
-                .execute(new Callback() {
-                    public void onSuccess(Response response) {
-                        Log.d(NewUrlActivity.class.getName(),"editado com sucesso");
-                    }
+            JSONObject feedJsonObject = new JSONObject()
+                    .put("name", nomeUrl)
+                    .put("url", url);
 
-                    public void onFailure(Exception e) {
-                        Log.e(NewUrlActivity.class.getName(),e.getMessage());
-                    }
-                });
+            weDeploy
+                    .data("https://data-weread.wedeploy.io").authorization(authorization)
+                    .update("Feeds/" + feed.getId(), feedJsonObject) //nao foi testado ainda, pego o id quando listo os feeds
+                    .execute(new Callback() {
+                        public void onSuccess(Response response) {
+                            Log.d(NewUrlActivity.class.getName(), "editado com sucesso");
+                        }
+
+                        public void onFailure(Exception e) {
+                            Log.e(NewUrlActivity.class.getName(), e.getMessage());
+                        }
+                    });
+        }
 
     }
 
     @Override
     public void removeFeed(Feed feed, Authorization authorization) {
+        String id = feed.getId();
 
-        WeDeployData data = weDeploy.data("https://data-weread.wedeploy.io").authorization(authorization);
+        weDeploy.data("https://data-weread.wedeploy.io").authorization(authorization)
+                .delete("Feeds/"+id).execute(new Callback() {
+            @Override
+            public void onSuccess(Response response) {
+                    Log.d(Repositorio.class.getName(),"removeu");
+            }
 
-        data.delete("movies/star_wars_v");
+            @Override
+            public void onFailure(Exception e) {
+                Log.e(Repositorio.class.getName(),e.getMessage());
+            }
+        });
 
     }
 
@@ -170,7 +184,7 @@ public class Repositorio implements IRepositorio {
                 .execute(new Callback() {
                     @Override
                     public void onSuccess(Response response) {
-                        ArrayList<String> listaNomes = new ArrayList<String>();
+                        //ArrayList<String> listaNomes = new ArrayList<String>();
                         try {
                             JSONArray jsonArray = new JSONArray(response.getBody());
 
@@ -183,7 +197,6 @@ public class Repositorio implements IRepositorio {
                                 feed.setUrl(jsonBody.getString("url"));
                                 feed.setId(jsonBody.getString("id"));
                                 listaFeed.add(feed);
-
 
                             }
 
