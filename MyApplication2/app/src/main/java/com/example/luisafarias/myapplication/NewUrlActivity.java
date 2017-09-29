@@ -44,7 +44,7 @@ public class NewUrlActivity extends AppCompatActivity {
         String nomeUrl = nomeUrl1.getText().toString();
         TextView url1 = (TextView) findViewById(R.id.url);
         String url = url1.getText().toString();
-        //feed = new Feed(nomeUrl,url,userId);
+        feed = new Feed(nomeUrl,url,userId);
         intent.putExtra("nomeUrl",nomeUrl);
         intent.putExtra("url",url);
         //intent.putExtra("userId",userId);
