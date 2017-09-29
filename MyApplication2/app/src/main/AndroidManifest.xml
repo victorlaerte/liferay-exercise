@@ -21,7 +21,9 @@
         <activity android:name=".NewUserActivity" />
         <activity android:name=".FeedListActivity" />
         <activity android:name=".NewUrlActivity" />
-        <activity android:name=".PopUp"></activity>
+        <activity android:name=".PopUpActivity"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
     </application>
 
 </manifest>

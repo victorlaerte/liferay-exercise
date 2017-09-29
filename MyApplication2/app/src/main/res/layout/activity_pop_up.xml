@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_light"
-    tools:context="com.example.luisafarias.myapplication.PopUp">
+    tools:context="com.example.luisafarias.myapplication.PopUpActivity">
 
     <Button
         android:id="@+id/editar"
@@ -23,7 +23,7 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="312dp"
+        android:layout_marginBottom="192dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:text="Excluir"
@@ -44,5 +44,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.694" />
+        app:layout_constraintVertical_bias="0.894"
+        app:layout_constraintHorizontal_bias="0.501" />
 </android.support.constraint.ConstraintLayout>

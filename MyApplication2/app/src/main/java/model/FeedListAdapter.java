@@ -2,6 +2,7 @@ package model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.luisafarias.myapplication.FeedListActivity;
+import com.example.luisafarias.myapplication.PopUpActivity;
 import com.example.luisafarias.myapplication.R;
 import com.wedeploy.android.auth.Authorization;
 
@@ -60,10 +62,12 @@ public class FeedListAdapter extends BaseAdapter{
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                Intent intent = new Intent(mContext, PopUpActivity.class);
 
                 Log.d(FeedListAdapter.class.getName(),"click long");
                 Toast.makeText(mContext,"long click",Toast.LENGTH_LONG).show();
-                Repositorio.getInstance(mContext).removeFeed(feed,authorization);
+                mContext.startActivity(intent);
+                //Repositorio.getInstance(mContext).removeFeed(feed,authorization);
                 return true;
             }
         });
