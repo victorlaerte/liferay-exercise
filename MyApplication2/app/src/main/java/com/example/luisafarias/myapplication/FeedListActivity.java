@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -56,7 +57,23 @@ public class FeedListActivity extends AppCompatActivity {
 
         allFeeds = (ListView) findViewById(R.id.lista_feed);
 
+        reloadFeeds();
 
+        //allFeeds.isClickable();
+
+        allFeeds.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getBaseContext(),"click",Toast.LENGTH_LONG).show();
+            }
+        });
+        allFeeds.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getBaseContext(),"long click",Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
     }
 
     private void reloadFeeds() {
@@ -101,7 +118,6 @@ public class FeedListActivity extends AppCompatActivity {
                         INTENT.putExtra("userId",userId);
                         INTENT.putExtra("token",token);
                         startActivityForResult(INTENT,ACCESS_RESULT_NEW_FEED);
-                        //startActivity(INTENT);
 
                     }
 
@@ -144,12 +160,6 @@ public class FeedListActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        reloadFeeds();
     }
 
     @Override

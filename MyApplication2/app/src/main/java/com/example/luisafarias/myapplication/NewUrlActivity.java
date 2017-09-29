@@ -30,8 +30,6 @@ public class NewUrlActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_url);
         userId = getIntent().getExtras().getString("userId");
 
-
-
     }
 
     public void addNewUrl(View view) throws JSONException, WeDeployException {
