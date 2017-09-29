@@ -61,19 +61,19 @@ public class FeedListActivity extends AppCompatActivity {
 
         //allFeeds.isClickable();
 
-        allFeeds.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getBaseContext(),"click",Toast.LENGTH_LONG).show();
-            }
-        });
-        allFeeds.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getBaseContext(),"long click",Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
+//        allFeeds.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Toast.makeText(getBaseContext(),"click",Toast.LENGTH_LONG).show();
+//            }
+//        });
+//        allFeeds.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Toast.makeText(getBaseContext(),"long click",Toast.LENGTH_LONG).show();
+//                return true;
+//            }
+//        });
     }
 
     private void reloadFeeds() {
