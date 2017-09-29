@@ -62,7 +62,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="criar"
-        android:onClick="goSemFeed"/>
+        android:onClick="goFeedListActivity"/>
 
 
 </RelativeLayout>

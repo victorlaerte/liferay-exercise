@@ -31,6 +31,8 @@ import model.Feed;
 import model.FeedListAdapter;
 import model.Repositorio;
 
+import static com.example.luisafarias.myapplication.R.id.nomeUrl;
+import static com.example.luisafarias.myapplication.R.id.url;
 import static com.wedeploy.android.query.filter.Filter.match;
 
 public class FeedListActivity extends AppCompatActivity {
@@ -53,6 +55,7 @@ public class FeedListActivity extends AppCompatActivity {
         authorization = new TokenAuthorization(token);
 
         allFeeds = (ListView) findViewById(R.id.lista_feed);
+
 
     }
 
@@ -131,7 +134,6 @@ public class FeedListActivity extends AppCompatActivity {
                             Log.d(FeedListActivity.class.getName(), "saiu");
                             startActivity(INTENT);
 
-
                         }
 
                         public void onFailure(Exception e) {
@@ -154,20 +156,26 @@ public class FeedListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == ACCESS_RESULT_NEW_FEED){
-            Bundle data = intent.getExtras();
-            if(data!=null){
-                String nomeUrl = data.getString("nomeUrl");
-                String url = data.getString("url");
-                String userId = data.getString("UserId");
-                Feed feed = new Feed();
-                feed.setNome(nomeUrl);
-                feed.setUrl(url);
-                //feed.setUserId(userId);
-                Toast.makeText(this,nomeUrl+" "+url+" "+userId,Toast.LENGTH_LONG).show();
+            Feed feed = intent.getExtras().getParcelable("feed");
+            if(feed!=null){
+
+                try {
+                    Repositorio.getInstance(this).addFeed(feed, authorization, new Repositorio.CallbackFeed() {
+                        @Override
+                        public void onSuccess(Feed feed) {
+                            reloadFeeds();
+                                Log.d(FeedListActivity.class.getName(),"salvou");
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            Log.e(FeedListActivity.class.getName(),e.getMessage());
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-
-
-
         }
     }
 }

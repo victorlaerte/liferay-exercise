@@ -15,16 +15,14 @@ import com.wedeploy.android.transport.Response;
 public class NewUserActivity extends AppCompatActivity {
 
     WeDeploy weDeploy = new WeDeploy.Builder().build();
-//Teste
-    //test
-    //test 34
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
     }
 
-    public void goSemFeed(View view) throws WeDeployException {
+    public void goFeedListActivity(View view) throws WeDeployException {
         final Intent intent = new Intent(this,FeedListActivity.class);
         EditText nome = (EditText) findViewById(R.id.caixanomee);
         String nome1 = nome.getText().toString();

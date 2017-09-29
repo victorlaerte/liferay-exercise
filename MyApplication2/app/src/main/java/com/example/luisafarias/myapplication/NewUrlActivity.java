@@ -21,50 +21,32 @@ import model.Feed;
 import model.Repositorio;
 
 public class NewUrlActivity extends AppCompatActivity {
-    //Repositorio repositorio = new Repositorio();
-    String token, userId;
-    Authorization authorization;
+    String userId;
     Feed feed;
 
-    WeDeploy weDeploy = new WeDeploy.Builder().build();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_url);
-        //token = getIntent().getExtras().getString("token");
-        //userId = getIntent().getExtras().getString("userId");
-        //authorization = new TokenAuthorization(token);
+        userId = getIntent().getExtras().getString("userId");
+
 
 
     }
 
     public void addNewUrl(View view) throws JSONException, WeDeployException {
         Intent intent = new Intent(this,FeedListActivity.class);
+
         TextView nomeUrl1 = (TextView) findViewById(R.id.nomeUrl);
-        String nomeUrl = nomeUrl1.getText().toString();
         TextView url1 = (TextView) findViewById(R.id.url);
+
         String url = url1.getText().toString();
+        String nomeUrl = nomeUrl1.getText().toString();
+
         feed = new Feed(nomeUrl,url,userId);
         intent.putExtra("feed",feed);
-        //intent.putExtra("nomeUrl",nomeUrl);
-        //intent.putExtra("url",url);
-        //intent.putExtra("userId",userId);
         setResult(1,intent);
         finish();
-//        Repositorio.getInstance(this).addFeed(feed, authorization, new Repositorio.CallbackFeed() {
-//            @Override
-//            public void onSuccess(Feed feed) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Exception e) {
-//
-//            }
-//        });
-        //startActivity(intent);
-
-
 
     }
 }
