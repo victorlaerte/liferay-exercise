@@ -113,25 +113,6 @@ public class Repositorio implements IRepositorio {
 
     }
 
-    @Override
-<<<<<<< HEAD:MyApplication2/app/src/main/java/com/example/luisafarias/myapplication/model/Repositorio.java
-    public void removeFeed(Feed feed, Authorization authorization) {
-        String id = feed.getId();
-
-        weDeploy.data("https://data-weread.wedeploy.io").authorization(authorization)
-                .delete("Feeds/"+id).execute(new Callback() {
-            @Override
-            public void onSuccess(Response response) {
-                Log.d(Repositorio.class.getName(),"removeu");
-                // TODO call onSuccess
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Log.e(Repositorio.class.getName(),e.getMessage());
-            }
-        });
-=======
     public void removeFeed(final Feed feed, Authorization authorization) {
 
        if(feed!=null /*&& feedList.contains(feed)*/){
@@ -153,8 +134,6 @@ public class Repositorio implements IRepositorio {
            });
 
        }
->>>>>>> delete updates:MyApplication2/app/src/main/java/model/Repositorio.java
-
     }
 
     @Override

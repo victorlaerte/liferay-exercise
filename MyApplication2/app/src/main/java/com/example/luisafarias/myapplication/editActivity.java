@@ -6,18 +6,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.model.Repositorio;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 
 import org.json.JSONException;
 
-import model.Feed;
-import model.Repositorio;
-
 public class EditActivity extends AppCompatActivity {
 
-    EditText nome, url;
-    String token;
+    private EditText nome;
+    private EditText url;
+    private String token;
     Feed feed;
     Authorization authorization;
 
@@ -32,8 +32,6 @@ public class EditActivity extends AppCompatActivity {
         url = (EditText) this.findViewById(R.id.urlEdit);
         nome.setText(feed.getNome());
         url.setText(feed.getUrl());
-
-
     }
 
     public void updateFeedCall(View view) throws JSONException {

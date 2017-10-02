@@ -5,30 +5,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.EditText;
 
+import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.model.Repositorio;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 
-import org.json.JSONException;
-
-import model.Feed;
-import model.Repositorio;
-
 public class PopUpActivity extends AppCompatActivity {
-    String token;
-    Feed feed;
-    Authorization authorization;
 
     //TODO Use Dialog instead Activity
+    private String _token;
+    private Feed _feed;
+    private Authorization _authorization;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pop_up);
 
-        token = getIntent().getExtras().getString("token");
-        feed = getIntent().getExtras().getParcelable("feed");
-        authorization = new TokenAuthorization(token);
+        _token = getIntent().getExtras().getString("token");
+        _feed = getIntent().getExtras().getParcelable("feed");
+        _authorization = new TokenAuthorization(_token);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -36,24 +33,21 @@ public class PopUpActivity extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width*.8),(int)(height*.6));
+        getWindow().setLayout((int) (width * .8), (int) (height * .6));
     }
 
-    public void deleteFeed(View view){
-        if (feed != null && authorization != null){
-            Repositorio.getInstance(this).removeFeed(feed,authorization);
+    public void deleteFeed(View view) {
+        if (_feed != null && _authorization != null) {
+            Repositorio.getInstance(this).removeFeed(_feed, _authorization);
         }
-
     }
 
     public void updateFeed(View view) {
-        if (feed != null && authorization != null){
-            Intent intent = new Intent(this,EditActivity.class);
-            intent.putExtra("feed",feed);
-            intent.putExtra("token",token);
+        if (_feed != null && _authorization != null) {
+            Intent intent = new Intent(this, EditActivity.class);
+            intent.putExtra("_feed", _feed);
+            intent.putExtra("_token", _token);
             startActivity(intent);
-
         }
-
     }
 }
