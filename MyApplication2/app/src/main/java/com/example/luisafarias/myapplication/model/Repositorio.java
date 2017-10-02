@@ -25,7 +25,7 @@ public class Repositorio implements IRepositorio {
 
     private static Repositorio uniqueInstance;
     WeDeploy weDeploy = new WeDeploy.Builder().build();
-    String nomeUrl,userId,url,nome;
+    String nomeUrl,userId,url;
     Feed feed;
     ArrayList<Feed> feedList = new ArrayList();
     //ArrayList<String> nomeLista = new ArrayList();
@@ -49,7 +49,9 @@ public class Repositorio implements IRepositorio {
 
         if(feed!=null){
 
-            //feedList.add(feed);
+            if(!feedList.contains(feed)){
+                feedList.add(feed);
+            }
             JSONObject feedJsonObject = new JSONObject()
                 .put("name", nomeUrl)
                 .put("userId", userId)
@@ -89,7 +91,7 @@ public class Repositorio implements IRepositorio {
         nomeUrl = feed.getNome();
         url = feed.getUrl();
 
-        if(feed!= null) {
+        if(feed!= null && feedList.contains(feed)) {
 
             JSONObject feedJsonObject = new JSONObject()
                     .put("name", nomeUrl)
@@ -112,6 +114,7 @@ public class Repositorio implements IRepositorio {
     }
 
     @Override
+<<<<<<< HEAD:MyApplication2/app/src/main/java/com/example/luisafarias/myapplication/model/Repositorio.java
     public void removeFeed(Feed feed, Authorization authorization) {
         String id = feed.getId();
 
@@ -128,6 +131,29 @@ public class Repositorio implements IRepositorio {
                 Log.e(Repositorio.class.getName(),e.getMessage());
             }
         });
+=======
+    public void removeFeed(final Feed feed, Authorization authorization) {
+
+       if(feed!=null /*&& feedList.contains(feed)*/){
+           String id = feed.getId();
+           Log.d(Repositorio.class.getName(),id);
+
+           weDeploy.data("https://data-weread.wedeploy.io").authorization(authorization)
+                   .delete("Feeds/"+id).execute(new Callback() {
+               @Override
+               public void onSuccess(Response response) {
+                   Log.d(Repositorio.class.getName(),"removeu");
+                   feedList.remove(feed);
+               }
+
+               @Override
+               public void onFailure(Exception e) {
+                   Log.e(Repositorio.class.getName(),e.getMessage());
+               }
+           });
+
+       }
+>>>>>>> delete updates:MyApplication2/app/src/main/java/model/Repositorio.java
 
     }
 

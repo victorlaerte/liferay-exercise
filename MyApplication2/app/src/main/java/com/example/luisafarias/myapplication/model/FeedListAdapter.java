@@ -46,7 +46,9 @@ public class FeedListAdapter extends BaseAdapter{
         final Feed feed = mFeed.get(position);
 
         TextView nome = view.findViewById(R.id.nome_url_recebida);
+        TextView urlTest = view.findViewById(R.id.idUrlTest);
         nome.setText(feed.getNome());
+        urlTest.setText(feed.getId());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +62,8 @@ public class FeedListAdapter extends BaseAdapter{
             @Override
             public boolean onLongClick(View view) {
                 Intent intent = new Intent(mContext, PopUpActivity.class);
+                intent.putExtra("feed",feed);
+                intent.putExtra("token",authorization.getToken());
 
                 Log.d(FeedListAdapter.class.getName(),"click long");
                 Toast.makeText(mContext,"long click",Toast.LENGTH_LONG).show();

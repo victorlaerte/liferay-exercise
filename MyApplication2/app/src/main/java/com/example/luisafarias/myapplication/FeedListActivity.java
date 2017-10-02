@@ -162,6 +162,7 @@ public class FeedListActivity extends AppCompatActivity {
         }
     }
 
+<<<<<<< HEAD
     private ListView _allFeeds;
     private Authorization _authorization;
     private WeDeploy _weDeploy = new WeDeploy.Builder().build();
@@ -169,4 +170,32 @@ public class FeedListActivity extends AppCompatActivity {
     private String _token;
     private FeedListAdapter _feedAdapter;
     private final int ACCESS_RESULT_NEW_FEED = 1234;
+=======
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        reloadFeeds();
+//    }
+
+    public void getInfo(View view){
+        Log.d("ele entra no getInfo","getinfo");
+        weDeploy
+                .data("https://data-weread.wedeploy.io").authorization(authorization)
+                .get("Feeds/testando123")
+                .execute(new Callback() {
+                    public void onSuccess(Response response) {
+                        try {
+                            JSONObject respBody = new JSONObject(response.getBody());
+                            Log.d(FeedListActivity.class.getName(),respBody.getString("name"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    public void onFailure(Exception e) {
+                        Log.e(FeedListActivity.class.getName(),e.getMessage());
+                    }
+                });
+    }
+>>>>>>> delete updates
 }
