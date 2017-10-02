@@ -163,6 +163,7 @@ public class FeedListActivity extends AppCompatActivity {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     private ListView _allFeeds;
     private Authorization _authorization;
     private WeDeploy _weDeploy = new WeDeploy.Builder().build();
@@ -176,6 +177,19 @@ public class FeedListActivity extends AppCompatActivity {
 //        super.onStart();
 //        reloadFeeds();
 //    }
+=======
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText(this,"onStart",Toast.LENGTH_LONG);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"onResume",Toast.LENGTH_LONG);
+    }
+>>>>>>> okay
 
     public void getInfo(View view){
         Log.d("ele entra no getInfo","getinfo");
