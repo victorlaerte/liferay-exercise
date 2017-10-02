@@ -1,6 +1,5 @@
-package model;
+package com.example.luisafarias.myapplication.model;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -11,12 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.luisafarias.myapplication.FeedListActivity;
 import com.example.luisafarias.myapplication.PopUpActivity;
 import com.example.luisafarias.myapplication.R;
 import com.wedeploy.android.auth.Authorization;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

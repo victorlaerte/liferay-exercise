@@ -1,4 +1,4 @@
-package model;
+package com.example.luisafarias.myapplication.model;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,7 +7,6 @@ import com.example.luisafarias.myapplication.FeedListActivity;
 import com.example.luisafarias.myapplication.NewUrlActivity;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
-import com.wedeploy.android.WeDeployData;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.transport.Response;
 
@@ -120,7 +119,8 @@ public class Repositorio implements IRepositorio {
                 .delete("Feeds/"+id).execute(new Callback() {
             @Override
             public void onSuccess(Response response) {
-                    Log.d(Repositorio.class.getName(),"removeu");
+                Log.d(Repositorio.class.getName(),"removeu");
+                // TODO call onSuccess
             }
 
             @Override

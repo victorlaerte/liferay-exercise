@@ -1,7 +1,6 @@
-package model;
+package com.example.luisafarias.myapplication.model;
 
 import com.wedeploy.android.auth.Authorization;
-import com.wedeploy.android.transport.Response;
 
 import org.json.JSONException;
 
