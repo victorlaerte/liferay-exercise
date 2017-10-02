@@ -4,29 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.luisafarias.myapplication.editActivity">
+    tools:context="com.example.luisafarias.myapplication.EditActivity">
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nome"
-        tools:layout_editor_absoluteY="60dp"
+        tools:layout_editor_absoluteY="80dp"
         app:layout_constraintRight_toLeftOf="@+id/nomeUrlEdit"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.25" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Url"
-        tools:layout_editor_absoluteY="112dp"
+        tools:layout_editor_absoluteY="148dp"
         app:layout_constraintRight_toLeftOf="@+id/urlEdit"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.47" />
 
     <EditText
         android:id="@+id/nomeUrlEdit"
@@ -47,10 +49,10 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        android:layout_marginRight="78dp"
+        android:layout_marginRight="84dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="436dp" />
+        android:layout_marginBottom="395dp" />
 
     <TextView
         android:id="@+id/textView9"
@@ -65,4 +67,19 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/nomeUrlEdit" />
+
+    <Button
+        android:id="@+id/edit_feed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Salvar"
+        android:onClick="updateFeedCall"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/urlEdit" />
 </android.support.constraint.ConstraintLayout>

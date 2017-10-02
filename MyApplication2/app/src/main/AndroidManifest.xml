@@ -24,7 +24,7 @@
         <activity
             android:name=".PopUpActivity"
             android:theme="@style/AppTheme.CustomTheme"></activity>
-        <activity android:name=".editActivity"></activity>
+        <activity android:name=".EditActivity"></activity>
     </application>
 
 </manifest>

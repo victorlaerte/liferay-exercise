@@ -91,7 +91,7 @@ public class Repositorio implements IRepositorio {
         nomeUrl = feed.getNome();
         url = feed.getUrl();
 
-        if(feed!= null && feedList.contains(feed)) {
+        if(feed!= null) {
 
             JSONObject feedJsonObject = new JSONObject()
                     .put("name", nomeUrl)

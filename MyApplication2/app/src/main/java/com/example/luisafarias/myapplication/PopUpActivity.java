@@ -1,9 +1,11 @@
 package com.example.luisafarias.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.EditText;
 
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
@@ -44,9 +46,13 @@ public class PopUpActivity extends AppCompatActivity {
 
     }
 
-    public void updateFeed(View view) throws JSONException {
+    public void updateFeed(View view) {
         if (feed != null && authorization != null){
-            Repositorio.getInstance(this).updateFeed(feed,authorization);
+            Intent intent = new Intent(this,EditActivity.class);
+            intent.putExtra("feed",feed);
+            intent.putExtra("token",token);
+            startActivity(intent);
+
         }
 
     }
