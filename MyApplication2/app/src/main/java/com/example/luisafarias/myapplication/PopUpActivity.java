@@ -8,18 +8,25 @@ import android.view.View;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 
+import org.json.JSONException;
+
 import model.Feed;
 import model.Repositorio;
 
 public class PopUpActivity extends AppCompatActivity {
     String token;
     Feed feed;
+    Authorization authorization;
 
     //TODO Use Dialog instead Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pop_up);
+
+        token = getIntent().getExtras().getString("token");
+        feed = getIntent().getExtras().getParcelable("feed");
+        authorization = new TokenAuthorization(token);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -31,9 +38,16 @@ public class PopUpActivity extends AppCompatActivity {
     }
 
     public void deleteFeed(View view){
-        token = getIntent().getExtras().getString("token");
-        feed = getIntent().getExtras().getParcelable("feed");
-        Authorization authorization = new TokenAuthorization(token);
-        Repositorio.getInstance(this).removeFeed(feed,authorization);
+        if (feed != null && authorization != null){
+            Repositorio.getInstance(this).removeFeed(feed,authorization);
+        }
+
+    }
+
+    public void updateFeed(View view) throws JSONException {
+        if (feed != null && authorization != null){
+            Repositorio.getInstance(this).updateFeed(feed,authorization);
+        }
+
     }
 }
