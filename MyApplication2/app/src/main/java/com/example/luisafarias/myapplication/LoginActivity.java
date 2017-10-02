@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.exception.WeDeployException;
@@ -17,8 +18,6 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
-    WeDeploy weDeploy = new WeDeploy.Builder().build();
-    String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,48 +25,54 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) throws WeDeployException, JSONException {
-        final Intent intentSemFeed = new Intent(this, FeedListActivity.class);
-        EditText emailLogin = (EditText) findViewById(R.id.emailogin);
-        String emailogin = emailLogin.getText().toString();
-        EditText senhaLogin1 = (EditText) findViewById(R.id.senhalogin);
-        String senhalogin = senhaLogin1.getText().toString();
-        weDeploy
-                .auth("https://auth-weread.wedeploy.io")
-                .signIn(emailogin,senhalogin)
+        final Intent intent = new Intent(this, FeedListActivity.class);
+
+        EditText editTextLogin = (EditText) findViewById(R.id.emailogin);
+        String emaiLogin = editTextLogin.getText().toString();
+        EditText editTextSenha = (EditText) findViewById(R.id.senhalogin);
+        String senhaLogin = editTextSenha.getText().toString();
+
+        _weDeploy.auth(Constants.AUTH_URL)
+                .signIn(emaiLogin,senhaLogin)
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
+                        Log.d(TAG,"entrei");
 
-                        Log.d(LoginActivity.class.getName(),"entrei");
-
-                        JSONObject jsonBody = null;
+                        JSONObject jsonBody;
                         try {
                             jsonBody = new JSONObject(response.getBody());
+                            _token = jsonBody.getString("access_token");
+                            Log.d("_token", _token);
+                            intent.putExtra("tokenKey", _token);
+
+                            finish();
+                            startActivity(intent);
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            token = jsonBody.getString("access_token");
-                            Log.d("token",token);
-                            intentSemFeed.putExtra("tokenKey",token);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            Log.e(TAG, e.getMessage());
                         }
 
-                        startActivity(intentSemFeed);
-
+                        /*
+                         * TODO: Toast, Snackbar
+                         */
                     }
 
                     public void onFailure(Exception e) {
                         Log.e(NewUserActivity.class.getName(),e.getMessage());
+
+                        /*
+                         * TODO: Toast, Snackbar
+                         * e.getMessage();
+                         */
                     }
                 });
     }
 
-
     public void novaConta(View view) {
         Intent intent = new Intent(this, NewUserActivity.class);
         startActivity(intent);
-
-
     }
+
+    private static final String TAG = LoginActivity.class.getName();
+    private String _token;
+    private WeDeploy _weDeploy = new WeDeploy.Builder().build();
 }

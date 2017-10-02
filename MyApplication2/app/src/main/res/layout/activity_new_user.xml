@@ -41,12 +41,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:layout_toRightOf="@id/nome"/>
+
     <EditText
         android:id="@+id/caixaemaill"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/email"
         android:layout_below="@id/caixanomee"/>
+
     <EditText
         android:id="@+id/caixaSenha"
         android:layout_width="300dp"
@@ -62,7 +64,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="criar"
-        android:onClick="goFeedListActivity"/>
+        android:onClick="createUser"/>
 
 
 </RelativeLayout>

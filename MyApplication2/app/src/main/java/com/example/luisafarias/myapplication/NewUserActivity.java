@@ -14,28 +14,25 @@ import com.wedeploy.android.transport.Response;
 
 public class NewUserActivity extends AppCompatActivity {
 
-    WeDeploy weDeploy = new WeDeploy.Builder().build();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
     }
 
-    public void goFeedListActivity(View view) throws WeDeployException {
-        final Intent intent = new Intent(this,FeedListActivity.class);
-        EditText nome = (EditText) findViewById(R.id.caixanomee);
-        String nome1 = nome.getText().toString();
-        EditText email = (EditText) findViewById(R.id.caixaemaill);
-        String email1 = email.getText().toString();
-        EditText senha = (EditText) findViewById(R.id.caixaSenha);
-        String senha1 = senha.getText().toString();
-        weDeploy
-                .auth("https://auth-weread.wedeploy.io")
-                .createUser(email1, senha1, nome1)
+    public void createUser(View view) throws WeDeployException {
+        EditText editTextNome = (EditText) findViewById(R.id.caixanomee);
+        String nome = editTextNome.getText().toString();
+        EditText editTextEmail = (EditText) findViewById(R.id.caixaemaill);
+        String email = editTextEmail.getText().toString();
+        EditText editTextSenha = (EditText) findViewById(R.id.caixaSenha);
+        String senha = editTextSenha.getText().toString();
+
+        _weDeploy.auth("https://auth-weread.wedeploy.io")
+                .createUser(email, senha, nome)
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
-                        startActivity(intent);
+                        _openFeedListActivity();
                     }
 
                     public void onFailure(Exception e) {
@@ -43,4 +40,11 @@ public class NewUserActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void _openFeedListActivity() {
+        Intent intent = new Intent(NewUserActivity.this, FeedListActivity.class);
+        startActivity(intent);
+    }
+
+    private WeDeploy _weDeploy = new WeDeploy.Builder().build();
 }

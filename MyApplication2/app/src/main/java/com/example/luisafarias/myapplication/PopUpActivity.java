@@ -6,6 +6,7 @@ import android.util.DisplayMetrics;
 
 public class PopUpActivity extends AppCompatActivity {
 
+    //TODO Use Dialog instead Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
