@@ -8,7 +8,7 @@
     tools:context="com.example.luisafarias.myapplication.PopUpActivity">
 
     <Button
-        android:id="@+id/editar"
+        android:_id="@+_id/editar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="29dp"
@@ -16,12 +16,12 @@
         android:layout_marginRight="8dp"
         android:text="Editar"
         android:onClick="updateFeed"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+_id/button2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:_id="@+_id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="192dp"
@@ -34,7 +34,7 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:id="@+id/nomeDaUrl"
+        android:_id="@+_id/nomeDaUrl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -42,7 +42,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:text="Nome da Url"
-        app:layout_constraintBottom_toTopOf="@+id/editar"
+        app:layout_constraintBottom_toTopOf="@+_id/editar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"

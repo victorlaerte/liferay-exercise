@@ -14,9 +14,7 @@ import com.wedeploy.android.auth.TokenAuthorization;
 public class PopUpActivity extends AppCompatActivity {
 
     //TODO Use Dialog instead Activity
-    private String _token;
-    private Feed _feed;
-    private Authorization _authorization;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +36,17 @@ public class PopUpActivity extends AppCompatActivity {
 
     public void deleteFeed(View view) {
         if (_feed != null && _authorization != null) {
-            Repositorio.getInstance(this).removeFeed(_feed, _authorization);
+            Repositorio.getInstance(this).removeFeed(_feed, _authorization, new Repositorio.CallbackFeed() {
+                @Override
+                public void onSuccess(Feed feed) {
+
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+
+                }
+            });
         }
     }
 
@@ -50,4 +58,9 @@ public class PopUpActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+    private Authorization _authorization;
+    private Feed _feed;
+    private String _token;
+
 }

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.exception.WeDeployException;
@@ -28,7 +29,7 @@ public class NewUserActivity extends AppCompatActivity {
         EditText editTextSenha = (EditText) findViewById(R.id.caixaSenha);
         String senha = editTextSenha.getText().toString();
 
-        _weDeploy.auth("https://auth-weread.wedeploy.io")
+        _weDeploy.auth(Constants.AUTH_URL)
                 .createUser(email, senha, nome)
                 .execute(new Callback() {
                     public void onSuccess(Response response) {

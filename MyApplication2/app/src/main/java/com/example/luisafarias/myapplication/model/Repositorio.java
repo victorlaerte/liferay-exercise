@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.luisafarias.myapplication.FeedListActivity;
 import com.example.luisafarias.myapplication.NewUrlActivity;
+import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.auth.Authorization;
@@ -23,9 +24,8 @@ import java.util.List;
 
 public class Repositorio implements IRepositorio {
 
-    private static Repositorio uniqueInstance;
-    WeDeploy weDeploy = new WeDeploy.Builder().build();
-    String nomeUrl,userId,url;
+    private static Repositorio _uniqueInstance;
+    private WeDeploy _weDeploy = new WeDeploy.Builder().build();
     Feed feed;
     ArrayList<Feed> feedList = new ArrayList();
     //ArrayList<String> nomeLista = new ArrayList();
@@ -34,18 +34,18 @@ public class Repositorio implements IRepositorio {
     }
 
     public static Repositorio getInstance(Context context) {
-        if (uniqueInstance == null) {
-            uniqueInstance = new Repositorio();
+        if (_uniqueInstance == null) {
+            _uniqueInstance = new Repositorio();
         }
-        return uniqueInstance;
+        return _uniqueInstance;
     }
 
 
     @Override
     public void addFeed(Feed feed, Authorization authorization, final CallbackFeed callbackFeed) throws JSONException {
-        nomeUrl = feed.getNome();
-        userId = feed.getUserId();
-        url = feed.getUrl();
+        String nomeUrl = feed.get_nome();
+        String userId = feed.get_userId();
+        String url = feed.get_url();
 
         if(feed!=null){
 
@@ -57,8 +57,7 @@ public class Repositorio implements IRepositorio {
                 .put("userId", userId)
                 .put("url", url);
 
-            weDeploy
-                .data("https://data-weread.wedeploy.io").authorization(authorization)
+            _weDeploy.data(Constants.DATA_URL).authorization(authorization)
                 .create("Feeds", feedJsonObject)
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
@@ -68,9 +67,9 @@ public class Repositorio implements IRepositorio {
                             JSONObject jsonBody = new JSONObject(response.getBody());
 
                             Feed feed = new Feed();
-                            feed.setNome(jsonBody.getString("name"));
-                            feed.setUrl(jsonBody.getString("url"));
-                            feed.setId(jsonBody.getString("id"));
+                            feed.set_nome(jsonBody.getString("name"));
+                            feed.set_url(jsonBody.getString("url"));
+                            feed.set_id(jsonBody.getString("id"));
 
                             callbackFeed.onSuccess(feed);
                         } catch (Exception e) {
@@ -87,9 +86,9 @@ public class Repositorio implements IRepositorio {
     }
 
     @Override
-    public void updateFeed(Feed feed, Authorization authorization) throws JSONException {
-        nomeUrl = feed.getNome();
-        url = feed.getUrl();
+    public void updateFeed(Feed feed, Authorization authorization, final CallbackFeed callbackFeed) throws JSONException {
+        String nomeUrl = feed.get_nome();
+        String url = feed.get_url();
 
         if(feed!= null) {
 
@@ -97,9 +96,9 @@ public class Repositorio implements IRepositorio {
                     .put("name", nomeUrl)
                     .put("url", url);
 
-            weDeploy
+            _weDeploy
                     .data("https://data-weread.wedeploy.io").authorization(authorization)
-                    .update("Feeds/" + feed.getId(), feedJsonObject) //nao foi testado ainda, pego o id quando listo os feeds
+                    .update("Feeds/" + feed.get_id(), feedJsonObject)
                     .execute(new Callback() {
                         public void onSuccess(Response response) {
                             Log.d(NewUrlActivity.class.getName(), "editado com sucesso");
@@ -113,13 +112,13 @@ public class Repositorio implements IRepositorio {
 
     }
 
-    public void removeFeed(final Feed feed, Authorization authorization) {
+    public void removeFeed(final Feed feed, Authorization authorization, final CallbackFeed callbackFeed) {
 
-       if(feed!=null /*&& feedList.contains(feed)*/){
-           String id = feed.getId();
+       if(feed!=null){
+           String id = feed.get_id();
            Log.d(Repositorio.class.getName(),id);
 
-           weDeploy.data("https://data-weread.wedeploy.io").authorization(authorization)
+           _weDeploy.data(Constants.DATA_URL).authorization(authorization)
                    .delete("Feeds/"+id).execute(new Callback() {
                @Override
                public void onSuccess(Response response) {
@@ -143,8 +142,8 @@ public class Repositorio implements IRepositorio {
 
     @Override
     public ArrayList<Feed> getAllFeeds(Authorization authorization) {
-        weDeploy
-                .data("https://data-weread.wedeploy.io")
+
+        _weDeploy.data(Constants.DATA_URL)
                 .authorization(authorization)
                 .get("Feeds")
                 .execute(new Callback() {
@@ -160,9 +159,9 @@ public class Repositorio implements IRepositorio {
                                 String userId = jsonBody.getString("userId");
                                 String id = jsonBody.getString("id");
                                 feed = new Feed(nome,url,userId);
-                                feed.setId(id);
+                                feed.set_id(id);
                                 feedList.add(feed);
-                                String jsonBodyString = jsonBody.toString();
+                                //String jsonBodyString = jsonBody.toString();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -182,8 +181,7 @@ public class Repositorio implements IRepositorio {
     }
 
     public void feedListAll(Authorization authorization, final CallbackFeeds callbackFeeds){
-        weDeploy
-                .data("https://data-weread.wedeploy.io")
+        _weDeploy.data(Constants.DATA_URL)
                 .authorization(authorization)
                 .get("Feeds")
                 .execute(new Callback() {
@@ -198,9 +196,9 @@ public class Repositorio implements IRepositorio {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonBody = (JSONObject) jsonArray.get(i);
                                 Feed feed = new Feed();
-                                feed.setNome(jsonBody.getString("name"));
-                                feed.setUrl(jsonBody.getString("url"));
-                                feed.setId(jsonBody.getString("id"));
+                                feed.set_nome(jsonBody.getString("name"));
+                                feed.set_url(jsonBody.getString("url"));
+                                feed.set_id(jsonBody.getString("id"));
                                 listaFeed.add(feed);
 
                             }

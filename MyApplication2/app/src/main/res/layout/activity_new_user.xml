@@ -8,57 +8,57 @@
     tools:context="com.example.luisafarias.myapplication.NewUserActivity">
 
     <TextView
-        android:id="@+id/novo_usuario"
+        android:_id="@+_id/novo_usuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Novo Usuário"
         android:layout_centerHorizontal="true"/>
     <TextView
-        android:id="@+id/nome"
+        android:_id="@+_id/_nome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:text="Nome:"
-        android:layout_below="@id/novo_usuario"/>
+        android:layout_below="@_id/novo_usuario"/>
     <TextView
-        android:id="@+id/email"
+        android:_id="@+_id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:text="E-mail:"
-        android:layout_below="@id/nome" />
+        android:layout_below="@_id/_nome" />
     <TextView
-        android:id="@+id/senha"
+        android:_id="@+_id/senha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:text="Senha:"
-        android:layout_below="@id/email"/>
+        android:layout_below="@_id/email"/>
 
     <EditText
-        android:id="@+id/caixanomee"
+        android:_id="@+_id/caixanomee"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
-        android:layout_toRightOf="@id/nome"/>
+        android:layout_toRightOf="@_id/_nome"/>
 
     <EditText
-        android:id="@+id/caixaemaill"
+        android:_id="@+_id/caixaemaill"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/email"
-        android:layout_below="@id/caixanomee"/>
+        android:layout_toRightOf="@_id/email"
+        android:layout_below="@_id/caixanomee"/>
 
     <EditText
-        android:id="@+id/caixaSenha"
+        android:_id="@+_id/caixaSenha"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        android:layout_below="@+id/caixaemaill"
-        android:layout_toEndOf="@+id/senha" />
+        android:layout_below="@+_id/caixaemaill"
+        android:layout_toEndOf="@+_id/senha" />
 
     <Button
-        android:id="@+id/criarUser"
+        android:_id="@+_id/criarUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

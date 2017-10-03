@@ -22,33 +22,28 @@ import java.util.List;
 
 public class FeedListAdapter extends BaseAdapter{
 
-    private final List<Feed> mFeed;
-    Context mContext;
-    LayoutInflater mInflater;
-    Authorization authorization;
-
     public FeedListAdapter(Context context,Authorization authorization, List<Feed> feeds){
-        this.mContext = context;
-        this.mFeed = feeds;
-        this.mInflater = LayoutInflater.from(mContext);
-        this.authorization = authorization;
+        this._context = context;
+        this._feed = feeds;
+        this._inflater = LayoutInflater.from(_context);
+        this._authorization = authorization;
     }
 
-    public int getCount(){ return mFeed.size();}
+    public int getCount(){ return _feed.size();}
 
-    public Feed getItem(int position){ return mFeed.get(position);}
+    public Feed getItem(int position){ return _feed.get(position);}
 
-    public long getItemId(int position){ return Long.parseLong(mFeed.get(position).getId());}
+    public long getItemId(int position){ return Long.parseLong(_feed.get(position).get_id());}
 
     public View getView(int position, View convertView, ViewGroup parent){
 
-        final View view = mInflater.inflate(R.layout.feed_body,parent,false);
-        final Feed feed = mFeed.get(position);
+        final View view = _inflater.inflate(R.layout.feed_body,parent,false);
+        final Feed feed = _feed.get(position);
 
         TextView nome = view.findViewById(R.id.nome_url_recebida);
         TextView urlTest = view.findViewById(R.id.idUrlTest);
-        nome.setText(feed.getNome());
-        urlTest.setText(feed.getId());
+        nome.setText(feed.get_nome());
+        urlTest.setText(feed.get_id());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,18 +56,24 @@ public class FeedListAdapter extends BaseAdapter{
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Intent intent = new Intent(mContext, PopUpActivity.class);
+                Intent intent = new Intent(_context, PopUpActivity.class);
                 intent.putExtra("feed",feed);
-                intent.putExtra("token",authorization.getToken());
+                intent.putExtra("token", _authorization.getToken());
 
                 Log.d(FeedListAdapter.class.getName(),"click long");
-                Toast.makeText(mContext,"long click",Toast.LENGTH_LONG).show();
-                mContext.startActivity(intent);
-                //Repositorio.getInstance(mContext).removeFeed(feed,authorization);
+                Toast.makeText(_context,"long click",Toast.LENGTH_LONG).show();
+                _context.startActivity(intent);
+                //Repositorio.getInstance(_context).removeFeed(feed,_authorization);
                 return true;
             }
         });
 
         return view;
     }
+
+    private Authorization _authorization;
+    private Context _context;
+    private final List<Feed> _feed;
+    private LayoutInflater _inflater;
+
 }

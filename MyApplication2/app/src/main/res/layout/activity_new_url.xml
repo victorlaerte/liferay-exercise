@@ -7,11 +7,11 @@
     tools:context="com.example.luisafarias.myapplication.NewUrlActivity">
 
     <TextView
-        android:id="@+id/textView5"
+        android:_id="@+_id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nome:"
-        app:layout_constraintRight_toLeftOf="@+id/nomeUrl"
+        app:layout_constraintRight_toLeftOf="@+_id/nomeUrl"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -20,7 +20,7 @@
         app:layout_constraintHorizontal_bias="1.0" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:_id="@+_id/textView7"
         android:layout_width="29dp"
         android:layout_height="17dp"
         android:text="URL:"
@@ -28,11 +28,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="147dp"
-        app:layout_constraintRight_toLeftOf="@+id/url"
+        app:layout_constraintRight_toLeftOf="@+_id/_url"
         android:layout_marginRight="8dp" />
 
     <EditText
-        android:id="@+id/nomeUrl"
+        android:_id="@+_id/nomeUrl"
         android:layout_width="281dp"
         android:layout_height="45dp"
         android:layout_marginRight="30dp"
@@ -40,10 +40,10 @@
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+_id/textView8" />
 
     <EditText
-        android:id="@+id/url"
+        android:_id="@+_id/_url"
         android:layout_width="281dp"
         android:layout_height="45dp"
         android:layout_marginRight="30dp"
@@ -51,10 +51,10 @@
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nomeUrl" />
+        app:layout_constraintTop_toBottomOf="@+_id/nomeUrl" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:_id="@+_id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Url"
@@ -66,7 +66,7 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
-        android:id="@+id/aaddUrl"
+        android:_id="@+_id/aaddUrl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -76,7 +76,7 @@
         android:onClick="addNewUrl"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/url"
+        app:layout_constraintTop_toBottomOf="@+_id/_url"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp" />
 

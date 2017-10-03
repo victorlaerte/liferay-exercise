@@ -8,24 +8,20 @@ import android.os.Parcelable;
  */
 
 public class Feed implements Parcelable {
-    private String nome;
-    private String url;
-    private String userId;
-    private String id;
 
     public Feed(){}
 
     public Feed(String nome, String url, String userId){
-        this.nome = nome;
-        this.url = url;
-        this.userId = userId;
+        this._nome = nome;
+        this._url = url;
+        this._userId = userId;
     }
 
     protected Feed(Parcel in) {
-        nome = in.readString();
-        url = in.readString();
-        userId = in.readString();
-        id = in.readString();
+        _nome = in.readString();
+        _url = in.readString();
+        _userId = in.readString();
+        _id = in.readString();
     }
 
     public static final Creator<Feed> CREATOR = new Creator<Feed>() {
@@ -40,21 +36,21 @@ public class Feed implements Parcelable {
         }
     };
 
-    public String getNome(){ return this.nome;}
+    public String get_nome(){ return this._nome;}
 
-    public String getUrl(){ return this.url;}
+    public String get_url(){ return this._url;}
 
-    public void setNome(String nome){ this.nome = nome;}
+    public void set_nome(String _nome){ this._nome = _nome;}
 
-    public void setUrl(String url){ this.url = url;}
+    public void set_url(String _url){ this._url = _url;}
 
-    public String getUserId(){ return this.userId;}
+    public String get_userId(){ return this._userId;}
 
-    public String getId(){ return this.id;}
+    public String get_id(){ return this._id;}
 
-    public void setId(String id){ this.id = id;}
+    public void set_id(String _id){ this._id = _id;}
 
-    public void setUserId(String userId){ this.userId = userId;}
+    //public void set_userId(String _userId){ this._userId = _userId;}
 
     @Override
     public int describeContents() {
@@ -63,9 +59,14 @@ public class Feed implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(nome);
-        parcel.writeString(url);
-        parcel.writeString(userId);
-        parcel.writeString(id);
+        parcel.writeString(_nome);
+        parcel.writeString(_url);
+        parcel.writeString(_userId);
+        parcel.writeString(_id);
     }
+
+    private String _id;
+    private String _nome;
+    private String _url;
+    private String _userId;
 }

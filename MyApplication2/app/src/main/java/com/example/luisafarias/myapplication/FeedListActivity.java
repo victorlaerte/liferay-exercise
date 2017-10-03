@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.auth.Authorization;
@@ -60,13 +61,13 @@ public class FeedListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Exception e) {
-                //TODO show Error
+                Log.e(FeedListActivity.class.getName(),e.getMessage());
             }
         });
     }
 
     public void goAddUrl(View view){
-        _weDeploy.auth("https://auth-weread.wedeploy.io")
+        _weDeploy.auth(Constants.AUTH_URL)
                 .authorization(_authorization)
                 .getCurrentUser()
                 .execute(new Callback() {
@@ -79,7 +80,7 @@ public class FeedListActivity extends AppCompatActivity {
                             _userId = jsonBody.getString("id");
                             Log.d(FeedListActivity.class.getName(), _userId);
                         } catch (JSONException e) {
-                            //TODO usar Log.e
+                            Log.e(FeedListActivity.class.getName(),e.getMessage());
                             e.printStackTrace();
                         }
 
@@ -105,13 +106,12 @@ public class FeedListActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
+
         final Intent intent = new Intent(this, LoginActivity.class);
-        String token = "";
         int id = item.getItemId();
-        Log.d("esse é o _token",token);
 
         if(id == R.id.logout) {
-            _weDeploy.auth("https://auth-weread.wedeploy.io")
+            _weDeploy.auth(Constants.AUTH_URL)
                 .authorization(_authorization)
                 .signOut()
                 .execute(new Callback() {
@@ -140,7 +140,8 @@ public class FeedListActivity extends AppCompatActivity {
             if(intent!=null){
                 Feed feed = intent.getExtras().getParcelable("feed");
                 try {
-                    Repositorio.getInstance(this).addFeed(feed, _authorization, new Repositorio.CallbackFeed() {
+                        Repositorio.getInstance(this)
+                            .addFeed(feed, _authorization, new Repositorio.CallbackFeed() {
                         @Override
                         public void onSuccess(Feed feed) {
                             reloadFeeds();
