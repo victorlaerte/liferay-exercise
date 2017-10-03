@@ -7,11 +7,11 @@
     tools:context="com.example.luisafarias.myapplication.EditActivity">
 
     <TextView
-        android:_id="@+_id/textView4"
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nome"
-        app:layout_constraintRight_toLeftOf="@+_id/nomeUrlEdit"
+        app:layout_constraintRight_toLeftOf="@+id/nomeUrlEdit"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -19,14 +19,14 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+_id/textView6" />
+        app:layout_constraintBottom_toTopOf="@+id/textView6" />
 
     <TextView
-        android:_id="@+_id/textView6"
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Url"
-        app:layout_constraintRight_toLeftOf="@+_id/urlEdit"
+        app:layout_constraintRight_toLeftOf="@+id/urlEdit"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -35,7 +35,7 @@
         android:layout_marginBottom="407dp" />
 
     <EditText
-        android:_id="@+_id/nomeUrlEdit"
+        android:id="@+id/nomeUrlEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -44,10 +44,10 @@
         android:layout_marginRight="84dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="19dp"
-        app:layout_constraintBottom_toTopOf="@+_id/urlEdit" />
+        app:layout_constraintBottom_toTopOf="@+id/urlEdit" />
 
     <EditText
-        android:_id="@+_id/urlEdit"
+        android:id="@+id/urlEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -59,7 +59,7 @@
         android:layout_marginBottom="395dp" />
 
     <TextView
-        android:_id="@+_id/textView9"
+        android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update"
@@ -70,10 +70,10 @@
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+_id/nomeUrlEdit" />
+        app:layout_constraintBottom_toTopOf="@+id/nomeUrlEdit" />
 
     <Button
-        android:_id="@+_id/edit_feed"
+        android:id="@+id/edit_feed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -85,5 +85,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+_id/urlEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/urlEdit" />
 </android.support.constraint.ConstraintLayout>

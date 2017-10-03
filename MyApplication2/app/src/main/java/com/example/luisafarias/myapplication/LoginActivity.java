@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             jsonBody = new JSONObject(response.getBody());
                             _token = jsonBody.getString("access_token");
+                            //String userId = jsonBody.getString("id"); remember the intent not return the UserID
                             Log.d("_token", _token);
                             intent.putExtra("tokenKey", _token);
 

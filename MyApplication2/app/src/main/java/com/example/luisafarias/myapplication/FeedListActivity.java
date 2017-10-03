@@ -74,6 +74,7 @@ public class FeedListActivity extends AppCompatActivity {
                     public void onSuccess(Response response) {
 
                         //TODO Verificar se usuário já foi passado antes para evitar essa request
+                        //ele nao retorna o userId
                         JSONObject jsonBody;
                         try {
                             jsonBody = new JSONObject(response.getBody());
