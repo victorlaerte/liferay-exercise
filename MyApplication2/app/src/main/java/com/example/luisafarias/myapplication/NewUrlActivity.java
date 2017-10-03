@@ -1,6 +1,7 @@
 package com.example.luisafarias.myapplication;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ public class NewUrlActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_new_url);
         _userId = getIntent().getExtras().getString("userId");
+
     }
 
     public void addNewUrl(View view) throws JSONException, WeDeployException {

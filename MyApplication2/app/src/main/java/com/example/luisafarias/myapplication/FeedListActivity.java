@@ -2,10 +2,12 @@ package com.example.luisafarias.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.zip.Inflater;
 
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.FeedListAdapter;
@@ -61,12 +64,13 @@ public class FeedListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Exception e) {
+                //Snackbar snackbar = Snackbar.make(activity);
                 Log.e(FeedListActivity.class.getName(),e.getMessage());
             }
         });
     }
 
-    public void goAddUrl(View view){
+    public void goAddUrl(final View view){
         _weDeploy.auth(Constants.AUTH_URL)
                 .authorization(_authorization)
                 .getCurrentUser()
@@ -89,12 +93,15 @@ public class FeedListActivity extends AppCompatActivity {
                             new Intent(
                                 FeedListActivity.this, NewUrlActivity.class);
 
+
                         intent.putExtra("userId", _userId);
                         intent.putExtra("token", _token);
                         startActivityForResult(intent, ACCESS_RESULT_NEW_FEED);
                     }
 
                     public void onFailure(Exception e) {
+                        Snackbar snackbar = Snackbar.make(view,e.getMessage(),Snackbar.LENGTH_LONG);
+                        snackbar.show();
                         Log.e(FeedListActivity.class.getName(),e.getMessage());
                     }
                 });
@@ -133,7 +140,7 @@ public class FeedListActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(
-        int requestCode, int resultCode, Intent intent) {
+            int requestCode, int resultCode, final Intent intent) {
 
         super.onActivityResult(requestCode, resultCode, intent);
 
@@ -146,12 +153,15 @@ public class FeedListActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Feed feed) {
                             reloadFeeds();
-                                Log.d(FeedListActivity.class.getName(),"salvou");
+                            Log.d(FeedListActivity.class.getName(),"salvou");
+                            Snackbar.make(getWindow().getDecorView().getRootView(),"Salvou",Snackbar.LENGTH_LONG).show();
+
                         }
 
                         @Override
                         public void onFailure(Exception e) {
                             Log.e(FeedListActivity.class.getName(),e.getMessage());
+                            Snackbar.make(getWindow().getDecorView().getRootView(),e.getMessage(),Snackbar.LENGTH_LONG).show();
                         }
                     });
                 } catch (JSONException e) {
@@ -159,6 +169,11 @@ public class FeedListActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void onClick(View view){
+        Snackbar snackbar = Snackbar.make(view,"entrou",Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
     private ListView _allFeeds;

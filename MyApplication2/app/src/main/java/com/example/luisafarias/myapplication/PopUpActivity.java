@@ -1,6 +1,7 @@
 package com.example.luisafarias.myapplication;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -34,17 +35,17 @@ public class PopUpActivity extends AppCompatActivity {
         getWindow().setLayout((int) (width * .8), (int) (height * .6));
     }
 
-    public void deleteFeed(View view) {
+    public void deleteFeed(final View view) {
         if (_feed != null && _authorization != null) {
             Repositorio.getInstance(this).removeFeed(_feed, _authorization, new Repositorio.CallbackFeed() {
                 @Override
                 public void onSuccess(Feed feed) {
-
+                    Snackbar.make(view,"Removido",Snackbar.LENGTH_LONG).show();
                 }
 
                 @Override
                 public void onFailure(Exception e) {
-
+                    Snackbar.make(view,e.getMessage(),Snackbar.LENGTH_LONG).show();
                 }
             });
         }
