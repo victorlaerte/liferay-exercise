@@ -33,7 +33,7 @@ public class Repositorio implements IRepositorio {
     private Repositorio() {
     }
 
-    public static Repositorio getInstance(Context context) {
+    public static Repositorio getInstance() {
         if (_uniqueInstance == null) {
             _uniqueInstance = new Repositorio();
         }

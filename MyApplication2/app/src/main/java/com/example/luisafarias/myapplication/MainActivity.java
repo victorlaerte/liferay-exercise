@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void reloadFeeds() {
         final Context context = this;
-        Repositorio.getInstance(context)
+        Repositorio.getInstance()
             .feedListAll(_authorization, new Repositorio.CallbackFeeds() {
             @Override
             public void onSuccess(List<Feed> feedList) {
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             if(intent!=null){
                 Feed feed = intent.getExtras().getParcelable("feed");
                 try {
-                        Repositorio.getInstance(this)
+                        Repositorio.getInstance()
                             .addFeed(feed, _authorization, new Repositorio.CallbackFeed() {
                         @Override
                         public void onSuccess(Feed feed) {
