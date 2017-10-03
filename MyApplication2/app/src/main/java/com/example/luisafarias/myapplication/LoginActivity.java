@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) throws WeDeployException, JSONException {
-        final Intent intent = new Intent(this, FeedListActivity.class);
+        final Intent intent = new Intent(this, MainActivity.class);
 
         EditText editTextLogin = (EditText) findViewById(R.id.emailogin);
         String emaiLogin = editTextLogin.getText().toString();

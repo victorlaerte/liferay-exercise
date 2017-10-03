@@ -7,11 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
@@ -24,18 +25,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.FeedListAdapter;
 import com.example.luisafarias.myapplication.model.Repositorio;
 
-public class FeedListActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed_list);
+        setContentView(R.layout.activity_main);
 
         Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -64,13 +64,13 @@ public class FeedListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Exception e) {
-                //Snackbar snackbar = Snackbar.make(activity);
-                Log.e(FeedListActivity.class.getName(),e.getMessage());
+                Log.e(MainActivity.class.getName(),e.getMessage());
             }
         });
     }
 
     public void goAddUrl(final View view){
+
         _weDeploy.auth(Constants.AUTH_URL)
                 .authorization(_authorization)
                 .getCurrentUser()
@@ -83,15 +83,15 @@ public class FeedListActivity extends AppCompatActivity {
                         try {
                             jsonBody = new JSONObject(response.getBody());
                             _userId = jsonBody.getString("id");
-                            Log.d(FeedListActivity.class.getName(), _userId);
+                            Log.d(MainActivity.class.getName(), _userId);
                         } catch (JSONException e) {
-                            Log.e(FeedListActivity.class.getName(),e.getMessage());
+                            Log.e(MainActivity.class.getName(),e.getMessage());
                             e.printStackTrace();
                         }
 
                         final Intent intent =
                             new Intent(
-                                FeedListActivity.this, NewUrlActivity.class);
+                                MainActivity.this, NewUrlActivity.class);
 
 
                         intent.putExtra("userId", _userId);
@@ -102,7 +102,7 @@ public class FeedListActivity extends AppCompatActivity {
                     public void onFailure(Exception e) {
                         Snackbar snackbar = Snackbar.make(view,e.getMessage(),Snackbar.LENGTH_LONG);
                         snackbar.show();
-                        Log.e(FeedListActivity.class.getName(),e.getMessage());
+                        Log.e(MainActivity.class.getName(),e.getMessage());
                     }
                 });
 
@@ -124,13 +124,13 @@ public class FeedListActivity extends AppCompatActivity {
                 .signOut()
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
-                        Log.d(FeedListActivity.class.getName(), "saiu");
+                        Log.d(MainActivity.class.getName(), "saiu");
                         finish();
                         startActivity(intent);
                     }
 
                     public void onFailure(Exception e) {
-                        Log.e(FeedListActivity.class.getName(), e.getMessage());
+                        Log.e(MainActivity.class.getName(), e.getMessage());
                     }
                 });
         }
@@ -153,14 +153,14 @@ public class FeedListActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Feed feed) {
                             reloadFeeds();
-                            Log.d(FeedListActivity.class.getName(),"salvou");
+                            Log.d(MainActivity.class.getName(),"salvou");
                             Snackbar.make(getWindow().getDecorView().getRootView(),"Salvou",Snackbar.LENGTH_LONG).show();
 
                         }
 
                         @Override
                         public void onFailure(Exception e) {
-                            Log.e(FeedListActivity.class.getName(),e.getMessage());
+                            Log.e(MainActivity.class.getName(),e.getMessage());
                             Snackbar.make(getWindow().getDecorView().getRootView(),e.getMessage(),Snackbar.LENGTH_LONG).show();
                         }
                     });
@@ -172,8 +172,11 @@ public class FeedListActivity extends AppCompatActivity {
     }
 
     public void onClick(View view){
-        Snackbar snackbar = Snackbar.make(view,"entrou",Snackbar.LENGTH_LONG);
-        snackbar.show();
+        NewFeedFragment fragmentNewFeed = new NewFeedFragment();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.fragment_new_url,fragmentNewFeed);
+        ft.commit();
     }
 
     private ListView _allFeeds;

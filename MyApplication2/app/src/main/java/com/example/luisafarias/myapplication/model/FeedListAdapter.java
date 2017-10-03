@@ -9,7 +9,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 
+import com.example.luisafarias.myapplication.NewFeedFragment;
 import com.example.luisafarias.myapplication.PopUpActivity;
 import com.example.luisafarias.myapplication.R;
 import com.wedeploy.android.auth.Authorization;
@@ -49,6 +53,11 @@ public class FeedListAdapter extends BaseAdapter{
             @Override
             public void onClick(View view) {
                 Log.d(FeedListAdapter.class.getName(),"click curto");
+//                NewFeedFragment fragmentNewFeed = new NewFeedFragment();
+//                FragmentManager fm = getFragmentManager(); //error
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ft.add(R.id.fragment_new_url,fragmentNewFeed);
+//                ft.commit();
 
             }
         });

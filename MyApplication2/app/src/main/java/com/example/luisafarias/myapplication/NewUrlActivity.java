@@ -1,7 +1,6 @@
 package com.example.luisafarias.myapplication;
 
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +25,7 @@ public class NewUrlActivity extends AppCompatActivity {
     }
 
     public void addNewUrl(View view) throws JSONException, WeDeployException {
-        Intent intent = new Intent(this,FeedListActivity.class);
+        Intent intent = new Intent(this,MainActivity.class);
 
         TextView textViewNomeURL = (TextView) findViewById(R.id.nomeUrl);
         TextView textViewUrl = (TextView) findViewById(R.id.url);

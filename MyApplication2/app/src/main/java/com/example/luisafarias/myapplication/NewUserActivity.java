@@ -43,7 +43,7 @@ public class NewUserActivity extends AppCompatActivity {
     }
 
     private void _openFeedListActivity() {
-        Intent intent = new Intent(NewUserActivity.this, FeedListActivity.class);
+        Intent intent = new Intent(NewUserActivity.this, MainActivity.class);
         startActivity(intent);
     }
 

@@ -3,7 +3,7 @@ package com.example.luisafarias.myapplication.model;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.luisafarias.myapplication.FeedListActivity;
+import com.example.luisafarias.myapplication.MainActivity;
 import com.example.luisafarias.myapplication.NewUrlActivity;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
@@ -169,7 +169,7 @@ public class Repositorio implements IRepositorio {
                     }
 
                     public void onFailure(Exception e) {
-                        Log.e(FeedListActivity.class.getName(), e.getMessage());
+                        Log.e(MainActivity.class.getName(), e.getMessage());
                     }
                 });
         return feedList;

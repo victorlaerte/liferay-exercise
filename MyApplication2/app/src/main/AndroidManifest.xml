@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".NewUserActivity" />
-        <activity android:name=".FeedListActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".NewUrlActivity" />
         <activity
             android:name=".PopUpActivity"
