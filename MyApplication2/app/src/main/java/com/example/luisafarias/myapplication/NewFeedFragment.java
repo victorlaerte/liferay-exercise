@@ -12,6 +12,15 @@ import android.view.ViewGroup;
 
 public class NewFeedFragment extends Fragment {
 
+    private String _userId;
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            _userId = getArguments().getString("userId");
+        }
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(NewFeedFragment.class.getName(),"ele esta aqui");

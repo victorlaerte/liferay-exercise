@@ -43,11 +43,6 @@ public class FeedListFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        if(savedInstanceState != null){
-//            _token = getArguments().getString("tokenKey");
-//            _authorization = new TokenAuthorization(_token);
-//            Log.d(FeedListFragment.class.getName(),"fragment");
-//        }
 
         _view = inflater.inflate(R.layout.fragment_feed_list, container, false);
         _allFeeds = _view.findViewById(R.id.list_feeds);

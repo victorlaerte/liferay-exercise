@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
@@ -183,10 +184,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view){
-        /****Send Data to Fragment*****/
-//        Bundle bundle = new Bundle();
-//        bundle.putString("tokenKey", _token);
-//        feedListFragment.setArguments(bundle);
+        Fragment fragment = new NewFeedFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_feed_list,fragment);
+        fragmentTransaction.commit();
+
     }
 
     //private ListView _allFeeds;
