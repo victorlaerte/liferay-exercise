@@ -37,7 +37,7 @@ public class PopUpActivity extends AppCompatActivity {
 
     public void deleteFeed(final View view) {
         if (_feed != null && _authorization != null) {
-            Repositorio.getInstance(this).removeFeed(_feed, _authorization, new Repositorio.CallbackFeed() {
+            Repositorio.getInstance().removeFeed(_feed, _authorization, new Repositorio.CallbackFeed() {
                 @Override
                 public void onSuccess(Feed feed) {
                     Snackbar.make(view,"Removido",Snackbar.LENGTH_LONG).show();

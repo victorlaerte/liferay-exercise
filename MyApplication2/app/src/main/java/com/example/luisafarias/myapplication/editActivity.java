@@ -39,7 +39,7 @@ public class EditActivity extends AppCompatActivity {
         Log.d(EditActivity.class.getName(),url.getText().toString());
         feed.set_nome(nome.getText().toString());
         feed.set_url(url.getText().toString());
-        Repositorio.getInstance(this).updateFeed(feed, authorization, new Repositorio.CallbackFeed() {
+        Repositorio.getInstance().updateFeed(feed, authorization, new Repositorio.CallbackFeed() {
             @Override
             public void onSuccess(Feed feed) {
 

@@ -40,34 +40,45 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
+        FeedListFragment feedListFragment = new FeedListFragment();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.frame_layout_fragment,feedListFragment);
+        ft.commit();
+
         _token = getIntent().getExtras().getString("tokenKey");
+
+        Bundle bundle = new Bundle();
+        bundle.putString("tokenKey",_token);
+        feedListFragment.setArguments(bundle);
+
 
         if (_token == null) {
             throw new IllegalArgumentException();
         }
 
         _authorization = new TokenAuthorization(_token);
-        _allFeeds = (ListView) findViewById(R.id.lista_feed);
+        //_allFeeds = (ListView) findViewById(R.id.lista_feed);
 
-        reloadFeeds();
+        //reloadFeeds();
     }
 
-    private void reloadFeeds() {
-        final Context context = this;
-        Repositorio.getInstance()
-            .feedListAll(_authorization, new Repositorio.CallbackFeeds() {
-            @Override
-            public void onSuccess(List<Feed> feedList) {
-                _feedAdapter = new FeedListAdapter(context, _authorization, feedList);
-                _allFeeds.setAdapter(_feedAdapter);
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Log.e(MainActivity.class.getName(),e.getMessage());
-            }
-        });
-    }
+//    private void reloadFeeds() {
+//        final Context context = this;
+//        Repositorio.getInstance()
+//            .feedListAll(_authorization, new Repositorio.CallbackFeeds() {
+//            @Override
+//            public void onSuccess(List<Feed> feedList) {
+//                _feedAdapter = new FeedListAdapter(context, _authorization, feedList);
+//                _allFeeds.setAdapter(_feedAdapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Exception e) {
+//                Log.e(MainActivity.class.getName(),e.getMessage());
+//            }
+//        });
+//    }
 
     public void goAddUrl(final View view){
 
@@ -152,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                             .addFeed(feed, _authorization, new Repositorio.CallbackFeed() {
                         @Override
                         public void onSuccess(Feed feed) {
-                            reloadFeeds();
+                            //reloadFeeds();
                             Log.d(MainActivity.class.getName(),"salvou");
                             Snackbar.make(getWindow().getDecorView().getRootView(),"Salvou",Snackbar.LENGTH_LONG).show();
 
@@ -172,19 +183,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view){
-        NewFeedFragment fragmentNewFeed = new NewFeedFragment();
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.fragment_new_url,fragmentNewFeed);
-        ft.commit();
+        /****Send Data to Fragment*****/
+//        Bundle bundle = new Bundle();
+//        bundle.putString("tokenKey", _token);
+//        feedListFragment.setArguments(bundle);
     }
 
-    private ListView _allFeeds;
+    //private ListView _allFeeds;
     private Authorization _authorization;
     private WeDeploy _weDeploy = new WeDeploy.Builder().build();
     private String _userId;
     private String _token;
-    private FeedListAdapter _feedAdapter;
+    //private FeedListAdapter _feedAdapter;
     private final int ACCESS_RESULT_NEW_FEED = 1234;
 
 }
