@@ -2,6 +2,7 @@ package com.example.luisafarias.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,10 +34,14 @@ import com.example.luisafarias.myapplication.model.Repositorio;
 
 public class MainActivity extends AppCompatActivity {
 
+    ConstraintLayout container;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        container = (ConstraintLayout) findViewById(R.id.container);
 
         Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -47,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         ft.add(R.id.frame_layout_fragment,feedListFragment);
         ft.commit();
 
+        _token = getIntent().getExtras().getString("tokenKey");
         _token = getIntent().getExtras().getString("tokenKey");
 
         Bundle bundle = new Bundle();
@@ -166,14 +172,14 @@ public class MainActivity extends AppCompatActivity {
                         public void onSuccess(Feed feed) {
                             //reloadFeeds();
                             Log.d(MainActivity.class.getName(),"salvou");
-                            Snackbar.make(getWindow().getDecorView().getRootView(),"Salvou",Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(container,"Salvou",Snackbar.LENGTH_LONG).show();
 
                         }
 
                         @Override
                         public void onFailure(Exception e) {
                             Log.e(MainActivity.class.getName(),e.getMessage());
-                            Snackbar.make(getWindow().getDecorView().getRootView(),e.getMessage(),Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(container,e.getMessage(),Snackbar.LENGTH_LONG).show();
                         }
                     });
                 } catch (JSONException e) {
