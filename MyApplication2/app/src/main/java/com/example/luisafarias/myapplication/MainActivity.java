@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = new NewFeedFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_feed_list,fragment);
+        fragmentTransaction.replace(R.id.frame_layout_fragment,fragment);
         fragmentTransaction.commit();
 
     }

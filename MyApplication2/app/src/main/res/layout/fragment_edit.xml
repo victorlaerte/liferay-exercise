@@ -4,10 +4,29 @@
     android:layout_height="match_parent"
     tools:context="com.example.luisafarias.myapplication.EditFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/nameFrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome:"
+        android:layout_marginTop="23dp"
+        android:layout_marginLeft="10dp"/>
 
+    <TextView
+        android:id="@+id/urlFrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="URL:"
+        android:layout_marginTop="46dp"
+        android:layout_marginLeft="10dp"/>
+
+    <EditText
+        android:id="@+id/nameEditFrag"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        />
+    <EditText
+        android:id="@+id/urlEditFrag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </FrameLayout>
