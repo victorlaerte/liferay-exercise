@@ -35,7 +35,7 @@ import com.example.luisafarias.myapplication.model.Repositorio;
 public class MainActivity extends AppCompatActivity {
 
     ConstraintLayout container;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
         FeedListFragment feedListFragment = new FeedListFragment();
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.frame_layout_fragment,feedListFragment);
+//        ft.replace(R.id.frame_layout_fragment,feedListFragment, "test");
+        ft.add(R.id.frame_layout_fragment,feedListFragment, "test");
         ft.commit();
 
         _token = getIntent().getExtras().getString("tokenKey");
@@ -189,14 +190,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onClick(View view){
+    public void goAddNewFeed(View view){
         Fragment fragment = new NewFeedFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout_fragment,fragment);
+        fragmentTransaction.addToBackStack(null);//quando apertar botao de voltar ele voltar para o fragment anterior
         fragmentTransaction.commit();
 
     }
+
+
 
     //private ListView _allFeeds;
     private Authorization _authorization;

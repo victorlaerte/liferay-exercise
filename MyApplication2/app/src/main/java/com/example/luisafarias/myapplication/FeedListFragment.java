@@ -1,5 +1,6 @@
 package com.example.luisafarias.myapplication;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class FeedListFragment extends Fragment {
 
     private ListView _allFeeds;
     private Authorization _authorization;
+    private Feed _feed;
     private FeedListAdapter _feedAdapter;
     private String _token;
     private View _view;
@@ -36,8 +38,12 @@ public class FeedListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             _token = getArguments().getString("tokenKey");
+            _feed = getArguments().getParcelable("feed");
+            if(_feed!=null)
+            Log.d(FeedListFragment.class.getName(),_feed.get_nome());
             _authorization = new TokenAuthorization(_token);
             reloadFeeds();
+
         }
     }
 
@@ -46,6 +52,7 @@ public class FeedListFragment extends Fragment {
 
         _view = inflater.inflate(R.layout.fragment_feed_list, container, false);
         _allFeeds = _view.findViewById(R.id.list_feeds);
+
         return _view;
     }
 
