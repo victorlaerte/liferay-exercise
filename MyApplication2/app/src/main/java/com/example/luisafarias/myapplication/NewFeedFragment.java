@@ -31,13 +31,7 @@ public class NewFeedFragment extends Fragment {
         Log.d(NewFeedFragment.class.getName(),"ele esta aqui");
         // Inflate the layout for this fragment
         _view = inflater.inflate(R.layout.fragment_new_feed, container, false);
-        Button button = _view.findViewById(R.id.addAFeed);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addNewFeed();
-            }
-        });
+
         return _view;
     }
 
@@ -65,6 +59,11 @@ public class NewFeedFragment extends Fragment {
 //            ft.replace(R.id.frame_layout_fragment,fragmentTest);
             ft.commit();
             getActivity().getFragmentManager().popBackStack();
+
+            if (getActivity() instanceof MainActivity) {
+                MainActivity activity = ((MainActivity) getActivity());
+                activity.setFragmentResult();
+            }
         }
 
     }
@@ -82,11 +81,11 @@ public class NewFeedFragment extends Fragment {
 
     private String _userId;
     private View _view;
-    private OnFragmentInteractionListener mListener;
+    //private OnFragmentInteractionListener mListener;
 
-    public interface OnFragmentInteractionListener {
-        public void onButtonPressed(Feed feed);
-
-    }
+//    public interface OnFragmentInteractionListener {
+//        public void onButtonPressed(Feed feed);
+//
+//    }
 
 }
