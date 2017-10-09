@@ -35,7 +35,7 @@ public class NewFeedFragment extends Fragment {
         return _view;
     }
 
-    public void addNewFeed(){
+    public Feed ReceiveFeed(){
 
         EditText newUrlName = _view.findViewById(R.id.newNameFeed);
         EditText newUrl = _view.findViewById(R.id.newUrlFeed);
@@ -45,26 +45,28 @@ public class NewFeedFragment extends Fragment {
 
         Feed feed = new Feed(name,url,_userId);
 
+        return feed;
+
 //        FeedListFragment feedListFragment = new FeedListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("feed",feed);
+//        Bundle bundle = new Bundle();
+//        bundle.putParcelable("feed",feed);
 //        feedListFragment.setArguments(bundle);
 
-        FragmentManager fm = getFragmentManager();
-        Fragment fragmentTest = fm.findFragmentByTag("test");
-
-        if (fragmentTest != null) {
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.show(fragmentTest);
+//        FragmentManager fm = getFragmentManager();
+//        Fragment fragmentTest = fm.findFragmentByTag("test");
+//
+//        if (fragmentTest != null) {
+//            FragmentTransaction ft = fm.beginTransaction();
+//            ft.show(fragmentTest);
 //            ft.replace(R.id.frame_layout_fragment,fragmentTest);
-            ft.commit();
-            getActivity().getFragmentManager().popBackStack();
+//            ft.commit();
+//            getActivity().getFragmentManager().popBackStack();
 
-            if (getActivity() instanceof MainActivity) {
-                MainActivity activity = ((MainActivity) getActivity());
-                activity.setFragmentResult();
-            }
-        }
+//            if (getActivity() instanceof MainActivity) { //tentando pegar fragmentnewfeed?
+//                MainActivity activity = ((MainActivity) getActivity());
+//                activity.setFragmentResult();
+//            }
+//        }
 
     }
 
