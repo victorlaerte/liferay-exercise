@@ -116,23 +116,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void goAddUrl(final View view){
 
-        _weDeploy.auth(Constants.AUTH_URL)
-                .authorization(_authorization)
-                .getCurrentUser()
-                .execute(new Callback() {
-                    public void onSuccess(Response response) {
-
-                        //TODO Verificar se usuário já foi passado antes para evitar essa request
-                        //ele nao retorna o userId
-                        JSONObject jsonBody;
-                        try {
-                            jsonBody = new JSONObject(response.getBody());
-                            _userId = jsonBody.getString("id");
-                            Log.d(MainActivity.class.getName(), _userId);
-                        } catch (JSONException e) {
-                            Log.e(MainActivity.class.getName(),e.getMessage());
-                            e.printStackTrace();
-                        }
+//        _weDeploy.auth(Constants.AUTH_URL)
+//                .authorization(_authorization)
+//                .getCurrentUser()
+//                .execute(new Callback() {
+//                    public void onSuccess(Response response) {
+//
+//                        //TODO Verificar se usuário já foi passado antes para evitar essa request
+//                        //ele nao retorna o userId
+//                        JSONObject jsonBody;
+//                        try {
+//                            jsonBody = new JSONObject(response.getBody());
+//                            _userId = jsonBody.getString("id");
+//                            Log.d(MainActivity.class.getName(), _userId);
+//                        } catch (JSONException e) {
+//                            Log.e(MainActivity.class.getName(),e.getMessage());
+//                            e.printStackTrace();
+//                        }
 
                         final Intent intent =
                             new Intent(
@@ -142,14 +142,14 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("userId", _userId);
                         intent.putExtra("token", _token);
                         startActivityForResult(intent, ACCESS_RESULT_NEW_FEED);
-                    }
-
-                    public void onFailure(Exception e) {
-                        Snackbar snackbar = Snackbar.make(view,e.getMessage(),Snackbar.LENGTH_LONG);
-                        snackbar.show();
-                        Log.e(MainActivity.class.getName(),e.getMessage());
-                    }
-                });
+//                    }
+//
+//                    public void onFailure(Exception e) {
+//                        Snackbar snackbar = Snackbar.make(view,e.getMessage(),Snackbar.LENGTH_LONG);
+//                        snackbar.show();
+//                        Log.e(MainActivity.class.getName(),e.getMessage());
+//                    }
+//                });
 
     }
 

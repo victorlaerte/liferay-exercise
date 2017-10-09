@@ -10,6 +10,8 @@ import android.widget.EditText;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
+import com.wedeploy.android.auth.Authorization;
+import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.transport.Response;
 
@@ -38,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(Response response) {
                         Log.d(TAG,"entrei");
 
-                        JSONObject jsonBody;
+                        final JSONObject jsonBody;
                         try {
                             jsonBody = new JSONObject(response.getBody());
                             _token = jsonBody.getString("access_token");
@@ -46,7 +48,34 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("_token", _token);
                             intent.putExtra("tokenKey", _token);
 
+                            /**** get current user ***/
+                            Authorization authorization = new TokenAuthorization(_token);
+                            _weDeploy.auth(Constants.AUTH_URL)
+                                    .authorization(authorization)
+                                    .getCurrentUser().execute(new Callback() {
+                                @Override
+                                public void onSuccess(Response response) {
+                                    JSONObject jsonObject;
+                                    try{
+                                        jsonObject = new JSONObject(response.getBody());
+                                        String userID = jsonObject.getString("id");
+                                        Log.d("login",userID);
+                                        intent.putExtra("userID",userID);
+                                    }catch (JSONException e){
+                                        Log.e(LoginActivity.class.getName(),e.getMessage());
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Exception e) {
+
+                                }
+                            });
+                            /******/
+
                             finish();
+
                             startActivity(intent);
                         } catch (JSONException e) {
                             Log.e(TAG, e.getMessage());
