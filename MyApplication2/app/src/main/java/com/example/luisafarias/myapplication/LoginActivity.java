@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.model.Repositorio;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
@@ -28,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view) throws WeDeployException, JSONException {
         final Intent intent = new Intent(this, MainActivity.class);
+        final Bundle extra = new Bundle();
 
         EditText editTextLogin = (EditText) findViewById(R.id.emailogin);
         String emaiLogin = editTextLogin.getText().toString();
@@ -44,39 +47,16 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             jsonBody = new JSONObject(response.getBody());
                             _token = jsonBody.getString("access_token");
-                            //String userId = jsonBody.getString("id"); remember the intent not return the UserID
                             Log.d("_token", _token);
-                            intent.putExtra("tokenKey", _token);
-
-                            /**** get current user ***/
-                            Authorization authorization = new TokenAuthorization(_token);
-                            _weDeploy.auth(Constants.AUTH_URL)
-                                    .authorization(authorization)
-                                    .getCurrentUser().execute(new Callback() {
-                                @Override
-                                public void onSuccess(Response response) {
-                                    JSONObject jsonObject;
-                                    try{
-                                        jsonObject = new JSONObject(response.getBody());
-                                        String userID = jsonObject.getString("id");
-                                        Log.d("login",userID);
-                                        intent.putExtra("userID",userID);
-                                    }catch (JSONException e){
-                                        Log.e(LoginActivity.class.getName(),e.getMessage());
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Exception e) {
-
-                                }
-                            });
-                            /******/
+                            String userId = currentUser();
+                            extra.putString("tokenKey", _token);
+                            extra.putString("userID",userId);
+                            intent.putExtra("tokenUserId",extra);
 
                             finish();
 
                             startActivity(intent);
+
                         } catch (JSONException e) {
                             Log.e(TAG, e.getMessage());
                         }
@@ -102,7 +82,31 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public String currentUser(){
+        /**** get current user ***/
+        Authorization authorization = new TokenAuthorization(_token);
+
+        _weDeploy.auth(Constants.AUTH_URL)
+                .authorization(authorization)
+                .getCurrentUser()
+                .execute(new Repositorio.CallbackFeed() {
+                    @Override
+                    public void onSuccess(Feed feed) {
+                        JSONObject jsonObject = new JSONObject(response)
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+
+                    }
+                }
+
+
+        return _userID;
+    }
+
     private static final String TAG = LoginActivity.class.getName();
     private String _token;
+    private String _userID;
     private WeDeploy _weDeploy = new WeDeploy.Builder().build();
 }

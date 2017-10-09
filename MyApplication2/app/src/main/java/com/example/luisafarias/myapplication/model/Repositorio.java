@@ -49,13 +49,14 @@ public class Repositorio implements IRepositorio {
 
         if(feed!=null){
 
-            if(!feedList.contains(feed)){
-                feedList.add(feed);
-            }
+//            if(!feedList.contains(feed)){
+//                feedList.add(feed);
+//            }
             JSONObject feedJsonObject = new JSONObject()
                 .put("name", nomeUrl)
                 .put("userId", userId)
-                .put("url", url);
+                .put("url", url)
+                .put("id","teste12");
 
             _weDeploy.data(Constants.DATA_URL).authorization(authorization)
                 .create("Feeds", feedJsonObject)

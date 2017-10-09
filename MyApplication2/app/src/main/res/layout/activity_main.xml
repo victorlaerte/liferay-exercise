@@ -9,22 +9,6 @@
     tools:layout_editor_absoluteY="25dp"
     tools:layout_editor_absoluteX="0dp">
 
-    <Button
-        android:id="@+id/goNewUrl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="add"
-        android:onClick="goAddUrl"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0"
-        android:layout_marginLeft="38dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -43,14 +27,17 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="31dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.333"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/testeee"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.125" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -96,16 +83,26 @@
         app:elevation="0dp"
         app:fabSize="mini"
         app:srcCompat="@mipmap/add_button"
-        app:layout_constraintRight_toLeftOf="@+id/saveFeed"
-        android:layout_marginRight="8dp"
-        app:layout_constraintLeft_toRightOf="@+id/goNewUrl"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintVertical_bias="0.6" />
+
+    <Button
+        android:id="@+id/testeee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:onClick="onAqui"
+        app:layout_constraintRight_toLeftOf="@+id/addFeedFrag"
+        android:layout_marginRight="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 
 </android.support.constraint.ConstraintLayout>

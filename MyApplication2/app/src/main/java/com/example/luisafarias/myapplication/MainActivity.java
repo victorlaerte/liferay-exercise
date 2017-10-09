@@ -52,12 +52,17 @@ public class MainActivity extends AppCompatActivity {
         FeedListFragment feedListFragment = new FeedListFragment();
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-//        ft.replace(R.id.frame_layout_fragment,feedListFragment, "test");
+//       ft.replace(R.id.frame_layout_fragment,feedListFragment, "test");
         ft.add(R.id.frame_layout_fragment,feedListFragment, "test");
         ft.commit();
 
-        _token = getIntent().getExtras().getString("tokenKey");
-        _userId = getIntent().getExtras().getString("userID");
+        Bundle data = getIntent().getBundleExtra("tokenUserId");
+        _token = data.getString("tokenKey");
+        _userId = data.getString("userID");
+
+
+        if (_userId!=null)
+            Log.d("mainrecebeuserID",_userId);
 
         Bundle bundle = new Bundle();
         bundle.putString("tokenKey",_token);
@@ -243,6 +248,26 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void onAqui(View view){
+        _weDeploy
+                .data(Constants.DATA_URL).authorization(_authorization)
+                .get("Feeds/teste12")
+                .execute(new Callback() {
+                    public void onSuccess(Response response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.getBody());
+                            jsonObject.getString("userId");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    public void onFailure(Exception e) {
+                        Log.e(MainActivity.class.getName(),e.getMessage());
+                    }
+                });
+    }
+
 
 
     //private ListView _allFeeds;
@@ -251,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
     private WeDeploy _weDeploy = new WeDeploy.Builder().build();
     private String _userId;
     private String _token;
-    //private FeedListAdapter _feedAdapter;
+    private FeedListAdapter _feedAdapter;
     private final int ACCESS_RESULT_NEW_FEED = 1234;
 
 }
