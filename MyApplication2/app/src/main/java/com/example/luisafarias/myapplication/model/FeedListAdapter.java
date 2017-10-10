@@ -3,6 +3,7 @@ package com.example.luisafarias.myapplication.model;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,11 +66,12 @@ public class FeedListAdapter extends BaseAdapter{
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("feed",feed);
                 PopUpFragment popUpFragment = new PopUpFragment();
+                popUpFragment.setArguments(bundle);
                 popUpFragment.show(
                         ((FragmentActivity)_context).getSupportFragmentManager(),"idPopupFragment");
-
-
 
                 /**before with PopUpActivity***/
 //                Intent intent = new Intent(_context, PopUpActivity.class);
