@@ -63,5 +63,5 @@ public class PopUpActivity extends AppCompatActivity {
     private Authorization _authorization;
     private Feed _feed;
     private String _token;
-
+//
 }
