@@ -49,7 +49,9 @@ public class LoginActivity extends AppCompatActivity {
                             jsonBody = new JSONObject(response.getBody());
                             _token = jsonBody.getString("access_token");
                             Log.d("_token", _token);
-                            WeDeployActions.getInstance().getCurrentUser(new TokenAuthorization(_token), new WeDeployActions.CallbackUserID() {
+                            WeDeployActions.getInstance().getCurrentUser(
+                                    new TokenAuthorization(_token),
+                                    new WeDeployActions.CallbackUserID() {
                                 @Override
                                 public void onSucces(String userID) {
                                     //_userID = userID;

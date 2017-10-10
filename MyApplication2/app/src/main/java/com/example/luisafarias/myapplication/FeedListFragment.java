@@ -52,7 +52,7 @@ public class FeedListFragment extends Fragment {
 
         _view = inflater.inflate(R.layout.fragment_feed_list, container, false);
         _allFeeds = _view.findViewById(R.id.list_feeds);
-
+        reloadFeeds();
         return _view;
     }
 
