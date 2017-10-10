@@ -1,4 +1,4 @@
-package com.example.luisafarias.myapplication;
+package com.example.luisafarias.myapplication.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +7,8 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.luisafarias.myapplication.R;
 
 
 /**

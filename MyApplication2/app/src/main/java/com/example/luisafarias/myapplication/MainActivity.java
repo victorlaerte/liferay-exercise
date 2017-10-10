@@ -1,9 +1,7 @@
 package com.example.luisafarias.myapplication;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,11 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
+import com.example.luisafarias.myapplication.fragments.FeedListFragment;
+import com.example.luisafarias.myapplication.fragments.NewFeedFragment;
+import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
@@ -28,8 +28,6 @@ import com.wedeploy.android.transport.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.FeedListAdapter;
@@ -248,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void onAqui(View view){
+    public void onAqui(View view){//teste para saber se está salvando elemento
         _weDeploy
                 .data(Constants.DATA_URL).authorization(_authorization)
                 .get("Feeds/teste12")
@@ -266,6 +264,11 @@ public class MainActivity extends AppCompatActivity {
                         Log.e(MainActivity.class.getName(),e.getMessage());
                     }
                 });
+    }
+
+    public void popup(View view){
+        PopUpFragment popUpFragment = new PopUpFragment();
+        popUpFragment.show(getSupportFragmentManager(),"teste");
     }
 
 

@@ -42,7 +42,8 @@ public class Repositorio implements IRepositorio {
 
 
     @Override
-    public void addFeed(Feed feed, Authorization authorization, final CallbackFeed callbackFeed) throws JSONException {
+    public void addFeed(Feed feed, Authorization authorization,
+                        final CallbackFeed callbackFeed) throws JSONException {
         String nomeUrl = feed.get_nome();
         String userId = feed.get_userId();
         String url = feed.get_url();
@@ -87,7 +88,8 @@ public class Repositorio implements IRepositorio {
     }
 
     @Override
-    public void updateFeed(Feed feed, Authorization authorization, final CallbackFeed callbackFeed) throws JSONException {
+    public void updateFeed(Feed feed, Authorization authorization,
+                           final CallbackFeed callbackFeed) throws JSONException {
         String nomeUrl = feed.get_nome();
         String url = feed.get_url();
 
@@ -113,7 +115,8 @@ public class Repositorio implements IRepositorio {
 
     }
 
-    public void removeFeed(final Feed feed, Authorization authorization, final CallbackFeed callbackFeed) {
+    public void removeFeed(final Feed feed, Authorization authorization,
+                           final CallbackFeed callbackFeed) {
 
        if(feed!=null){
            String id = feed.get_id();

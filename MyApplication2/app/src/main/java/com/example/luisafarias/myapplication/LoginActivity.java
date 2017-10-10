@@ -89,36 +89,13 @@ public class LoginActivity extends AppCompatActivity {
                          */
                     }
                 });
-    }
 
-    public void novaConta(View view) {
+    }
+    public void newAccount(View view) {
         Intent intent = new Intent(this, NewUserActivity.class);
         startActivity(intent);
     }
-
-    public String currentUser(){
-        /**** get current user ***/
-        Authorization authorization = new TokenAuthorization(_token);
-
-//        _weDeploy.auth(Constants.AUTH_URL)
-//                .authorization(authorization)
-//                .getCurrentUser()
-//                .execute(new Repositorio.CallbackFeed() {
-//                    @Override
-//                    public void onSuccess(Feed feed) {
-//                        JSONObject jsonObject = new JSONObject();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Exception e) {
-//
-//                    }
-//                });
-
-
-        return _userID;
-    }
-
+     
     private static final String TAG = LoginActivity.class.getName();
     private String _token;
     private String _userID;

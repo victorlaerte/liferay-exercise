@@ -30,7 +30,7 @@ public class WeDeployActions {
         return _uniqueInstance;
     }
 
-    public String getCurrentUser(Authorization authorization, final CallbackUserID callbackUserID){
+    public void getCurrentUser(Authorization authorization, final CallbackUserID callbackUserID){
 
         _weDeploy.auth(Constants.AUTH_URL)
                 .authorization(authorization)
@@ -58,9 +58,6 @@ public class WeDeployActions {
                         Log.e(WeDeployActions.class.getName(),e.getMessage());
                     }
                 });
-
-        return _userID;
-
     }
 
     public interface CallbackUserID{

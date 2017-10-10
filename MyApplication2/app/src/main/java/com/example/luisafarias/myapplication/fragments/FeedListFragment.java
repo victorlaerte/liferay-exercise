@@ -1,18 +1,15 @@
-package com.example.luisafarias.myapplication;
+package com.example.luisafarias.myapplication.fragments;
 
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.example.luisafarias.myapplication.MainActivity;
+import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.FeedListAdapter;
 import com.example.luisafarias.myapplication.model.Repositorio;
@@ -22,16 +19,6 @@ import com.wedeploy.android.auth.TokenAuthorization;
 import java.util.List;
 
 public class FeedListFragment extends Fragment {
-
-    private ListView _allFeeds;
-    private Authorization _authorization;
-    private Feed _feed;
-    private FeedListAdapter _feedAdapter;
-    private String _token;
-    private View _view;
-    private String _test;
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +48,8 @@ public class FeedListFragment extends Fragment {
                 .feedListAll(_authorization, new Repositorio.CallbackFeeds() {
                     @Override
                     public void onSuccess(List<Feed> feedList) {
-                        _feedAdapter = new FeedListAdapter(_view.getContext(), _authorization, feedList);
+                        _feedAdapter = new FeedListAdapter(
+                                _view.getContext(), _authorization, feedList);
                         _allFeeds.setAdapter(_feedAdapter);
                     }
 
@@ -72,5 +60,10 @@ public class FeedListFragment extends Fragment {
                 });
     }
 
-
+    private ListView _allFeeds;
+    private Authorization _authorization;
+    private Feed _feed;
+    private FeedListAdapter _feedAdapter;
+    private String _token;
+    private View _view;
 }

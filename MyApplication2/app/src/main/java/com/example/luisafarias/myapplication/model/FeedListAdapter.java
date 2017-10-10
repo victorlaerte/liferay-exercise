@@ -1,7 +1,9 @@
 package com.example.luisafarias.myapplication.model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +11,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 
-import com.example.luisafarias.myapplication.NewFeedFragment;
 import com.example.luisafarias.myapplication.PopUpActivity;
 import com.example.luisafarias.myapplication.R;
+import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.wedeploy.android.auth.Authorization;
 
 import java.util.List;
@@ -27,6 +26,7 @@ import java.util.List;
 public class FeedListAdapter extends BaseAdapter{
 
     public FeedListAdapter(Context context,Authorization authorization, List<Feed> feeds){
+        this._activity = (Activity) context;
         this._context = context;
         this._feed = feeds;
         this._inflater = LayoutInflater.from(_context);
@@ -65,13 +65,21 @@ public class FeedListAdapter extends BaseAdapter{
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Intent intent = new Intent(_context, PopUpActivity.class);
-                intent.putExtra("feed",feed);
-                intent.putExtra("token", _authorization.getToken());
+                PopUpFragment popUpFragment = new PopUpFragment();
+                popUpFragment.show(
+                        ((FragmentActivity)_context).getSupportFragmentManager(),"idPopupFragment");
 
-                Log.d(FeedListAdapter.class.getName(),"click long");
-                Toast.makeText(_context,"long click",Toast.LENGTH_LONG).show();
-                _context.startActivity(intent);
+
+
+                /**before with PopUpActivity***/
+//                Intent intent = new Intent(_context, PopUpActivity.class);
+//                intent.putExtra("feed",feed);
+//                intent.putExtra("token", _authorization.getToken());
+//
+//                Log.d(FeedListAdapter.class.getName(),"click long");
+//                Toast.makeText(_context,"long click",Toast.LENGTH_LONG).show();
+//                _context.startActivity(intent);
+                /*********/
                 //Repositorio.getInstance(_context).removeFeed(feed,_authorization);
                 return true;
             }
@@ -79,7 +87,7 @@ public class FeedListAdapter extends BaseAdapter{
 
         return view;
     }
-
+    private Activity _activity;
     private Authorization _authorization;
     private Context _context;
     private final List<Feed> _feed;

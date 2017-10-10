@@ -1,19 +1,14 @@
-package com.example.luisafarias.myapplication;
+package com.example.luisafarias.myapplication.fragments;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
+import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.Feed;
 
 
