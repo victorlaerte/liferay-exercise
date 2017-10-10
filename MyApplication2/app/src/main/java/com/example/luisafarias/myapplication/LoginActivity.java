@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.Repositorio;
+import com.example.luisafarias.myapplication.model.WeDeployActions;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
@@ -48,14 +49,25 @@ public class LoginActivity extends AppCompatActivity {
                             jsonBody = new JSONObject(response.getBody());
                             _token = jsonBody.getString("access_token");
                             Log.d("_token", _token);
-                            String userId = currentUser();
-                            extra.putString("tokenKey", _token);
-                            extra.putString("userID",userId);
-                            intent.putExtra("tokenUserId",extra);
+                            WeDeployActions.getInstance().getCurrentUser(new TokenAuthorization(_token), new WeDeployActions.CallbackUserID() {
+                                @Override
+                                public void onSucces(String userID) {
+                                    //_userID = userID;
+                                    extra.putString("tokenKey", _token);
+                                    extra.putString("userID",userID);
+                                    intent.putExtra("tokenUserId",extra);
 
-                            finish();
+                                    finish();
 
-                            startActivity(intent);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onFailure(Exception e) {
+                                    Log.e(LoginActivity.class.getName(),e.getMessage());
+                                }
+                            });
+
 
                         } catch (JSONException e) {
                             Log.e(TAG, e.getMessage());
@@ -86,20 +98,20 @@ public class LoginActivity extends AppCompatActivity {
         /**** get current user ***/
         Authorization authorization = new TokenAuthorization(_token);
 
-        _weDeploy.auth(Constants.AUTH_URL)
-                .authorization(authorization)
-                .getCurrentUser()
-                .execute(new Repositorio.CallbackFeed() {
-                    @Override
-                    public void onSuccess(Feed feed) {
-                        JSONObject jsonObject = new JSONObject(response)
-                    }
-
-                    @Override
-                    public void onFailure(Exception e) {
-
-                    }
-                }
+//        _weDeploy.auth(Constants.AUTH_URL)
+//                .authorization(authorization)
+//                .getCurrentUser()
+//                .execute(new Repositorio.CallbackFeed() {
+//                    @Override
+//                    public void onSuccess(Feed feed) {
+//                        JSONObject jsonObject = new JSONObject();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Exception e) {
+//
+//                    }
+//                });
 
 
         return _userID;

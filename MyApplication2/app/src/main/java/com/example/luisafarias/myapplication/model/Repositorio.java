@@ -55,8 +55,8 @@ public class Repositorio implements IRepositorio {
             JSONObject feedJsonObject = new JSONObject()
                 .put("name", nomeUrl)
                 .put("userId", userId)
-                .put("url", url)
-                .put("id","teste12");
+                .put("url", url);
+                //.put("id","teste12");
 
             _weDeploy.data(Constants.DATA_URL).authorization(authorization)
                 .create("Feeds", feedJsonObject)
