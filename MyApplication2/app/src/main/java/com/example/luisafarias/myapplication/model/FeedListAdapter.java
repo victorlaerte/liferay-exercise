@@ -68,6 +68,7 @@ public class FeedListAdapter extends BaseAdapter{
             public boolean onLongClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("feed",feed);
+                bundle.putString("token",_authorization.getToken());
                 PopUpFragment popUpFragment = new PopUpFragment();
                 popUpFragment.setArguments(bundle);
                 popUpFragment.show(
