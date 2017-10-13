@@ -8,7 +8,19 @@ import android.os.Parcelable;
  */
 public class User implements Parcelable {
 
+
     //TODO usar esta classe para armazenar informações do user
+    public User(String name, String userId){
+
+    }
+
+    public String getName(){return  this.name;}
+
+    public String getUserId(){return this.userId;}
+
+    public void setName(String name){this.name = name;}
+
+    public void setUserId(String userId){this.userId = userId;}
 
     protected User(Parcel in) {
     }
@@ -33,4 +45,8 @@ public class User implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
     }
+
+    private String name;
+    private String userId;
+    //private picture;
 }

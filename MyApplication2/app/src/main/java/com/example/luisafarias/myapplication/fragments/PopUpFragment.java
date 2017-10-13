@@ -55,12 +55,14 @@ public class PopUpFragment extends DialogFragment {
                                     _feed,_authorization, new Repositorio.CallbackFeed() {
                                 @Override
                                 public void onSuccess(Feed feed) {
-                                    Snackbar.make(getView(),"Removido",Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(
+                                            getView(),"Removido",Snackbar.LENGTH_LONG).show();
                                 }
 
                                 @Override
                                 public void onFailure(Exception e) {
-                                    Snackbar.make(getView(),e.getMessage(),Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(
+                                            getView(),e.getMessage(),Snackbar.LENGTH_LONG).show();
                                 }
                             });
                         }
