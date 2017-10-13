@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.example.luisafarias.myapplication.MainActivity;
 import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.model.Repositorio;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 
@@ -47,7 +49,19 @@ public class PopUpFragment extends DialogFragment {
                 .setNegativeButton("excluir", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if(_feed != null && _authorization != null){
+                            Repositorio.getInstance().removeFeed(_feed,_authorization, new Repositorio.CallbackFeed() {
+                                @Override
+                                public void onSuccess(Feed feed) {
+                                    Snackbar.make(getView(),"Removido",Snackbar.LENGTH_LONG).show();
+                                }
 
+                                @Override
+                                public void onFailure(Exception e) {
+                                    Snackbar.make(getView(),e.getMessage(),Snackbar.LENGTH_LONG).show();
+                                }
+                            });
+                        }
                     }
                 });
         return builder.create();

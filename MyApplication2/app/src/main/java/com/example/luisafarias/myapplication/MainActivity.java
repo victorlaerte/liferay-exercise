@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout_fragment,fragment);
-        fragmentTransaction.addToBackStack(null);//quando apertar botao de voltar ele voltar para o fragment anterior
+        fragmentTransaction.addToBackStack(null);//quando apertar botao de voltar ele volta para o fragment anterior
         fragmentTransaction.commit();
 
     }
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout_fragment,fragment);
-        fragmentTransaction.addToBackStack(null);//quando apertar botao de voltar ele voltar para o fragment anterior
+        fragmentTransaction.addToBackStack(null);//quando apertar botao de volta ele voltar para o fragment anterior
         fragmentTransaction.commit();
 
     }
