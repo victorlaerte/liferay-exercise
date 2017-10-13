@@ -233,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelable("feed",feed);
         bundle.putBoolean("newOredit",true);
+        bundle.putString("token",_token);
         Fragment fragment = new NewFeedFragment();
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getFragmentManager();

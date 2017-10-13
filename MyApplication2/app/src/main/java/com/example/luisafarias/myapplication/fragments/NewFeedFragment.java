@@ -6,10 +6,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.model.Repositorio;
+import com.wedeploy.android.auth.Authorization;
+import com.wedeploy.android.auth.TokenAuthorization;
+
+import org.json.JSONException;
 
 
 public class NewFeedFragment extends Fragment {
@@ -20,12 +26,10 @@ public class NewFeedFragment extends Fragment {
             _userId = getArguments().getString("userId");
             _feed = getArguments().getParcelable("feed");
             _newOredit = getArguments().getBoolean("newOredit");
+            /***testando se da pra fazer tudo dentro mesmo****/
+            String token = getArguments().getString("token");
+            authorization = new TokenAuthorization(token);
         }
-//        if(getArguments().getParcelable("feed")!=null) {
-//            _edit = true;
-//            _feed = getArguments().getParcelable("feed");
-//        }
-
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,69 +38,51 @@ public class NewFeedFragment extends Fragment {
         // Inflate the layout for this fragment
         _view = inflater.inflate(R.layout.fragment_new_feed, container, false);
         if (_newOredit){
-            EditText nome = _view.findViewById(R.id.newNameFeed);
-            EditText url = _view.findViewById(R.id.newUrlFeed);
-            nome.setText(_feed.get_nome());
-            url.setText(_feed.get_url());
+            _nome = _view.findViewById(R.id.newNameFeed);
+            _url = _view.findViewById(R.id.newUrlFeed);
+            _nome.setText(_feed.get_nome());
+            _url.setText(_feed.get_url());
+
+            Button editSave = _view.findViewById(R.id.save);
+            editSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        updateFeed();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
 
         return _view;
     }
 
-//    public Feed ReceiveFeed(){
-//
-//        EditText newUrlName = _view.findViewById(R.id.newNameFeed);
-//        EditText newUrl = _view.findViewById(R.id.newUrlFeed);
-//
-//        String name = newUrlName.getText().toString();
-//        String url = newUrl.getText().toString();
-//
-//        Feed feed = new Feed(name,url,_userId);
-//
-//        return feed;
+    public void updateFeed() throws JSONException {
+        Feed feed = _feed;
+        feed.set_nome(_nome.getText().toString());
+        feed.set_url(_url.getText().toString());
+        Repositorio.getInstance().updateFeed(feed, authorization, new Repositorio.CallbackFeed() {
+            @Override
+            public void onSuccess(Feed feed) {
 
-//        FeedListFragment feedListFragment = new FeedListFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putParcelable("feed",feed);
-//        feedListFragment.setArguments(bundle);
+            }
 
-//        FragmentManager fm = getFragmentManager();
-//        Fragment fragmentTest = fm.findFragmentByTag("test");
-//
-//        if (fragmentTest != null) {
-//            FragmentTransaction ft = fm.beginTransaction();
-//            ft.show(fragmentTest);
-//            ft.replace(R.id.frame_layout_fragment,fragmentTest);
-//            ft.commit();
-//            getActivity().getFragmentManager().popBackStack();
+            @Override
+            public void onFailure(Exception e) {
 
-//            if (getActivity() instanceof MainActivity) { //tentando pegar fragmentnewfeed?
-//                MainActivity activity = ((MainActivity) getActivity());
-//                activity.setFragmentResult();
-//            }
-//        }
+            }
+        });
+    }
 
-//    }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof EditFragment.OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
     private Feed _feed;
     private boolean _newOredit = false;
+    private EditText _nome;
     private String _userId;
     private View _view;
-    //private OnFragmentInteractionListener mListener;
-
-//    public interface OnFragmentInteractionListener {
-//        public void onButtonPressed(Feed feed);
-//
-//    }
+    private EditText _url;
+    /***test***/
+    Authorization authorization;
 
 }
