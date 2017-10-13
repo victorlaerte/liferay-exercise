@@ -24,27 +24,27 @@ public class NewFeedFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments()!= null) {
             _userId = getArguments().getString("userId");
+            _token = getArguments().getString("token");
             _feed = getArguments().getParcelable("feed");
             _newOredit = getArguments().getBoolean("newOredit");
-            /***testando se da pra fazer tudo dentro mesmo****/
-            String token = getArguments().getString("token");
-            authorization = new TokenAuthorization(token);
+            _authorization = new TokenAuthorization(_token);
+            Log.d("NewFeedFragment", "testando");
         }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(NewFeedFragment.class.getName(),"ele esta aqui");
         // Inflate the layout for this fragment
         _view = inflater.inflate(R.layout.fragment_new_feed, container, false);
+        _nome = _view.findViewById(R.id.newNameFeed);
+        _url = _view.findViewById(R.id.newUrlFeed);
+        Button save = _view.findViewById(R.id.save);
         if (_newOredit){
-            _nome = _view.findViewById(R.id.newNameFeed);
-            _url = _view.findViewById(R.id.newUrlFeed);
             _nome.setText(_feed.get_nome());
             _url.setText(_feed.get_url());
 
-            Button editSave = _view.findViewById(R.id.save);
-            editSave.setOnClickListener(new View.OnClickListener() {
+
+            save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try {
@@ -55,7 +55,24 @@ public class NewFeedFragment extends Fragment {
                 }
             });
         }
+        if (!_newOredit){
 
+            save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String name = _nome.getText().toString();
+                    String url = _url.getText().toString();
+                    Feed feed = new Feed(name,url,_userId);
+                    Log.d("teste",name+"  "+url);
+                    try {
+                        saveNewFeed(feed);
+                    } catch (JSONException e) {
+                        Log.e(NewFeedFragment.class.getName(),e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
         return _view;
     }
 
@@ -63,7 +80,7 @@ public class NewFeedFragment extends Fragment {
         Feed feed = _feed;
         feed.set_nome(_nome.getText().toString());
         feed.set_url(_url.getText().toString());
-        Repositorio.getInstance().updateFeed(feed, authorization, new Repositorio.CallbackFeed() {
+        Repositorio.getInstance().updateFeed(feed, _authorization, new Repositorio.CallbackFeed() {
             @Override
             public void onSuccess(Feed feed) {
 
@@ -76,13 +93,27 @@ public class NewFeedFragment extends Fragment {
         });
     }
 
+    public void saveNewFeed(Feed parameter) throws JSONException {
+        Repositorio.getInstance().addFeed(parameter,_authorization, new Repositorio.CallbackFeed() {
+            @Override
+            public void onSuccess(Feed feed) {
+                Log.d(NewFeedFragment.class.getName(),"salvo com sucesso");
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Log.e(NewFeedFragment.class.getName(),e.getMessage());
+            }
+        });
+    }
+
+    private Authorization _authorization;
     private Feed _feed;
     private boolean _newOredit = false;
     private EditText _nome;
+    private String _token;
     private String _userId;
     private View _view;
     private EditText _url;
-    /***test***/
-    Authorization authorization;
 
 }

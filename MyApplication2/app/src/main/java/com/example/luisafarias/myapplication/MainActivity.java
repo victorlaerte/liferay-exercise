@@ -220,7 +220,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goAddNewFeed(View view){
+        Bundle bundle = new Bundle();
+        bundle.putString("token",_token);
+        bundle.putString("userId",_userId);
+        bundle.putBoolean("newOredit",false);
         Fragment fragment = new NewFeedFragment();
+        fragment.setArguments(bundle);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout_fragment,fragment);
