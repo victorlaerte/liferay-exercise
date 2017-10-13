@@ -229,6 +229,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void goEditFeed(Feed feed){
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("feed",feed);
+        bundle.putBoolean("newOredit",true);
+        Fragment fragment = new NewFeedFragment();
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout_fragment,fragment);
+        fragmentTransaction.addToBackStack(null);//quando apertar botao de voltar ele voltar para o fragment anterior
+        fragmentTransaction.commit();
+
+    }
+
     public void saveFeed(Feed feed) throws JSONException {
         Repositorio.getInstance().addFeed(feed,_authorization, new Repositorio.CallbackFeed() {
 

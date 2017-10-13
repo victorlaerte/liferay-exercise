@@ -40,7 +40,7 @@ public class PopUpFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if(_feed != null && _authorization != null){
                             MainActivity activity = (MainActivity) getActivity();
-                            activity.goAddNewFeed(getView());
+                            activity.goEditFeed(_feed);
                         }
                     }
                 })

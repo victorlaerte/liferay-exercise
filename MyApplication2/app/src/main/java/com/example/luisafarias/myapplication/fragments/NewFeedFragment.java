@@ -16,9 +16,16 @@ public class NewFeedFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        if (getArguments()!= null) {
             _userId = getArguments().getString("userId");
+            _feed = getArguments().getParcelable("feed");
+            _newOredit = getArguments().getBoolean("newOredit");
         }
+//        if(getArguments().getParcelable("feed")!=null) {
+//            _edit = true;
+//            _feed = getArguments().getParcelable("feed");
+//        }
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,21 +33,27 @@ public class NewFeedFragment extends Fragment {
         Log.d(NewFeedFragment.class.getName(),"ele esta aqui");
         // Inflate the layout for this fragment
         _view = inflater.inflate(R.layout.fragment_new_feed, container, false);
+        if (_newOredit){
+            EditText nome = _view.findViewById(R.id.newNameFeed);
+            EditText url = _view.findViewById(R.id.newUrlFeed);
+            nome.setText(_feed.get_nome());
+            url.setText(_feed.get_url());
+        }
 
         return _view;
     }
 
-    public Feed ReceiveFeed(){
-
-        EditText newUrlName = _view.findViewById(R.id.newNameFeed);
-        EditText newUrl = _view.findViewById(R.id.newUrlFeed);
-
-        String name = newUrlName.getText().toString();
-        String url = newUrl.getText().toString();
-
-        Feed feed = new Feed(name,url,_userId);
-
-        return feed;
+//    public Feed ReceiveFeed(){
+//
+//        EditText newUrlName = _view.findViewById(R.id.newNameFeed);
+//        EditText newUrl = _view.findViewById(R.id.newUrlFeed);
+//
+//        String name = newUrlName.getText().toString();
+//        String url = newUrl.getText().toString();
+//
+//        Feed feed = new Feed(name,url,_userId);
+//
+//        return feed;
 
 //        FeedListFragment feedListFragment = new FeedListFragment();
 //        Bundle bundle = new Bundle();
@@ -63,7 +76,7 @@ public class NewFeedFragment extends Fragment {
 //            }
 //        }
 
-    }
+//    }
 
 //    @Override
 //    public void onAttach(Context context) {
@@ -75,7 +88,8 @@ public class NewFeedFragment extends Fragment {
 //                    + " must implement OnFragmentInteractionListener");
 //        }
 //    }
-
+    private Feed _feed;
+    private boolean _newOredit = false;
     private String _userId;
     private View _view;
     //private OnFragmentInteractionListener mListener;
