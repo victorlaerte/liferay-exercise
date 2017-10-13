@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.luisafarias.myapplication.MainActivity;
+import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.Repositorio;
 import com.wedeploy.android.auth.Authorization;
@@ -50,7 +51,8 @@ public class PopUpFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(_feed != null && _authorization != null){
-                            Repositorio.getInstance().removeFeed(_feed,_authorization, new Repositorio.CallbackFeed() {
+                            Repositorio.getInstance().removeFeed(
+                                    _feed,_authorization, new Repositorio.CallbackFeed() {
                                 @Override
                                 public void onSuccess(Feed feed) {
                                     Snackbar.make(getView(),"Removido",Snackbar.LENGTH_LONG).show();
@@ -65,6 +67,15 @@ public class PopUpFragment extends DialogFragment {
                     }
                 });
         return builder.create();
+    }
+
+    @Override
+    public void onDestroyView() {
+        FragmentManager fm =
+                (getActivity()).getFragmentManager();
+        FeedListFragment fld = (FeedListFragment) fm.findFragmentByTag("test");
+        fld.reloadFeeds();
+        super.onDestroyView();
     }
 
     private Authorization _authorization;

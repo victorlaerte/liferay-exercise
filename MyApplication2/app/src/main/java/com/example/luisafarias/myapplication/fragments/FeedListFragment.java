@@ -43,7 +43,7 @@ public class FeedListFragment extends Fragment {
         return _view;
     }
 
-    private void reloadFeeds() {
+    public void reloadFeeds() {
         Repositorio.getInstance()
                 .feedListAll(_authorization, new Repositorio.CallbackFeeds() {
                     @Override
@@ -59,6 +59,8 @@ public class FeedListFragment extends Fragment {
                     }
                 });
     }
+
+
 
     private ListView _allFeeds;
     private Authorization _authorization;
