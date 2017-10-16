@@ -90,7 +90,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="16dp"
         android:text="Entrar"
-        android:onClick="login"
+        android:onClick="loginButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintLeft_toLeftOf="parent"
