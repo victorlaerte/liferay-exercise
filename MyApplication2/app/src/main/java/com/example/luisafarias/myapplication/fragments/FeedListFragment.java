@@ -60,9 +60,9 @@ public class FeedListFragment extends Fragment {
 //                                _view.getContext(), _authorization, feedList);
 //                        _allFeeds.setAdapter(_feedAdapter);
 
-                        _recycleViewAdapter = new FeedListRecyclerViewAdapter(getContext(),feedList);
-                        RecyclerView.LayoutManager mLayoutMAnager = new LinearLayoutManager(getActivity().getApplicationContext());
-                        _recycleView.setLayoutManager(mLayoutMAnager);
+                        _recycleViewAdapter = new FeedListRecyclerViewAdapter(getContext(),feedList, _token);
+                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+                        _recycleView.setLayoutManager(mLayoutManager);
                         _recycleView.setItemAnimator(new DefaultItemAnimator());
                         _recycleView.setAdapter(_recycleViewAdapter);
                     }
