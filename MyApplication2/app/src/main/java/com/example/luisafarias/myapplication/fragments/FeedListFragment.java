@@ -1,7 +1,12 @@
 package com.example.luisafarias.myapplication.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.RequiresApi;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +17,7 @@ import com.example.luisafarias.myapplication.MainActivity;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.FeedListAdapter;
+import com.example.luisafarias.myapplication.model.FeedListRecyclerViewAdapter;
 import com.example.luisafarias.myapplication.model.Repositorio;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
@@ -39,6 +45,7 @@ public class FeedListFragment extends Fragment {
 
         _view = inflater.inflate(R.layout.fragment_feed_list, container, false);
         _allFeeds = _view.findViewById(R.id.list_feeds);
+        _recycleView = _view.findViewById(R.id.recyclerView);
         reloadFeeds();
         return _view;
     }
@@ -46,11 +53,18 @@ public class FeedListFragment extends Fragment {
     public void reloadFeeds() {
         Repositorio.getInstance()
                 .feedListAll(_authorization, new Repositorio.CallbackFeeds() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onSuccess(List<Feed> feedList) {
-                        _feedAdapter = new FeedListAdapter(
-                                _view.getContext(), _authorization, feedList);
-                        _allFeeds.setAdapter(_feedAdapter);
+//                        _feedAdapter = new FeedListAdapter(
+//                                _view.getContext(), _authorization, feedList);
+//                        _allFeeds.setAdapter(_feedAdapter);
+
+                        _recycleViewAdapter = new FeedListRecyclerViewAdapter(getContext(),feedList);
+                        RecyclerView.LayoutManager mLayoutMAnager = new LinearLayoutManager(getActivity().getApplicationContext());
+                        _recycleView.setLayoutManager(mLayoutMAnager);
+                        _recycleView.setItemAnimator(new DefaultItemAnimator());
+                        _recycleView.setAdapter(_recycleViewAdapter);
                     }
 
                     @Override
@@ -66,6 +80,8 @@ public class FeedListFragment extends Fragment {
     private Authorization _authorization;
     private Feed _feed;
     private FeedListAdapter _feedAdapter;
+    private FeedListRecyclerViewAdapter _recycleViewAdapter;
+    private RecyclerView _recycleView;
     private String _token;
     private View _view;
 }
