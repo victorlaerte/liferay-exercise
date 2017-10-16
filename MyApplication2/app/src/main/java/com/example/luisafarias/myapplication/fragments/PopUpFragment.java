@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,7 +28,6 @@ import com.wedeploy.android.auth.TokenAuthorization;
  */
 
 public class PopUpFragment extends DialogFragment {
-
 
     @NonNull
     @Override
@@ -72,12 +72,12 @@ public class PopUpFragment extends DialogFragment {
     }
 
     @Override
-    public void onDestroyView() {
+    public void onPause() {
         FragmentManager fm =
                 (getActivity()).getFragmentManager();
         FeedListFragment fld = (FeedListFragment) fm.findFragmentByTag("test");
         fld.reloadFeeds();
-        super.onDestroyView();
+        super.onPause();
     }
 
     private Authorization _authorization;
