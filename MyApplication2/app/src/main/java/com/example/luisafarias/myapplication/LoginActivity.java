@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.luisafarias.myapplication.model.Feed;
@@ -28,18 +29,35 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        _sharedPref = getSharedPreferences("user",this.MODE_PRIVATE);
+        if (_sharedPref.contains("token")&&_sharedPref.contains("userID")){
+            String token = _sharedPref.getString("token","");
+            String userID = _sharedPref.getString("userID","");
 
+            Intent intent = new Intent(this, MainActivity.class);
+            Bundle extra = new Bundle();
+            extra.putString("tokenKey",token);
+            extra.putString("userID",userID);
+            intent.putExtra("tokenUserId",extra);
+            startActivity(intent);
+
+        }
+        setContentView(R.layout.activity_login);
     }
 
 
     public void loginButton(View view) throws JSONException, WeDeployException {
-        login();
+        EditText editTextLogin = (EditText) findViewById(R.id.emailogin);
+        String emailLogin = editTextLogin.getText().toString();
+        EditText editTextSenha = (EditText) findViewById(R.id.senhalogin);
+        String passwordLogin = editTextSenha.getText().toString();
+        login(emailLogin,passwordLogin);
     }
 
-    public void login() throws WeDeployException, JSONException {
+    public void login(String emailLogin, String passwordLogin) throws WeDeployException, JSONException {
         final Intent intent = new Intent(this, MainActivity.class);
         final Bundle extra = new Bundle();
+        final int privated = this.MODE_PRIVATE;
 
 //        if (_sharedPref.contains("user")){
 //            EditText editTextLogin = (EditText) findViewById(R.id.emailogin);
@@ -48,21 +66,12 @@ public class LoginActivity extends AppCompatActivity {
 //            String senha = _sharedPref.getString("password","");
 //            editTextLogin.setText(email);
 //            editTextSenha.setText(senha);
+//
+//
 //        }
 
-        EditText editTextLogin = (EditText) findViewById(R.id.emailogin);
-        String emaiLogin = editTextLogin.getText().toString();
-        EditText editTextSenha = (EditText) findViewById(R.id.senhalogin);
-        String senhaLogin = editTextSenha.getText().toString();
-
-//        _sharedPref = getSharedPreferences("user", this.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = _sharedPref.edit();
-//        editor.putString("email",emaiLogin);
-//        editor.putString("password",senhaLogin);
-//        editor.apply();
-
         _weDeploy.auth(Constants.AUTH_URL)
-                .signIn(emaiLogin,senhaLogin)
+                .signIn(emailLogin,passwordLogin)
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
                         Log.d(TAG,"entrei");
@@ -71,13 +80,21 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             jsonBody = new JSONObject(response.getBody());
                             _token = jsonBody.getString("access_token");
-                            Log.d("_token", _token);
+
+                            //Log.d("shared token",_sharedPref.getString("token",""));
+
                             WeDeployActions.getInstance().getCurrentUser(
                                     new TokenAuthorization(_token),
                                     new WeDeployActions.CallbackUserID() {
                                 @Override
                                 public void onSucces(String userID) {
-                                    //_userID = userID;
+                                    _sharedPref = getSharedPreferences("user", privated);
+                                    SharedPreferences.Editor editor = _sharedPref.edit();
+                                    editor.putString("token",_token);
+                                    editor.putString("userID",userID);
+                                    editor.apply();
+                                    _login = true;
+
                                     extra.putString("tokenKey", _token);
                                     extra.putString("userID",userID);
                                     intent.putExtra("tokenUserId",extra);
@@ -118,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NewUserActivity.class);
         startActivity(intent);
     }
-
+    private static boolean _login = false;
     private SharedPreferences _sharedPref;
     private static final String TAG = LoginActivity.class.getName();
     private String _token;

@@ -1,6 +1,7 @@
 package com.example.luisafarias.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -165,6 +166,8 @@ public class MainActivity extends AppCompatActivity {
 
         final Intent intent = new Intent(this, LoginActivity.class);
         int id = item.getItemId();
+        final int privated = this.MODE_PRIVATE;
+
 
         if(id == R.id.logout) {
             _weDeploy.auth(Constants.AUTH_URL)
@@ -172,6 +175,10 @@ public class MainActivity extends AppCompatActivity {
                 .signOut()
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
+                        SharedPreferences sharedPred = getSharedPreferences("user",privated);
+                        SharedPreferences.Editor editor = sharedPred.edit();
+                        editor.clear();
+                        editor.apply();
                         Log.d(MainActivity.class.getName(), "saiu");
                         finish();
                         startActivity(intent);

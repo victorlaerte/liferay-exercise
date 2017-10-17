@@ -81,7 +81,7 @@ public class PopUpFragment extends DialogFragment {
         Log.d("PopUpFragment","OnPause");
         super.onPause();
     }
-    
+
 
     private Authorization _authorization;
     private Feed _feed;
