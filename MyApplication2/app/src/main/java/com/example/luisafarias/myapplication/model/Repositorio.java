@@ -1,6 +1,5 @@
 package com.example.luisafarias.myapplication.model;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.example.luisafarias.myapplication.MainActivity;
@@ -44,7 +43,7 @@ public class Repositorio implements IRepositorio {
     @Override
     public void addFeed(Feed feed, Authorization authorization,
                         final CallbackFeed callbackFeed) throws JSONException {
-        String nomeUrl = feed.get_nome();
+        String nomeUrl = feed.get_title();
         String userId = feed.get_userId();
         String url = feed.get_url();
 
@@ -69,7 +68,7 @@ public class Repositorio implements IRepositorio {
                             JSONObject jsonBody = new JSONObject(response.getBody());
 
                             Feed feed = new Feed();
-                            feed.set_nome(jsonBody.getString("name"));
+                            feed.set_title(jsonBody.getString("name"));
                             feed.set_url(jsonBody.getString("url"));
                             feed.set_id(jsonBody.getString("id"));
 
@@ -90,7 +89,7 @@ public class Repositorio implements IRepositorio {
     @Override
     public void updateFeed(Feed feed, Authorization authorization,
                            final CallbackFeed callbackFeed) throws JSONException {
-        String nomeUrl = feed.get_nome();
+        String nomeUrl = feed.get_title();
         String url = feed.get_url();
 
         if(feed!= null) {
@@ -200,7 +199,7 @@ public class Repositorio implements IRepositorio {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonBody = (JSONObject) jsonArray.get(i);
                                 Feed feed = new Feed();
-                                feed.set_nome(jsonBody.getString("name"));
+                                feed.set_title(jsonBody.getString("name"));
                                 feed.set_url(jsonBody.getString("url"));
                                 feed.set_id(jsonBody.getString("id"));
                                 listaFeed.add(feed);

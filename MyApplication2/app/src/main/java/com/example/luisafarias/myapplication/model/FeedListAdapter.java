@@ -2,7 +2,6 @@ package com.example.luisafarias.myapplication.model;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -11,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.luisafarias.myapplication.PopUpActivity;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.wedeploy.android.auth.Authorization;
@@ -47,7 +44,7 @@ public class FeedListAdapter extends BaseAdapter{
 
         TextView nome = view.findViewById(R.id.nome_url_recebida);
         TextView urlTest = view.findViewById(R.id.idUrlTest);
-        nome.setText(feed.get_nome());
+        nome.setText(feed.get_title());
         urlTest.setText(feed.get_id());
 
         view.setOnClickListener(new View.OnClickListener() {

@@ -47,7 +47,7 @@ public class FeedListRecyclerViewAdapter extends RecyclerView.Adapter<FeedListRe
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         final Feed feed = _feedList.get(position);
-        holder.name.setText(feed.get_nome());
+        holder.name.setText(feed.get_title());
         holder.id.setText(feed.get_id());
 
         holder.setItemClickListener(new ItemClickListener() {
@@ -63,9 +63,9 @@ public class FeedListRecyclerViewAdapter extends RecyclerView.Adapter<FeedListRe
                             ((FragmentActivity)_context).getSupportFragmentManager(),"idPopupFragment");
 
 
-                    Log.d("click longo",_feedList.get(position).get_nome());
+                    Log.d("click longo",_feedList.get(position).get_title());
                 }else {
-                    Log.d("click curto",_feedList.get(position).get_nome());
+                    Log.d("click curto",_feedList.get(position).get_title());
                 }
             }
         });

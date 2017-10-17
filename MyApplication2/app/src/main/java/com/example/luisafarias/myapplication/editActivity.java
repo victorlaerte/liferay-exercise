@@ -30,14 +30,14 @@ public class EditActivity extends AppCompatActivity {
         authorization = new TokenAuthorization(token);
         nome = (EditText) this.findViewById(R.id.nomeUrlEdit);
         url = (EditText) this.findViewById(R.id.urlEdit);
-        nome.setText(feed.get_nome());
+        nome.setText(feed.get_title());
         url.setText(feed.get_url());
     }
 
     public void updateFeedCall(View view) throws JSONException {
         Log.d(EditActivity.class.getName(),nome.getText().toString());
         Log.d(EditActivity.class.getName(),url.getText().toString());
-        feed.set_nome(nome.getText().toString());
+        feed.set_title(nome.getText().toString());
         feed.set_url(url.getText().toString());
         Repositorio.getInstance().updateFeed(feed, authorization, new Repositorio.CallbackFeed() {
             @Override

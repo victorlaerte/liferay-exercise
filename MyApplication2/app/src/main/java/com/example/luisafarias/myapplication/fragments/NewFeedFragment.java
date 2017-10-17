@@ -40,7 +40,7 @@ public class NewFeedFragment extends Fragment {
         _url = _view.findViewById(R.id.newUrlFeed);
         Button save = _view.findViewById(R.id.save);
         if (_newOredit){
-            _nome.setText(_feed.get_nome());
+            _nome.setText(_feed.get_title());
             _url.setText(_feed.get_url());
 
 
@@ -78,7 +78,7 @@ public class NewFeedFragment extends Fragment {
 
     public void updateFeed() throws JSONException {
         Feed feed = _feed;
-        feed.set_nome(_nome.getText().toString());
+        feed.set_title(_nome.getText().toString());
         feed.set_url(_url.getText().toString());
         Repositorio.getInstance().updateFeed(feed, _authorization, new Repositorio.CallbackFeed() {
             @Override

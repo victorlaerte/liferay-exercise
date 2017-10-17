@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 String url = newUrl.getText().toString();
 
                 Feed feed = new Feed(name,url,_userId);
-                Log.d("mainActivity",feed.get_nome());
+                Log.d("mainActivity",feed.get_title());
                 try {
                     saveFeed(feed);
                 } catch (JSONException e) {

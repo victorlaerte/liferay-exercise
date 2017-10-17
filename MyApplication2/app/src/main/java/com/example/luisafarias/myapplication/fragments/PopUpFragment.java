@@ -2,23 +2,15 @@ package com.example.luisafarias.myapplication.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.luisafarias.myapplication.MainActivity;
-import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.Repositorio;
 import com.wedeploy.android.auth.Authorization;
@@ -34,7 +26,7 @@ public class PopUpFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         this._feed = getArguments().getParcelable("feed");
-        String nome = _feed.get_nome();
+        String nome = _feed.get_title();
         String token = getArguments().getString("token");
         _authorization = new TokenAuthorization(token);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

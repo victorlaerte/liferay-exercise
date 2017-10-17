@@ -1,10 +1,7 @@
 package com.example.luisafarias.myapplication.fragments;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,7 +30,7 @@ public class FeedListFragment extends Fragment {
             _token = getArguments().getString("tokenKey");
             _feed = getArguments().getParcelable("feed");
             if(_feed!=null)
-            Log.d(FeedListFragment.class.getName(),_feed.get_nome());
+            Log.d(FeedListFragment.class.getName(),_feed.get_title());
             _authorization = new TokenAuthorization(_token);
             //reloadFeeds();
 
