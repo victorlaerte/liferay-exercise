@@ -20,7 +20,10 @@ import android.app.FragmentTransaction;
 import com.example.luisafarias.myapplication.fragments.FeedListFragment;
 import com.example.luisafarias.myapplication.fragments.NewFeedFragment;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
+import com.example.luisafarias.myapplication.model.News;
+import com.example.luisafarias.myapplication.model.WeReadService;
 import com.example.luisafarias.myapplication.util.Constants;
+import com.wedeploy.android.Call;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.auth.Authorization;
@@ -33,6 +36,9 @@ import org.json.JSONObject;
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.FeedListAdapter;
 import com.example.luisafarias.myapplication.model.Repositorio;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -274,23 +280,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAqui(View view){//teste para saber se está salvando elemento
-        _weDeploy
-                .data(Constants.DATA_URL).authorization(_authorization)
-                .get("Feeds/teste12")
-                .execute(new Callback() {
-                    public void onSuccess(Response response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.getBody());
-                            jsonObject.getString("userId");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://pox.globo.com/rss/g1/")
+                .addConverterFactory(GsonConverterFactory.create()).build();
 
-                    public void onFailure(Exception e) {
-                        Log.e(MainActivity.class.getName(),e.getMessage());
-                    }
-                });
+        WeReadService service = retrofit.create(WeReadService.class);
+        retrofit2.Call<Feed> requestFeed = service.listNewsAndFeed();
+
+        requestFeed.enqueue(new retrofit2.Callback<Feed>() {
+            @Override
+            public void onResponse(retrofit2.Call<Feed> call, retrofit2.Response<Feed> response) {
+                if (!response.isSuccessful()){
+                    Log.i(MainActivity.class.getName(),"ERRO:"+response.code());
+                }
+                else {
+
+                        Log.i("algumacoisa","oioioioi");
+
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<Feed> call, Throwable t) {
+
+                Log.e(MainActivity.class.getName(),t.getMessage());
+            }
+        });
+
+
+
+
+//        _weDeploy
+//                .data(Constants.DATA_URL).authorization(_authorization)
+//                .get("Feeds/teste12")
+//                .execute(new Callback() {
+//                    public void onSuccess(Response response) {
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(response.getBody());
+//                            jsonObject.getString("userId");
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//
+//                    public void onFailure(Exception e) {
+//                        Log.e(MainActivity.class.getName(),e.getMessage());
+//                    }
+//                });
     }
 
     public void popup(View view){

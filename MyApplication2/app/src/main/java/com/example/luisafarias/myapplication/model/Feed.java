@@ -50,6 +50,8 @@ public class Feed implements Parcelable {
 
     public String get_id(){ return this._id;}
 
+    public List<News> getNewsList() {return newsList;}
+
     public void set_title(String _title){ this._title = _title;}
 
     public void set_url(String _url){ this._url = _url;}
