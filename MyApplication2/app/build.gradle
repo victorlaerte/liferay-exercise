@@ -29,5 +29,7 @@ dependencies {
     compile 'com.wedeploy:com.wedeploy.android:0.1.0'
     compile 'com.android.support:design:26.+'
     compile 'com.android.support:support-v4:26.+'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     testCompile 'junit:junit:4.12'
 }

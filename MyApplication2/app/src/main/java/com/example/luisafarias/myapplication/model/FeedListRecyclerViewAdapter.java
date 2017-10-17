@@ -25,9 +25,15 @@ public class FeedListRecyclerViewAdapter extends RecyclerView.Adapter<FeedListRe
     private Context _context;
     private String _token;
 
-    public FeedListRecyclerViewAdapter(Context context, List<Feed> feedList, String token){
-        this._feedList = feedList;
+    public FeedListRecyclerViewAdapter(Context context){
         this._context = context;
+    }
+
+    public void set_feedList(List<Feed> feedList) {
+        this._feedList = feedList;
+    }
+
+    public void set_token(String token) {
         this._token = token;
     }
 

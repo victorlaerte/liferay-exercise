@@ -12,9 +12,9 @@ public class Feed implements Parcelable {
     public Feed(){}
 
     public Feed(String nome, String url, String userId){
-        this._nome = nome;
-        this._url = url;
-        this._userId = userId;
+        set_nome(nome);
+        set_url(url);
+        set_userId(userId);
     }
 
     protected Feed(Parcel in) {
@@ -40,17 +40,25 @@ public class Feed implements Parcelable {
 
     public String get_url(){ return this._url;}
 
-    public void set_nome(String _nome){ this._nome = _nome;}
-
-    public void set_url(String _url){ this._url = _url;}
+    public String get_description(){ return this._description;}
 
     public String get_userId(){ return this._userId;}
 
     public String get_id(){ return this._id;}
 
+    public void set_nome(String _nome){ this._nome = _nome;}
+
+    public void set_url(String _url){ this._url = _url;}
+
+    public void set_description(String description) {
+        this._description = description;
+    }
+
     public void set_id(String _id){ this._id = _id;}
 
-    //public void set_userId(String _userId){ this._userId = _userId;}
+    private void set_userId(String _userId) {
+        this._userId = _userId;
+    }
 
     @Override
     public int describeContents() {
@@ -64,7 +72,7 @@ public class Feed implements Parcelable {
         parcel.writeString(_userId);
         parcel.writeString(_id);
     }
-
+    private String _description;
     private String _id;
     private String _nome;
     private String _url;

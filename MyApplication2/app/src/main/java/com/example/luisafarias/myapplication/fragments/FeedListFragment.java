@@ -35,7 +35,7 @@ public class FeedListFragment extends Fragment {
             if(_feed!=null)
             Log.d(FeedListFragment.class.getName(),_feed.get_nome());
             _authorization = new TokenAuthorization(_token);
-            reloadFeeds();
+            //reloadFeeds();
 
         }
     }
@@ -53,17 +53,18 @@ public class FeedListFragment extends Fragment {
     public void reloadFeeds() {
         Repositorio.getInstance()
                 .feedListAll(_authorization, new Repositorio.CallbackFeeds() {
-                    @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onSuccess(List<Feed> feedList) {
 //                        _feedAdapter = new FeedListAdapter(
 //                                _view.getContext(), _authorization, feedList);
 //                        _allFeeds.setAdapter(_feedAdapter);
 
-                        _recycleViewAdapter = new FeedListRecyclerViewAdapter(getContext(),feedList, _token);
-                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+                        _recycleViewAdapter = new FeedListRecyclerViewAdapter(_view.getContext());
+                        _recycleViewAdapter.set_feedList(feedList);
+                        _recycleViewAdapter.set_token(_token);
+                        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false);
                         _recycleView.setLayoutManager(mLayoutManager);
-                        _recycleView.setItemAnimator(new DefaultItemAnimator());
+                        //_recycleView.setItemAnimator(new DefaultItemAnimator()); //nao sei para que serve
                         _recycleView.setAdapter(_recycleViewAdapter);
                     }
 
