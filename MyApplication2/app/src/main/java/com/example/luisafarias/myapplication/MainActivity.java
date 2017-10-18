@@ -280,31 +280,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAqui(View view){//teste para saber se está salvando elemento
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://pox.globo.com/rss/g1/")
-                .addConverterFactory(GsonConverterFactory.create()).build();
-
-        WeReadService service = retrofit.create(WeReadService.class);
-        retrofit2.Call<Feed> requestFeed = service.listNewsAndFeed();
-
-        requestFeed.enqueue(new retrofit2.Callback<Feed>() {
-            @Override
-            public void onResponse(retrofit2.Call<Feed> call, retrofit2.Response<Feed> response) {
-                if (!response.isSuccessful()){
-                    Log.i(MainActivity.class.getName(),"ERRO:"+response.code());
-                }
-                else {
-
-                        Log.i("algumacoisa","oioioioi");
-
-                }
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<Feed> call, Throwable t) {
-
-                Log.e(MainActivity.class.getName(),t.getMessage());
-            }
-        });
+//        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://pox.globo.com/rss/g1/")
+//                .addConverterFactory(GsonConverterFactory.create()).build();
+//
+//        WeReadService service = retrofit.create(WeReadService.class);
+//        retrofit2.Call<Feed> requestFeed = service.listNewsAndFeed();
+//
+//        requestFeed.enqueue(new retrofit2.Callback<Feed>() {
+//            @Override
+//            public void onResponse(retrofit2.Call<Feed> call, retrofit2.Response<Feed> response) {
+//                if (!response.isSuccessful()){
+//                    Log.i(MainActivity.class.getName(),"ERRO:"+response.code());
+//                }
+//                else {
+//
+//                        Log.i("algumacoisa","oioioioi");
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(retrofit2.Call<Feed> call, Throwable t) {
+//
+//                Log.e(MainActivity.class.getName(),t.getMessage());
+//            }
+//        });
 
 
 
