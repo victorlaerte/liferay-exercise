@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
+import com.example.luisafarias.myapplication.interfaces.ItemClickListener;
 
 import java.util.List;
 

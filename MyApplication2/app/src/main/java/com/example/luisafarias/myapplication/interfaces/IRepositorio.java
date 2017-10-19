@@ -1,5 +1,7 @@
-package com.example.luisafarias.myapplication.model;
+package com.example.luisafarias.myapplication.interfaces;
 
+import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.model.Repositorio;
 import com.wedeploy.android.auth.Authorization;
 
 import org.json.JSONException;

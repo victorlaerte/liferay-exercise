@@ -20,10 +20,7 @@ import android.app.FragmentTransaction;
 import com.example.luisafarias.myapplication.fragments.FeedListFragment;
 import com.example.luisafarias.myapplication.fragments.NewFeedFragment;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
-import com.example.luisafarias.myapplication.model.News;
-import com.example.luisafarias.myapplication.model.WeReadService;
 import com.example.luisafarias.myapplication.util.Constants;
-import com.wedeploy.android.Call;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.auth.Authorization;
@@ -31,14 +28,10 @@ import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.transport.Response;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.FeedListAdapter;
 import com.example.luisafarias.myapplication.model.Repositorio;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -280,6 +273,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAqui(View view){//teste para saber se está salvando elemento
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("https://api.github.com/")
+//                .build();
+//
+//        GitHubService service = retrofit.create(GitHubService.class);
+//
+//        Call<List<Repo>> repos = service.listRepos("Gino Osahon");
+
+
+
 //        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://pox.globo.com/rss/g1/")
 //                .addConverterFactory(GsonConverterFactory.create()).build();
 //

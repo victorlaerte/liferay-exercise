@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.luisafarias.myapplication.MainActivity;
 import com.example.luisafarias.myapplication.NewUrlActivity;
+import com.example.luisafarias.myapplication.interfaces.IRepositorio;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;

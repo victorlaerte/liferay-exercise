@@ -1,4 +1,4 @@
-package com.example.luisafarias.myapplication.model;
+package com.example.luisafarias.myapplication.interfaces;
 
 import android.view.View;
 

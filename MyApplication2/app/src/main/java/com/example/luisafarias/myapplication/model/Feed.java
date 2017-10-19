@@ -3,12 +3,16 @@ package com.example.luisafarias.myapplication.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+
 import java.util.List;
 
 /**
  * Created by luisafarias on 26/09/17.
  */
-
+@Root(name = "rss", strict = false)
 public class Feed implements Parcelable {
 
     public Feed(){}
@@ -42,23 +46,22 @@ public class Feed implements Parcelable {
 
     public String get_url(){ return this._url;}
 
-    public String get_description(){ return this._description;}
-
-    public String get_image() {return _image;}
 
     public String get_userId(){ return this._userId;}
 
     public String get_id(){ return this._id;}
 
-    public List<News> getNewsList() {return newsList;}
+    public Channel get_channel() {return _channel;}
+
+    public String get_version() {return _version;}
+
+    public void set_channel(Channel _channel) {
+        this._channel = _channel;
+    }
 
     public void set_title(String _title){ this._title = _title;}
 
     public void set_url(String _url){ this._url = _url;}
-
-    public void set_image(String _image) {this._image = _image;}
-
-    public void set_description(String description) {this._description = description;}
 
     public void set_id(String _id){ this._id = _id;}
 
@@ -76,11 +79,22 @@ public class Feed implements Parcelable {
         parcel.writeString(_userId);
         parcel.writeString(_id);
     }
+
+    @Override
+    public String toString() {
+        return "RSS{" +
+                "version ='" + _version + '\''+
+                " channel=" + _channel +
+                '}';
+    }
+    @Attribute
+    private String _version;
+    @Element
+    private Channel _channel;
     private String _description;
     private String _id;
     private String _image;
     private String _title;
     private String _url;
     private String _userId;
-    private List<News> newsList;
 }
