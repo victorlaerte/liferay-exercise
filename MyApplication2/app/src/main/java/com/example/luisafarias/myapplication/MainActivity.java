@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
 //        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://pox.globo.com/rss/g1/")
 //                .addConverterFactory(GsonConverterFactory.create()).build();
 //
-//        WeReadService service = retrofit.create(WeReadService.class);
+//        RetrofitAdapter service = retrofit.create(RetrofitAdapter.class);
 //        retrofit2.Call<Feed> requestFeed = service.listNewsAndFeed();
 //
 //        requestFeed.enqueue(new retrofit2.Callback<Feed>() {

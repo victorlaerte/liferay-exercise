@@ -23,8 +23,9 @@
         <activity android:name=".NewUrlActivity" />
         <activity
             android:name=".PopUpActivity"
-            android:theme="@style/AppTheme.CustomTheme"></activity>
-        <activity android:name=".EditActivity"></activity>
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity android:name=".EditActivity" />
+        <activity android:name=".FeedNewsActivity"></activity>
     </application>
 
 </manifest>
