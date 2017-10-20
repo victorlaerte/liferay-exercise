@@ -1,5 +1,6 @@
 package com.example.luisafarias.myapplication;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,16 +21,23 @@ import org.jsoup.nodes.Element;
  */
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
-    private static final String TAG="ItemAdapter";
-    private List<FeedItem> feedItems;
 
-    ItemAdapter(List<FeedItem> feed){this.feedItems = feed;}
+    private List<FeedItem> _feedItems;
+    private Context _context;
+    private LayoutInflater _layoutInflater;
+
+    ItemAdapter(Context context, List<FeedItem> feed){
+        this._feedItems = feed;
+        this._context = context;
+    }
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        final View v = layoutInflater.inflate(R.layout.feed_item,parent,false);
-        return new ItemHolder(v);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_item,parent,false);
+        return new ItemHolder(view);
+//        final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+//        final View v = layoutInflater.inflate(R.layout.feed_item,parent,false);
+//        return new ItemHolder(v);
     }
 
     @Override
@@ -42,31 +50,34 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
     @Override
     public void onBindViewHolder(final ItemHolder holder, int position) {
+        FeedItem item = _feedItems.get(position);
+        holder.titleTextField.setText(item.getTitle());
 
-        FeedItem item = feedItems.get(position);
-
-        holder.titleTextField.setText(item.get_title());
-        Document doc = Jsoup.parse(item.get_description());
-        Element imageElement = doc.select("img").first();
-        if (imageElement != null){
-            String absoluteUrl = imageElement.absUrl("src");
-            if (absoluteUrl != null){
-
-                holder.descriptionTextField.setText(doc.body().text());
-            }
-        }
-        holder.publicationDateTextField.setText(item.get_publicationDate());
+//        FeedItem item = feedItems.get(position);
+//
+//        holder.titleTextField.setText(item.get_title());
+//        Document doc = Jsoup.parse(item.get_description());
+//        Element imageElement = doc.select("img").first();
+//        if (imageElement != null){
+//            String absoluteUrl = imageElement.absUrl("src");
+//            if (absoluteUrl != null){
+//
+//                holder.descriptionTextField.setText(doc.body().text());
+//            }
+//        }
+//        holder.publicationDateTextField.setText(item.get_publicationDate());
     }
 
 
 
     public class ItemHolder extends RecyclerView.ViewHolder {
-        private TextView titleTextField;
-        private TextView descriptionTextField;
+        protected TextView titleTextField;
+        protected TextView descriptionTextField;
 
         private ImageView imageView;
         private TextView publicationDateTextField;
-        ItemHolder(View itemView) {
+
+        public ItemHolder(View itemView) {
             super(itemView);
             titleTextField = (TextView) itemView.findViewById(R.id.title);
             imageView = (ImageView) itemView.findViewById(R.id.image);

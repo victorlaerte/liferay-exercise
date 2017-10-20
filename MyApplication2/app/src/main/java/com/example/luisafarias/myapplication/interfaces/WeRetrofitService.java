@@ -1,6 +1,7 @@
 package com.example.luisafarias.myapplication.interfaces;
 
 import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.model.FeedItem;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -11,8 +12,8 @@ import retrofit2.http.GET;
  * Created by luisafarias on 17/10/17.
  */
 
-public interface RetrofitAdapter {
+public interface WeRetrofitService {
 
     @GET()
-    Call<Feed> getItems();
+    Call<FeedItem> getItems();
 }

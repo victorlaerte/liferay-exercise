@@ -20,7 +20,7 @@ import android.app.FragmentTransaction;
 import com.example.luisafarias.myapplication.fragments.FeedListFragment;
 import com.example.luisafarias.myapplication.fragments.NewFeedFragment;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
-import com.example.luisafarias.myapplication.interfaces.RetrofitAdapter;
+import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
 import com.example.luisafarias.myapplication.model.FeedItem;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
@@ -38,7 +38,6 @@ import com.example.luisafarias.myapplication.model.Repositorio;
 import java.util.List;
 
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
@@ -281,34 +280,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAqui(View view){//teste para saber se está salvando elemento
-        final List<FeedItem> cachedList = null;
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://g1.globo.com/dynamo/brasil/rss2.xml/")
-                .addConverterFactory(SimpleXmlConverterFactory.create()).build();
-
-        RetrofitAdapter service = retrofit.create(RetrofitAdapter.class);
-        retrofit2.Call<Feed> requestFeed = service.getItems();
-
-        requestFeed.enqueue(new retrofit2.Callback<Feed>() {
-            @Override
-            public void onResponse(retrofit2.Call<Feed> call, retrofit2.Response<Feed> response) {
-                Feed feed = response.body();
-                List<FeedItem> mItems = feed.get_channel().getItemList();
-                if (!response.isSuccessful()){
-                    Log.i(MainActivity.class.getName(),"ERRO:"+response.code());
-                }
-                else {
-
-                        Log.i("algumacoisa","oioioioi");
-
-                }
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<Feed> call, Throwable t) {
-
-                Log.e(MainActivity.class.getName(),t.getMessage());
-            }
-        });
+//        final List<FeedItem> cachedList = null;
+//        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://g1.globo.com/dynamo/brasil/rss2.xml/")
+//                .addConverterFactory(SimpleXmlConverterFactory.create()).build();
+//
+//        WeRetrofitService service = retrofit.create(WeRetrofitService.class);
+//        retrofit2.Call<Feed> requestFeed = service.getItems();
+//
+//        requestFeed.enqueue(new retrofit2.Callback<Feed>() {
+//            @Override
+//            public void onResponse(retrofit2.Call<Feed> call, retrofit2.Response<Feed> response) {
+//                Feed feed = response.body();
+//                List<FeedItem> mItems = feed.get_channel().getItemList();
+//                if (!response.isSuccessful()){
+//                    Log.i(MainActivity.class.getName(),"ERRO:"+response.code());
+//                }
+//                else {
+//
+//                        Log.i("algumacoisa","oioioioi");
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(retrofit2.Call<Feed> call, Throwable t) {
+//
+//                Log.e(MainActivity.class.getName(),t.getMessage());
+//            }
+//        });
 
 
 
