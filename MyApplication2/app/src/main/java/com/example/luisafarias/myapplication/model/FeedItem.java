@@ -12,46 +12,19 @@ import org.simpleframework.xml.Root;
 @Root(name = "item", strict = false)
 public class FeedItem implements Parcelable {
 
-    @Element(name = "title", required = true)
-    private String _title;
-    @Element(name = "pubDate", required = true)
-    private String _publicationDate;
-    @Element(name = "description", required = true)
-    private String _description;
+    private String pubDate;
 
-    public FeedItem(String title, String description, String publicationDate){
-        this._title = title;
-        this._description = description;
-        this._publicationDate = publicationDate;
-    }
+    private String title;
 
-    public FeedItem(){
+    private String description;
 
-    }
-
-    public String get_title() {
-        return _title;
-    }
-
-    public String get_description() {
-        return _description;
-    }
-
-    public String get_publicationDate() {
-        return _publicationDate;
-    }
-
-    public boolean isEqualTo(FeedItem o){
-        if (o.get_title().equals(this._title)&&
-                o.get_description().equals(this._description)&&
-                o.get_publicationDate().equals(this._publicationDate)){
-            return true;
-        }
-        else
-            return false;
-    }
+    private String link;
 
     protected FeedItem(Parcel in) {
+        pubDate = in.readString();
+        title = in.readString();
+        description = in.readString();
+        link = in.readString();
     }
 
     public static final Creator<FeedItem> CREATOR = new Creator<FeedItem>() {
@@ -66,6 +39,52 @@ public class FeedItem implements Parcelable {
         }
     };
 
+    public String getPubDate ()
+    {
+        return pubDate;
+    }
+
+    public void setPubDate (String pubDate)
+    {
+        this.pubDate = pubDate;
+    }
+
+    public String getTitle ()
+    {
+        return title;
+    }
+
+    public void setTitle (String title)
+    {
+        this.title = title;
+    }
+
+    public String getDescription ()
+    {
+        return description;
+    }
+
+    public void setDescription (String description)
+    {
+        this.description = description;
+    }
+
+    public String getLink ()
+    {
+        return link;
+    }
+
+    public void setLink (String link)
+    {
+        this.link = link;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "ClassPojo [pubDate = "+pubDate+", title = "+title+", description = "+description+", link = "+link+"]";
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -73,5 +92,9 @@ public class FeedItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(pubDate);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(link);
     }
 }

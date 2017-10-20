@@ -13,25 +13,46 @@ import java.util.List;
  */
 @Root(strict = false)
 public class Channel implements Parcelable{
-    @ElementList(name = "intem", required = true, inline = true)
-    private List<FeedItem> itemList;
+    private String title;
 
-    public List<FeedItem> getItemList() {
-        return itemList;
-    }
+    private String category;
 
-    public void setItemList(List<FeedItem> itemList) {
-        this.itemList = itemList;
-    }
+    private String description;
 
-    public Channel(List<FeedItem> feedItems){
-        setItemList(feedItems);
-    }
-    public Channel(){
+    private String link;
 
-    }
+    private FeedItem[] item;
+
+    //private Image image;
+
+    private String language;
+
+    private String copyright;
 
     protected Channel(Parcel in) {
+        title = in.readString();
+        category = in.readString();
+        description = in.readString();
+        link = in.readString();
+        item = in.createTypedArray(FeedItem.CREATOR);
+        language = in.readString();
+        copyright = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(category);
+        dest.writeString(description);
+        dest.writeString(link);
+        dest.writeTypedArray(item, flags);
+        dest.writeString(language);
+        dest.writeString(copyright);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Channel> CREATOR = new Creator<Channel>() {
@@ -46,12 +67,89 @@ public class Channel implements Parcelable{
         }
     };
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getTitle ()
+    {
+        return title;
+    }
+
+    public void setTitle (String title)
+    {
+        this.title = title;
+    }
+
+    public String getCategory ()
+    {
+        return category;
+    }
+
+    public void setCategory (String category)
+    {
+        this.category = category;
+    }
+
+    public String getDescription ()
+    {
+        return description;
+    }
+
+    public void setDescription (String description)
+    {
+        this.description = description;
+    }
+
+    public String getLink ()
+    {
+        return link;
+    }
+
+    public void setLink (String link)
+    {
+        this.link = link;
+    }
+
+    public FeedItem[] getItem ()
+    {
+        return item;
+    }
+
+    public void setItem (FeedItem[] item)
+    {
+        this.item = item;
+    }
+
+   // public Image getImage ()
+   // {
+   //     return image;
+   // }
+
+   // public void setImage (Image image)
+   // {
+   //     this.image = image;
+   // }
+
+    public String getLanguage ()
+    {
+        return language;
+    }
+
+    public void setLanguage (String language)
+    {
+        this.language = language;
+    }
+
+    public String getCopyright ()
+    {
+        return copyright;
+    }
+
+    public void setCopyright (String copyright)
+    {
+        this.copyright = copyright;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public String toString()
+    {
+        return "ClassPojo [title = "+title+", category = "+category+", description = "+description+", link = "+link+", item = "+item+", image = "+/**image+****/", language = "+language+", copyright = "+copyright+"]";
     }
 }

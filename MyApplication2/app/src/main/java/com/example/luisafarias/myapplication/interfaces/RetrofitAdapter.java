@@ -2,7 +2,9 @@ package com.example.luisafarias.myapplication.interfaces;
 
 import com.example.luisafarias.myapplication.model.Feed;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.http.GET;
 
 /**
@@ -10,6 +12,7 @@ import retrofit2.http.GET;
  */
 
 public interface RetrofitAdapter {
-    @GET("/TechCrunch/social")
+
+    @GET()
     Call<Feed> getItems();
 }
