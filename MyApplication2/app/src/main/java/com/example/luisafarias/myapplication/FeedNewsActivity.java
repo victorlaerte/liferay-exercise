@@ -5,36 +5,64 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
+import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
+import com.example.luisafarias.myapplication.model.AnswersResponse;
 import com.example.luisafarias.myapplication.model.FeedItem;
+import com.example.luisafarias.myapplication.model.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FeedNewsActivity extends AppCompatActivity {
     RecyclerView feed_list;
     List<FeedItem> feedItemList;
     private static String TAG = "MainActivity";
     ItemAdapter adapter = null;
+    private WeRetrofitService rs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed_news);
 
+        rs = RetrofitClient.getClient("http://g1.globo.com/")
+                .create(WeRetrofitService.class);
+        List<FeedItem> items = new ArrayList<FeedItem>();
         feed_list = (RecyclerView)findViewById(R.id.feed_news_list);
-        feed_list.setHasFixedSize(true);
+        adapter = new ItemAdapter(this,items);
+        //feed_list.setHasFixedSize(true);
         LinearLayoutManager layoutMgr = new LinearLayoutManager(this);
         feed_list.setLayoutManager(layoutMgr);
-
-        List<FeedItem> items = new ArrayList<FeedItem>();
-        adapter = new ItemAdapter(items);
         feed_list.setAdapter(adapter);
-        startService();
+
+        loadAnswers();
 
     }
 
-    private void startService() {
-       // Intent intent = new Intent(getApplicationContext(),)
+    private void loadAnswers() {
+       rs.getItems().enqueue(new Callback<ResponseBody>() {
+           @Override
+           public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+               if (response.isSuccessful()){
+                   String e  = response.message();
+//                   String testeNome = response.body().getItems().get(0).getTitle();
+//                    adapter.updateAnswers(response.body().getItems());
+                   Log.d("FeedNewsActivity","posts loaded from API");
+               }
+           }
+
+           @Override
+           public void onFailure(Call<ResponseBody> call, Throwable t) {
+               Log.e("FeedNewsActivity", t.getMessage());
+               Log.d("MainActivity", "error loading from API");
+           }
+       });
     }
 }

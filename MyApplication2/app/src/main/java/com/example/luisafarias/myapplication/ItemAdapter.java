@@ -41,7 +41,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
     }
 
     @Override
-    public int getItemCount() {return feedItems.size();}
+    public int getItemCount() {return _feedItems.size();}
+
+    public void updateAnswers(List<FeedItem> items){
+        this._feedItems = items;
+        notifyDataSetChanged();
+    }
+
+    private FeedItem getItem(int adapterPosition){
+        return _feedItems.get(adapterPosition);
+    }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {

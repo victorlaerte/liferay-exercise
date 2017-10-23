@@ -9,7 +9,7 @@ import org.simpleframework.xml.Root;
 /**
  * Created by luisafarias on 19/10/17.
  */
-@Root(name = "item", strict = false)
+
 public class FeedItem implements Parcelable {
 
     private String pubDate;

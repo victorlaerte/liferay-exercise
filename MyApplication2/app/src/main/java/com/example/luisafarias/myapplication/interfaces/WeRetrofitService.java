@@ -1,5 +1,6 @@
 package com.example.luisafarias.myapplication.interfaces;
 
+import com.example.luisafarias.myapplication.model.AnswersResponse;
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.FeedItem;
 
@@ -14,6 +15,6 @@ import retrofit2.http.GET;
 
 public interface WeRetrofitService {
 
-    @GET()
-    Call<FeedItem> getItems();
+    @GET("dynamo/brasil/rss2.xml")
+    Call<ResponseBody> getItems();
 }

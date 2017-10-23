@@ -280,6 +280,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAqui(View view){//teste para saber se está salvando elemento
+
+        Intent intent = new Intent(this,FeedNewsActivity.class);
+        startActivity(intent);
+
+
 //        final List<FeedItem> cachedList = null;
 //        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://g1.globo.com/dynamo/brasil/rss2.xml/")
 //                .addConverterFactory(SimpleXmlConverterFactory.create()).build();
