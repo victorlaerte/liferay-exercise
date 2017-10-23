@@ -33,7 +33,7 @@ public class NewUrlActivity extends AppCompatActivity {
         String url = textViewUrl.getText().toString();
         String nomeUrl = textViewNomeURL.getText().toString();
 
-        Feed _feed = new Feed(nomeUrl,url,_userId);
+        Feed _feed = new Feed(nomeUrl,url,_userId, null);
         intent.putExtra("feed", _feed);
         setResult(1, intent);
         finish();

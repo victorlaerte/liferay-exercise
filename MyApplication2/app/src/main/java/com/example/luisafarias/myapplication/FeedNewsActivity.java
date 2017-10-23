@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
 import com.example.luisafarias.myapplication.model.AnswersResponse;
+import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.FeedItem;
 import com.example.luisafarias.myapplication.model.RetrofitClient;
 
@@ -47,19 +48,23 @@ public class FeedNewsActivity extends AppCompatActivity {
     }
 
     private void loadAnswers() {
-       rs.getItems().enqueue(new Callback<ResponseBody>() {
+       rs.getItems().enqueue(new Callback<Feed>() {
            @Override
-           public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+           public void onResponse(Call<Feed> call, Response<Feed> response) {
                if (response.isSuccessful()){
                    String e  = response.message();
-//                   String testeNome = response.body().getItems().get(0).getTitle();
-//                    adapter.updateAnswers(response.body().getItems());
+                   String s = response.toString();
+                   String d = response.body().get_version();
+                   String c = response.body().get_channel().getTitle();
+                   //List<FeedItem> a = response.body();
+                  // String testeNome = response.body().get(0).getTitle();
+                   // adapter.updateAnswers(response.body().get_channel().getItem());
                    Log.d("FeedNewsActivity","posts loaded from API");
                }
            }
 
            @Override
-           public void onFailure(Call<ResponseBody> call, Throwable t) {
+           public void onFailure(Call<Feed> call, Throwable t) {
                Log.e("FeedNewsActivity", t.getMessage());
                Log.d("MainActivity", "error loading from API");
            }

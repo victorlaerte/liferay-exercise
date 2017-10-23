@@ -3,22 +3,32 @@ package com.example.luisafarias.myapplication.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 /**
  * Created by luisafarias on 19/10/17.
  */
-
+@Root(strict = false)
 public class FeedItem implements Parcelable {
-
+    @Attribute(name = "pubDate", required = false)
     private String pubDate;
-
+    @Attribute(name = "title", required = false)
     private String title;
-
+    @Attribute(name = "description", required = false)
     private String description;
-
+    @Attribute(name = "link", required = false)
     private String link;
+
+    public FeedItem(){}
+
+    public FeedItem(String pubDate, String title, String description, String link){
+        setPubDate(pubDate);
+        setTitle(title);
+        setDescription(description);
+        setLink(link);
+    }
 
     protected FeedItem(Parcel in) {
         pubDate = in.readString();

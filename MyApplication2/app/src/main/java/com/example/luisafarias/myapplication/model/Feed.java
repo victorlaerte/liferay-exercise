@@ -17,10 +17,11 @@ public class Feed implements Parcelable {
 
     public Feed(){}
 
-    public Feed(String nome, String url, String userId){
+    public Feed(String nome, String url, String userId, Channel channel){
         set_title(nome);
         set_url(url);
         set_userId(userId);
+        set_channel(channel);
     }
 
     protected Feed(Parcel in) {
@@ -55,8 +56,8 @@ public class Feed implements Parcelable {
 
     public String get_version() {return _version;}
 
-    public void set_channel(Channel _channel) {
-        this._channel = _channel;
+    public void set_channel(Channel channel) {
+        this._channel = channel;
     }
 
     public void set_title(String _title){ this._title = _title;}
@@ -87,9 +88,9 @@ public class Feed implements Parcelable {
                 " channel=" + _channel +
                 '}';
     }
-    @Attribute
+    @Attribute(name = "version")
     private String _version;
-    @Element
+    @Element(name = "channel")
     private Channel _channel;
     private String _description;
     private String _id;

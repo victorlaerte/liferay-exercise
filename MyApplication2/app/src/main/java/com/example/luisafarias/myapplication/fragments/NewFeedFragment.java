@@ -62,7 +62,7 @@ public class NewFeedFragment extends Fragment {
                 public void onClick(View v) {
                     String name = _nome.getText().toString();
                     String url = _url.getText().toString();
-                    Feed feed = new Feed(name,url,_userId);
+                    Feed feed = new Feed(name,url,_userId,null);
                     Log.d("teste",name+"  "+url);
                     try {
                         saveNewFeed(feed);

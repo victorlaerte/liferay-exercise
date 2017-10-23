@@ -11,7 +11,7 @@ import java.util.List;
 public class AnswersResponse {
 
     @Root(name = "item", strict = false)
-    private List<FeedItem> items;
+    private List<FeedItem> items = null;
 
     public List<FeedItem> getItems(){
         return items;

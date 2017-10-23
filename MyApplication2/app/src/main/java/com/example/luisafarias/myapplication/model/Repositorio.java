@@ -162,7 +162,7 @@ public class Repositorio implements IRepositorio {
                                 String url = jsonBody.getString("url");
                                 String userId = jsonBody.getString("userId");
                                 String id = jsonBody.getString("id");
-                                feed = new Feed(nome,url,userId);
+                                feed = new Feed(nome,url,userId, null);
                                 feed.set_id(id);
                                 feedList.add(feed);
                                 //String jsonBodyString = jsonBody.toString();
