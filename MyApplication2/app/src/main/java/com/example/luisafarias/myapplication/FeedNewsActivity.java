@@ -20,43 +20,32 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FeedNewsActivity extends AppCompatActivity {
-    RecyclerView feed_list;
-    List<FeedItem> feedItemList;
-    private static String TAG = "MainActivity";
-    ItemAdapter adapter = null;
-    private WeRetrofitService rs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed_news);
 
-        rs = RetrofitClient.getClient("http://g1.globo.com/")
+        _rs = RetrofitClient.getClient("http://g1.globo.com/")
                 .create(WeRetrofitService.class);
-        List<FeedItem> items = new ArrayList<FeedItem>();
-        feed_list = (RecyclerView)findViewById(R.id.feed_news_list);
-        adapter = new ItemAdapter(this,items);
+        _feedItemList = new ArrayList<FeedItem>();
+        _feed_list = (RecyclerView)findViewById(R.id.feed_news_list);
+        _adapter = new ItemAdapter(this,_feedItemList);
         //feed_list.setHasFixedSize(true);
         LinearLayoutManager layoutMgr = new LinearLayoutManager(this);
-        feed_list.setLayoutManager(layoutMgr);
-        feed_list.setAdapter(adapter);
+        _feed_list.setLayoutManager(layoutMgr);
+        _feed_list.setAdapter(_adapter);
 
         loadAnswers();
 
     }
 
     private void loadAnswers() {
-       rs.getItems().enqueue(new Callback<Feed>() {
+       _rs.getItems().enqueue(new Callback<Feed>() {
            @Override
            public void onResponse(Call<Feed> call, Response<Feed> response) {
                if (response.isSuccessful()){
-                   String e  = response.message();
-                   String s = response.toString();
-                   String d = response.body().get_version();
-                   String c = response.body().get_channel().getTitle();
-                   //List<FeedItem> a = response.body();
-                  // String testeNome = response.body().get(0).getTitle();
-                   adapter.updateAnswers(response.body().get_channel().getItem());
+                   _adapter.updateAnswers(response.body().get_channel().getItem());
                    Log.d("FeedNewsActivity","posts loaded from API");
                }
            }
@@ -68,4 +57,9 @@ public class FeedNewsActivity extends AppCompatActivity {
            }
        });
     }
+
+    private RecyclerView _feed_list;
+    private List<FeedItem> _feedItemList;
+    private ItemAdapter _adapter = null;
+    private WeRetrofitService _rs;
 }
