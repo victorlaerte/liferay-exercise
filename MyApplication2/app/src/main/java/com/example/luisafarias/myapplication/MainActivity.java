@@ -137,14 +137,14 @@ public class MainActivity extends AppCompatActivity {
 //                            e.printStackTrace();
 //                        }
 
-                        final Intent intent =
-                            new Intent(
-                                MainActivity.this, NewUrlActivity.class);
-
-
-                        intent.putExtra("userId", _userId);
-                        intent.putExtra("token", _token);
-                        startActivityForResult(intent, ACCESS_RESULT_NEW_FEED);
+//                        final Intent intent =
+//                            new Intent(
+//                                MainActivity.this, NewUrlActivity.class);
+//
+//
+//                        intent.putExtra("userId", _userId);
+//                        intent.putExtra("token", _token);
+//                        startActivityForResult(intent, ACCESS_RESULT_NEW_FEED);
 //                    }
 //
 //                    public void onFailure(Exception e) {

@@ -3,7 +3,6 @@ package com.example.luisafarias.myapplication.model;
 import android.util.Log;
 
 import com.example.luisafarias.myapplication.MainActivity;
-import com.example.luisafarias.myapplication.NewUrlActivity;
 import com.example.luisafarias.myapplication.interfaces.IRepositorio;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
@@ -63,7 +62,7 @@ public class Repositorio implements IRepositorio {
                 .create("Feeds", feedJsonObject)
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
-                        Log.d(NewUrlActivity.class.getName(), "salvo com sucesso");
+                        Log.d("repositorio", "salvo com sucesso");
 
                         try {
                             JSONObject jsonBody = new JSONObject(response.getBody());
@@ -80,7 +79,7 @@ public class Repositorio implements IRepositorio {
                     }
 
                     public void onFailure(Exception e) {
-                        Log.e(NewUrlActivity.class.getName(),e.getMessage());
+                        Log.e("repositorio",e.getMessage());
                         callbackFeed.onFailure(e);
                     }
                 });
@@ -104,11 +103,11 @@ public class Repositorio implements IRepositorio {
                     .update("Feeds/" + feed.get_id(), feedJsonObject)
                     .execute(new Callback() {
                         public void onSuccess(Response response) {
-                            Log.d(NewUrlActivity.class.getName(), "editado com sucesso");
+                            Log.d("repositorio", "editado com sucesso");
                         }
 
                         public void onFailure(Exception e) {
-                            Log.e(NewUrlActivity.class.getName(), e.getMessage());
+                            Log.e("repositorio", e.getMessage());
                         }
                     });
         }
