@@ -19,7 +19,6 @@ import android.app.FragmentTransaction;
 
 import com.example.luisafarias.myapplication.fragments.FeedListFragment;
 import com.example.luisafarias.myapplication.fragments.NewFeedFragment;
-import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
@@ -100,61 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    private void reloadFeeds() {
-//        final Context context = this;
-//        Repositorio.getInstance()
-//            .feedListAll(_authorization, new Repositorio.CallbackFeeds() {
-//            @Override
-//            public void onSuccess(List<Feed> feedList) {
-//                _feedAdapter = new FeedListAdapter(context, _authorization, feedList);
-//                _allFeeds.setAdapter(_feedAdapter);
-//            }
-//
-//            @Override
-//            public void onFailure(Exception e) {
-//                Log.e(MainActivity.class.getName(),e.getMessage());
-//            }
-//        });
-//    }
-
-    public void goAddUrl(final View view){
-
-//        _weDeploy.auth(Constants.AUTH_URL)
-//                .authorization(_authorization)
-//                .getCurrentUser()
-//                .execute(new Callback() {
-//                    public void onSuccess(Response response) {
-//
-//                        //TODO Verificar se usuário já foi passado antes para evitar essa request
-//                        //ele nao retorna o userId
-//                        JSONObject jsonBody;
-//                        try {
-//                            jsonBody = new JSONObject(response.getBody());
-//                            _userId = jsonBody.getString("id");
-//                            Log.d(MainActivity.class.getName(), _userId);
-//                        } catch (JSONException e) {
-//                            Log.e(MainActivity.class.getName(),e.getMessage());
-//                            e.printStackTrace();
-//                        }
-
-//                        final Intent intent =
-//                            new Intent(
-//                                MainActivity.this, NewUrlActivity.class);
-//
-//
-//                        intent.putExtra("userId", _userId);
-//                        intent.putExtra("token", _token);
-//                        startActivityForResult(intent, ACCESS_RESULT_NEW_FEED);
-//                    }
-//
-//                    public void onFailure(Exception e) {
-//                        Snackbar snackbar = Snackbar.make(view,e.getMessage(),Snackbar.LENGTH_LONG);
-//                        snackbar.show();
-//                        Log.e(MainActivity.class.getName(),e.getMessage());
-//                    }
-//                });
-
-    }
 
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_feed,menu);
@@ -277,64 +221,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,FeedNewsActivity.class);
         startActivity(intent);
 
-
-//        final List<FeedItem> cachedList = null;
-//        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://g1.globo.com/dynamo/brasil/rss2.xml/")
-//                .addConverterFactory(SimpleXmlConverterFactory.create()).build();
-//
-//        WeRetrofitService service = retrofit.create(WeRetrofitService.class);
-//        retrofit2.Call<Feed> requestFeed = service.getItems();
-//
-//        requestFeed.enqueue(new retrofit2.Callback<Feed>() {
-//            @Override
-//            public void onResponse(retrofit2.Call<Feed> call, retrofit2.Response<Feed> response) {
-//                Feed feed = response.body();
-//                List<FeedItem> mItems = feed.get_channel().getItemList();
-//                if (!response.isSuccessful()){
-//                    Log.i(MainActivity.class.getName(),"ERRO:"+response.code());
-//                }
-//                else {
-//
-//                        Log.i("algumacoisa","oioioioi");
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(retrofit2.Call<Feed> call, Throwable t) {
-//
-//                Log.e(MainActivity.class.getName(),t.getMessage());
-//            }
-//        });
-
-
-
-
-//        _weDeploy
-//                .data(Constants.DATA_URL).authorization(_authorization)
-//                .get("Feeds/teste12")
-//                .execute(new Callback() {
-//                    public void onSuccess(Response response) {
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(response.getBody());
-//                            jsonObject.getString("userId");
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    public void onFailure(Exception e) {
-//                        Log.e(MainActivity.class.getName(),e.getMessage());
-//                    }
-//                });
     }
 
-    public void popup(View view){
-        PopUpFragment popUpFragment = new PopUpFragment();
-        popUpFragment.show(getSupportFragmentManager(),"teste");
-    }
-
-
+//    public void popup(View view){
+//        PopUpFragment popUpFragment = new PopUpFragment();
+//        popUpFragment.show(getSupportFragmentManager(),"teste");
+//    }
 
     //private ListView _allFeeds;
     private Authorization _authorization;
