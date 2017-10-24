@@ -19,6 +19,7 @@ import com.example.luisafarias.myapplication.model.Repositorio;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeedListFragment extends Fragment {
@@ -39,11 +40,17 @@ public class FeedListFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        List<Feed> feedList = new ArrayList<Feed>();
 
         _view = inflater.inflate(R.layout.fragment_feed_list, container, false);
-        _allFeeds = _view.findViewById(R.id.list_feeds);
+       // _allFeeds = _view.findViewById(R.id.list_feeds);
         _recycleView = _view.findViewById(R.id.recyclerView);
-        reloadFeeds();
+        _recycleViewAdapter = new FeedListRecyclerViewAdapter(_view.getContext(), feedList, _token);
+        LinearLayoutManager lm = new LinearLayoutManager(getActivity());
+        _recycleView.setLayoutManager(lm);
+        _recycleView.setAdapter(_recycleViewAdapter);
+        loadAnswers();
+        //reloadFeeds();
         return _view;
     }
 
@@ -52,17 +59,15 @@ public class FeedListFragment extends Fragment {
                 .feedListAll(_authorization, new Repositorio.CallbackFeeds() {
                     @Override
                     public void onSuccess(List<Feed> feedList) {
+                        _recycleViewAdapter.updateAnswers(feedList);
 //                        _feedAdapter = new FeedListAdapter(
 //                                _view.getContext(), _authorization, feedList);
 //                        _allFeeds.setAdapter(_feedAdapter);
 
-                        _recycleViewAdapter = new FeedListRecyclerViewAdapter(_view.getContext());
-                        _recycleViewAdapter.set_feedList(feedList);
-                        _recycleViewAdapter.set_token(_token);
-                        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false);
-                        _recycleView.setLayoutManager(mLayoutManager);
+                        //LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+                       // _recycleView.setLayoutManager(mLayoutManager);
                         //_recycleView.setItemAnimator(new DefaultItemAnimator()); //nao sei para que serve
-                        _recycleView.setAdapter(_recycleViewAdapter);
+                        //_recycleView.setAdapter(_recycleViewAdapter);
                     }
 
                     @Override
@@ -82,6 +87,7 @@ public class FeedListFragment extends Fragment {
 
                     @Override
                     public void onFailure(Exception e) {
+                        Log.e("FeedListFragment", e.getMessage());
 
                     }
                 });
