@@ -13,8 +13,8 @@ import android.widget.ListView;
 import com.example.luisafarias.myapplication.MainActivity;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.Feed;
-import com.example.luisafarias.myapplication.Adapters.FeedListAdapter;
-import com.example.luisafarias.myapplication.Adapters.FeedListRecyclerViewAdapter;
+import com.example.luisafarias.myapplication.adapters.FeedListAdapter;
+import com.example.luisafarias.myapplication.adapters.FeedListRecyclerViewAdapter;
 import com.example.luisafarias.myapplication.model.Repositorio;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
@@ -68,6 +68,21 @@ public class FeedListFragment extends Fragment {
                     @Override
                     public void onFailure(Exception e) {
                         Log.e(MainActivity.class.getName(),e.getMessage());
+                    }
+                });
+    }
+
+    private void loadAnswers(){
+        Repositorio.getInstance()
+                .feedListAll(_authorization, new Repositorio.CallbackFeeds() {
+                    @Override
+                    public void onSuccess(List<Feed> feedList) {
+                        _recycleViewAdapter.updateAnswers(feedList);
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+
                     }
                 });
     }

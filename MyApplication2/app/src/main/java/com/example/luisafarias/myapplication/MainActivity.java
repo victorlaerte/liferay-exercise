@@ -30,7 +30,7 @@ import com.wedeploy.android.transport.Response;
 import org.json.JSONException;
 
 import com.example.luisafarias.myapplication.model.Feed;
-import com.example.luisafarias.myapplication.Adapters.FeedListAdapter;
+import com.example.luisafarias.myapplication.adapters.FeedListAdapter;
 import com.example.luisafarias.myapplication.model.Repositorio;
 
 public class MainActivity extends AppCompatActivity {

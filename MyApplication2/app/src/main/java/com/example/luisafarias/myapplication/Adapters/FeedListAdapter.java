@@ -1,4 +1,4 @@
-package com.example.luisafarias.myapplication.Adapters;
+package com.example.luisafarias.myapplication.adapters;
 
 import android.app.Activity;
 import android.content.Context;

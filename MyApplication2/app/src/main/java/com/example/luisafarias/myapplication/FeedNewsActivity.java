@@ -9,7 +9,7 @@ import android.util.Log;
 import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.FeedItem;
-import com.example.luisafarias.myapplication.Adapters.ItemAdapter;
+import com.example.luisafarias.myapplication.adapters.ItemAdapter;
 import com.example.luisafarias.myapplication.model.RetrofitClient;
 
 import java.util.ArrayList;

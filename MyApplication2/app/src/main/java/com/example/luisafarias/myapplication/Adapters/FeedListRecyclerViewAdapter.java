@@ -1,4 +1,4 @@
-package com.example.luisafarias.myapplication.Adapters;
+package com.example.luisafarias.myapplication.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -78,7 +78,10 @@ public class FeedListRecyclerViewAdapter extends RecyclerView.Adapter<FeedListRe
         return _feedList.size();
     }
 
-
+    public void updateAnswers(List<Feed> feeds){
+        this._feedList = feeds;
+        notifyDataSetChanged();
+    }
 
 
 
