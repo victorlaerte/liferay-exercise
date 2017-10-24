@@ -20,6 +20,10 @@ import com.wedeploy.android.auth.TokenAuthorization;
 
 import org.json.JSONException;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class NewFeedFragment extends Fragment {
 
@@ -110,12 +114,28 @@ public class NewFeedFragment extends Fragment {
         });
     }
 
-//    public Channel getChannel(){
-//        WeRetrofitService wrs = RetrofitClient.getClient();
-//       return null;
-//    }
+    public Channel getChannelNF(){
+        WeRetrofitService wrs = RetrofitClient.getClient(_feed.getPartMain())
+                .create(WeRetrofitService.class);
+        wrs.getItems().enqueue(new Callback<Feed>() {
+            @Override
+            public void onResponse(Call<Feed> call, Response<Feed> response) {
+                if(response.isSuccessful()){
+                    _c = response.body().get_channel();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Feed> call, Throwable t) {
+                Log.e("NewFeedFragment", t.getMessage());
+            }
+        });
+       return _c;
+    }
 
     private Authorization _authorization;
+    private Channel _c;
     private Feed _feed;
     private boolean _newOredit = false;
     private EditText _nome;
