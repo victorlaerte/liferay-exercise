@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
@@ -12,42 +13,33 @@ import java.util.List;
 /**
  * Created by luisafarias on 19/10/17.
  */
-@Root(strict = false)
+@Root(name = "channel", strict = false)
 public class Channel implements Parcelable{
-    @Attribute(name = "title")
+    @Element(name = "title")
     private String title;
 
-    @Attribute(name = "link")
-    private String link;
+    //@Element(name = "link")
+   // private String _link;
 
-    @Attribute(name = "description")
+    @Element(name = "description")
     private String description;
 
-    @Attribute(name = "copyright")
+    @Element(name = "copyright")
     private String copyright;
 
     @ElementList(name = "item", inline = true)
     private List<FeedItem> item;
 
     //private Image image;
-    @Attribute(name = "language")
+    @Element(name = "language")
     private String language;
 
-    public Channel(){}
-
-    public Channel(String title, String link, String description, String copyright, List<FeedItem> item, String language){
-        setTitle(title);
-        setLink(link);
-        setDescription(description);
-        setCopyright(copyright);
-        setItem(item);
-        setLanguage(language);
-    }
+    public Channel(){}//para desserializar precisa do construtor vazio public
 
     protected Channel(Parcel in) {
         title = in.readString();
         description = in.readString();
-        link = in.readString();
+        //this._link = in.readString();
         item = in.createTypedArrayList(FeedItem.CREATOR);
         //item = in.createTypedArray(FeedItem.CREATOR);
         language = in.readString();
@@ -58,7 +50,7 @@ public class Channel implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeString(description);
-        dest.writeString(link);
+        //dest.writeString(this._link);
         dest.writeTypedList(item);
         //dest.writeTypedArray(item, flags);
         dest.writeString(language);
@@ -102,15 +94,15 @@ public class Channel implements Parcelable{
         this.description = description;
     }
 
-    public String getLink ()
-    {
-        return link;
-    }
+    //public String getLink ()
+//    {
+//        return this._link;
+//    }
 
-    public void setLink (String link)
-    {
-        this.link = link;
-    }
+   // public void setLink (String link)
+//    {
+//        this._link = link;
+//    }
 
     public List<FeedItem> getItem ()
     {
@@ -155,6 +147,6 @@ public class Channel implements Parcelable{
     @Override
     public String toString()
     {
-        return "ClassPojo [title = "+title+", description = "+description+", link = "+link+", item = "+item+", image = "+/**image+****/", language = "+language+", copyright = "+copyright+"]";
+        return "ClassPojo [title = "+title+", description = "+description+", item = "+this.item+", image = "+/**image+****/", language = "+language+", copyright = "+copyright+"]";
     }
 }

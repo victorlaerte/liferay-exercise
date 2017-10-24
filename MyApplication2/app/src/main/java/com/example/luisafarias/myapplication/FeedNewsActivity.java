@@ -58,7 +58,7 @@ public class FeedNewsActivity extends AppCompatActivity {
                    String c = response.body().get_channel().getTitle();
                    //List<FeedItem> a = response.body();
                   // String testeNome = response.body().get(0).getTitle();
-                   // adapter.updateAnswers(response.body().get_channel().getItem());
+                   adapter.updateAnswers(response.body().get_channel().getItem());
                    Log.d("FeedNewsActivity","posts loaded from API");
                }
            }

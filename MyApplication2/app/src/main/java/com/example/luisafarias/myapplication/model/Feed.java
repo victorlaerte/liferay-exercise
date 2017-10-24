@@ -15,7 +15,7 @@ import java.util.List;
 @Root(name = "rss", strict = false)
 public class Feed implements Parcelable {
 
-    public Feed(){}
+    public Feed(){} //para desserializar precisa do construtor vazio public
 
     public Feed(String nome, String url, String userId, Channel channel){
         set_title(nome);

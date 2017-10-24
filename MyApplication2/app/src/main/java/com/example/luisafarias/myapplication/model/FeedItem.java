@@ -10,25 +10,18 @@ import org.simpleframework.xml.Root;
 /**
  * Created by luisafarias on 19/10/17.
  */
-@Root(strict = false)
+@Root(name = "item", strict = false)
 public class FeedItem implements Parcelable {
-    @Attribute(name = "pubDate", required = false)
+    @Element(name = "pubDate", required = false)
     private String pubDate;
-    @Attribute(name = "title", required = false)
+    @Element(name = "title", required = false)
     private String title;
-    @Attribute(name = "description", required = false)
+    @Element(name = "description", required = false)
     private String description;
-    @Attribute(name = "link", required = false)
+    @Element(name = "link", required = false)
     private String link;
 
-    public FeedItem(){}
-
-    public FeedItem(String pubDate, String title, String description, String link){
-        setPubDate(pubDate);
-        setTitle(title);
-        setDescription(description);
-        setLink(link);
-    }
+    public FeedItem(){};//para desserializar precisa do construtor vazio public
 
     protected FeedItem(Parcel in) {
         pubDate = in.readString();
