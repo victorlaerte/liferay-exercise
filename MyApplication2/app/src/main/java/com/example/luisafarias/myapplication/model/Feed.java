@@ -68,6 +68,26 @@ public class Feed implements Parcelable {
 
     private void set_userId(String _userId) {this._userId = _userId;}
 
+    public String getPartMain(){
+        int a = 0;
+        if (_url.contains(".br")){
+            a = _url.indexOf(".br/");
+        } else if ( _url.contains(".com/")){
+            a = _url.indexOf(".com/");
+        }
+        return _url.substring(0,(a+5));
+    }
+
+    public String getPartXml(){
+        int a = 0;
+        if (_url.contains(".br")){
+            a = _url.indexOf(".br/");
+        } else if ( _url.contains(".com/")){
+            a = _url.indexOf(".com/");
+        }
+        return _url.substring((a+5));
+    }
+
     @Override
     public int describeContents() {
         return 0;

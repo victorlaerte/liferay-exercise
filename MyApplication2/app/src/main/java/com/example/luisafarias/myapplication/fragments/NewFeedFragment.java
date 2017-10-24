@@ -10,8 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.luisafarias.myapplication.R;
+import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
+import com.example.luisafarias.myapplication.model.Channel;
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.Repositorio;
+import com.example.luisafarias.myapplication.model.RetrofitClient;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 
@@ -106,6 +109,11 @@ public class NewFeedFragment extends Fragment {
             }
         });
     }
+
+//    public Channel getChannel(){
+//        WeRetrofitService wrs = RetrofitClient.getClient();
+//       return null;
+//    }
 
     private Authorization _authorization;
     private Feed _feed;
