@@ -1,4 +1,4 @@
-package com.example.luisafarias.myapplication;
+package com.example.luisafarias.myapplication.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,13 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.FeedItem;
 
 import java.util.List;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 /**
  * Created by luisafarias on 19/10/17.
@@ -26,7 +23,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
     private Context _context;
     private LayoutInflater _layoutInflater;
 
-    ItemAdapter(Context context, List<FeedItem> feed){
+    public ItemAdapter(Context context, List<FeedItem> feed){
         this._feedItems = feed;
         this._context = context;
     }

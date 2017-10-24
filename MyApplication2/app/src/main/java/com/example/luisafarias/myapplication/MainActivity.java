@@ -20,8 +20,6 @@ import android.app.FragmentTransaction;
 import com.example.luisafarias.myapplication.fragments.FeedListFragment;
 import com.example.luisafarias.myapplication.fragments.NewFeedFragment;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
-import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
-import com.example.luisafarias.myapplication.model.FeedItem;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
@@ -32,13 +30,8 @@ import com.wedeploy.android.transport.Response;
 import org.json.JSONException;
 
 import com.example.luisafarias.myapplication.model.Feed;
-import com.example.luisafarias.myapplication.model.FeedListAdapter;
+import com.example.luisafarias.myapplication.Adapters.FeedListAdapter;
 import com.example.luisafarias.myapplication.model.Repositorio;
-
-import java.util.List;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 

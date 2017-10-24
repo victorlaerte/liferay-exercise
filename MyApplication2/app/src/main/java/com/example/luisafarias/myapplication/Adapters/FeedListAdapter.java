@@ -1,4 +1,4 @@
-package com.example.luisafarias.myapplication.model;
+package com.example.luisafarias.myapplication.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
+import com.example.luisafarias.myapplication.model.Feed;
 import com.wedeploy.android.auth.Authorization;
 
 import java.util.List;

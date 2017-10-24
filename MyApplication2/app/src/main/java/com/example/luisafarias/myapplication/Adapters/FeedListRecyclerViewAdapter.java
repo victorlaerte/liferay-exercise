@@ -1,4 +1,4 @@
-package com.example.luisafarias.myapplication.model;
+package com.example.luisafarias.myapplication.Adapters;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.interfaces.ItemClickListener;
+import com.example.luisafarias.myapplication.model.Feed;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package com.example.luisafarias.myapplication;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,15 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
-import com.example.luisafarias.myapplication.model.AnswersResponse;
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.FeedItem;
+import com.example.luisafarias.myapplication.Adapters.ItemAdapter;
 import com.example.luisafarias.myapplication.model.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
