@@ -23,7 +23,7 @@ public class FeedNewsActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_feed_news);
 
-		_rs = RetrofitClient.getClient("http://g1.globo.com/")
+		_rs = RetrofitClient.getInstance("http://g1.globo.com/")
 			.create(WeRetrofitService.class);
 		_feedItemList = new ArrayList<FeedItem>();
 		_feed_list = (RecyclerView) findViewById(R.id.feed_news_list);

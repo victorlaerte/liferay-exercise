@@ -95,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
 										intent.putExtra("tokenUserId", extra);
 
 										finish();
-
 										startActivity(intent);
 									}
 

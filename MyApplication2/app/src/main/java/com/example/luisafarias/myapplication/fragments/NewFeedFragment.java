@@ -25,6 +25,7 @@ public class NewFeedFragment extends Fragment {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		if (getArguments() != null) {
 			_userId = getArguments().getString("userId");
 			_token = getArguments().getString("token");
@@ -37,6 +38,7 @@ public class NewFeedFragment extends Fragment {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		Bundle savedInstanceState) {
+
 		// Inflate the layout for this fragment
 		_view = inflater.inflate(R.layout.fragment_new_feed, container, false);
 		_nome = _view.findViewById(R.id.newNameFeed);
@@ -56,9 +58,7 @@ public class NewFeedFragment extends Fragment {
 					}
 				}
 			});
-		}
-		if (!_newOrEdit) {
-
+		} else {
 			save.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -70,7 +70,6 @@ public class NewFeedFragment extends Fragment {
 						saveNewFeed(feed);
 					} catch (JSONException e) {
 						Log.e(NewFeedFragment.class.getName(), e.getMessage());
-						e.printStackTrace();
 					}
 				}
 			});
@@ -112,13 +111,13 @@ public class NewFeedFragment extends Fragment {
 	}
 
 	public Channel getChannelNF() {
-		WeRetrofitService wrs = RetrofitClient.getClient(_feed.getPartMain())
+		WeRetrofitService wrs = RetrofitClient.getInstance(_feed.getPartMain())
 			.create(WeRetrofitService.class);
 		wrs.getItems().enqueue(new Callback<Feed>() {
 			@Override
 			public void onResponse(Call<Feed> call, Response<Feed> response) {
 				if (response.isSuccessful()) {
-					_c = response.body().get_channel();
+					_channel = response.body().get_channel();
 				}
 			}
 
@@ -127,11 +126,11 @@ public class NewFeedFragment extends Fragment {
 				Log.e("NewFeedFragment", t.getMessage());
 			}
 		});
-		return _c;
+		return _channel;
 	}
 
 	private Authorization _authorization;
-	private Channel _c;
+	private Channel _channel;
 	private Feed _feed;
 	private boolean _newOrEdit = false;
 	private EditText _nome;

@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
 		final Intent intent = new Intent(this, LoginActivity.class);
 		int id = item.getItemId();
-		final int privated = this.MODE_PRIVATE;
 
 		if (id == R.id.logout) {
 			_weDeploy.auth(Constants.AUTH_URL)
@@ -109,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
 				.signOut()
 				.execute(new Callback() {
 					public void onSuccess(Response response) {
-						SharedPreferences sharedPred =
-							getSharedPreferences("user", privated);
-						SharedPreferences.Editor editor = sharedPred.edit();
+						SharedPreferences sharedPref =
+							getSharedPreferences("user", MODE_PRIVATE);
+						SharedPreferences.Editor editor = sharedPref.edit();
 						editor.clear();
 						editor.apply();
 						Log.d(MainActivity.class.getName(), "saiu");

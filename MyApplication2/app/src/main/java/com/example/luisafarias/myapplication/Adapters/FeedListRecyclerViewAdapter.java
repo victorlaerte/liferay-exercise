@@ -43,7 +43,7 @@ public class FeedListRecyclerViewAdapter
 
 	@Override
 	public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext())
+		View view = LayoutInflater.from(_context)
 			.inflate(R.layout.feed_body, null);//dar uma olhada aqui depois
 		CustomViewHolder viewHolder = new CustomViewHolder(view);
 		return viewHolder;

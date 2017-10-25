@@ -10,6 +10,7 @@ import retrofit2.http.GET;
 
 public interface WeRetrofitService {
 
+	//TODO https://stackoverflow.com/questions/32559333/retrofit-2-dynamic-url
 	@GET("dynamo/brasil/rss2.xml")
 	Call<Feed> getItems();
 }

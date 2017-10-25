@@ -1,6 +1,7 @@
 package com.example.luisafarias.myapplication;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,6 +12,7 @@ import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.transport.Response;
+import java.net.URL;
 
 public class NewUserActivity extends AppCompatActivity {
 

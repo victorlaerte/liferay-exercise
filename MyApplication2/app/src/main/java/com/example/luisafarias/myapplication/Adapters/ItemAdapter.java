@@ -18,6 +18,8 @@ import java.util.List;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
 	private List<FeedItem> _feedItems;
+
+	//TODO Se não esttiver utilizando remover
 	private Context _context;
 	private LayoutInflater _layoutInflater;
 
