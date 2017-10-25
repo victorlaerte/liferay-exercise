@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
 import java.util.List;
 
@@ -70,8 +71,8 @@ public class FeedListAdapter extends BaseAdapter {
 			@Override
 			public boolean onLongClick(View view) {
 				Bundle bundle = new Bundle();
-				bundle.putParcelable("feed", feed);
-				bundle.putString("token", _authorization.getToken());
+				bundle.putParcelable(Constants.FEED, feed);
+				bundle.putString(Constants.TOKEN, _authorization.getToken());
 				PopUpFragment popUpFragment = new PopUpFragment();
 				popUpFragment.setArguments(bundle);
 				popUpFragment.show(

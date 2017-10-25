@@ -13,6 +13,7 @@ import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.adapters.FeedListRecyclerViewAdapter;
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.Repositorio;
+import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 import java.util.ArrayList;
@@ -24,8 +25,8 @@ public class FeedListFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
-			_token = getArguments().getString("tokenKey");
-			_feed = getArguments().getParcelable("feed");
+			_token = getArguments().getString(Constants.TOKEN_KEY);
+			_feed = getArguments().getParcelable(Constants.FEED);
 			if (_feed != null && _token != null) {
 				Log.d(FeedListFragment.class.getName(), _feed.getTitle());
 			}

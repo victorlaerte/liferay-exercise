@@ -22,16 +22,16 @@ public class LoginActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		_sharedPref = getSharedPreferences("user", this.MODE_PRIVATE);
-		if (_sharedPref.contains("token") && _sharedPref.contains("userID")) {
-			String token = _sharedPref.getString("token", "");
-			String userID = _sharedPref.getString("userID", "");
+		_sharedPref = getSharedPreferences(Constants.USER, this.MODE_PRIVATE);
+		if (_sharedPref.contains(Constants.TOKEN) && _sharedPref.contains(Constants.USER_ID)) {
+			String token = _sharedPref.getString(Constants.TOKEN, "");
+			String userID = _sharedPref.getString(Constants.USER_ID, "");
 
 			Intent intent = new Intent(this, MainActivity.class);
 			Bundle extra = new Bundle();
-			extra.putString("tokenKey", token);
-			extra.putString("userID", userID);
-			intent.putExtra("tokenUserId", extra);
+			extra.putString(Constants.TOKEN_KEY, token);
+			extra.putString(Constants.USER_ID, userID);
+			intent.putExtra(Constants.TOKEN_USER_ID, extra);
 			startActivity(intent);
 		}
 		setContentView(R.layout.activity_login);
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 					final JSONObject jsonBody;
 					try {
 						jsonBody = new JSONObject(response.getBody());
-						_token = jsonBody.getString("access_token");
+						_token = jsonBody.getString(Constants.ACCESS_TOKEN);
 
 						//Log.d("shared token",_sharedPref.getString("token",""));
 
@@ -81,18 +81,18 @@ public class LoginActivity extends AppCompatActivity {
 									@Override
 									public void onSuccess(String userID) {
 										_sharedPref =
-											getSharedPreferences("user",
+											getSharedPreferences(Constants.USER,
 												privated);
 										SharedPreferences.Editor editor =
 											_sharedPref.edit();
-										editor.putString("token", _token);
-										editor.putString("userID", userID);
+										editor.putString(Constants.TOKEN, _token);
+										editor.putString(Constants.USER_ID, userID);
 										editor.apply();
 										_login = true;
 
-										extra.putString("tokenKey", _token);
-										extra.putString("userID", userID);
-										intent.putExtra("tokenUserId", extra);
+										extra.putString(Constants.TOKEN_KEY, _token);
+										extra.putString(Constants.USER_ID, userID);
+										intent.putExtra(Constants.TOKEN_USER_ID, extra);
 
 										finish();
 										startActivity(intent);

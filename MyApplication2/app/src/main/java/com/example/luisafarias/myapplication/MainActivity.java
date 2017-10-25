@@ -50,14 +50,14 @@ public class MainActivity extends AppCompatActivity {
 		ft.add(R.id.frame_layout_fragment, feedListFragment, "test");
 		ft.commit();
 
-		Bundle data = getIntent().getBundleExtra("tokenUserId");
-		_token = data.getString("tokenKey");
-		_userId = data.getString("userID");
+		Bundle data = getIntent().getBundleExtra(Constants.TOKEN_USER_ID);
+		_token = data.getString(Constants.TOKEN_KEY);
+		_userId = data.getString(Constants.USER_ID);
 
 		if (_userId != null) Log.d("mainrecebeuserID", _userId);
 
 		Bundle bundle = new Bundle();
-		bundle.putString("tokenKey", _token);
+		bundle.putString(Constants.TOKEN_KEY, _token);
 		feedListFragment.setArguments(bundle);
 
 		if (_token == null) {
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 				.execute(new Callback() {
 					public void onSuccess(Response response) {
 						SharedPreferences sharedPref =
-							getSharedPreferences("user", MODE_PRIVATE);
+							getSharedPreferences(Constants.USER, MODE_PRIVATE);
 						SharedPreferences.Editor editor = sharedPref.edit();
 						editor.clear();
 						editor.apply();
@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
 					}
 
 					public void onFailure(Exception e) {
+
 						Log.e(MainActivity.class.getName(), e.getMessage());
 					}
 				});
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
 		if (requestCode == ACCESS_RESULT_NEW_FEED) {
 			if (intent != null) {
-				Feed feed = intent.getExtras().getParcelable("feed");
+				Feed feed = intent.getExtras().getParcelable(Constants.FEED);
 				try {
 					Repositorio.getInstance()
 						.addFeed(feed, _authorization,
@@ -166,9 +167,9 @@ public class MainActivity extends AppCompatActivity {
 
 	public void goAddNewFeed(View view) {
 		Bundle bundle = new Bundle();
-		bundle.putString("token", _token);
-		bundle.putString("userId", _userId);
-		bundle.putBoolean("newOredit", false);
+		bundle.putString(Constants.TOKEN, _token);
+		bundle.putString(Constants.USER_ID, _userId);
+		bundle.putBoolean(Constants.NEW_OR_EDIT, false);
 		Fragment fragment = new NewFeedFragment();
 		fragment.setArguments(bundle);
 		FragmentManager fragmentManager = getFragmentManager();
@@ -182,9 +183,9 @@ public class MainActivity extends AppCompatActivity {
 
 	public void goEditFeed(Feed feed) {
 		Bundle bundle = new Bundle();
-		bundle.putParcelable("feed", feed);
-		bundle.putBoolean("newOredit", true);
-		bundle.putString("token", _token);
+		bundle.putParcelable(Constants.FEED, feed);
+		bundle.putBoolean(Constants.NEW_OR_EDIT, true);
+		bundle.putString(Constants.TOKEN, _token);
 		Fragment fragment = new NewFeedFragment();
 		fragment.setArguments(bundle);
 		FragmentManager fragmentManager = getFragmentManager();

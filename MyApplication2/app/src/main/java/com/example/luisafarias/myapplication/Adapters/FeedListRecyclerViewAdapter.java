@@ -13,6 +13,8 @@ import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.interfaces.ItemClickListener;
 import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.util.Constants;
+
 import java.util.List;
 
 /**
@@ -60,8 +62,8 @@ public class FeedListRecyclerViewAdapter
 			public void onClick(View view, int position, boolean isLongClick) {
 				if (isLongClick) {
 					Bundle bundle = new Bundle();
-					bundle.putParcelable("feed", feed);
-					bundle.putString("token", _token);
+					bundle.putParcelable(Constants.FEED, feed);
+					bundle.putString(Constants.TOKEN, _token);
 					PopUpFragment popUpFragment = new PopUpFragment();
 					popUpFragment.setArguments(bundle);
 					popUpFragment.show(

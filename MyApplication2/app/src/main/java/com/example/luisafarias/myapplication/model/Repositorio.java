@@ -94,11 +94,12 @@ public class Repositorio implements IRepositorio {
 			JSONObject feedJsonObject =
 				new JSONObject().put("name", nomeUrl).put("url", url);
 
-			_weDeploy.data("https://data-weread.wedeploy.io")
+			_weDeploy.data(Constants.DATA_URL)
 				.authorization(authorization)
 				.update("Feeds/" + feed.getId(), feedJsonObject)
 				.execute(new Callback() {
 					public void onSuccess(Response response) {
+
 						Log.d("repositorio", "editado com sucesso");
 					}
 
@@ -128,6 +129,7 @@ public class Repositorio implements IRepositorio {
 
 					@Override
 					public void onFailure(Exception e) {
+
 						Log.e(Repositorio.class.getName(), e.getMessage());
 					}
 				});

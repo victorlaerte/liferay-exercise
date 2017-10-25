@@ -12,6 +12,7 @@ import android.util.Log;
 import com.example.luisafarias.myapplication.MainActivity;
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.Repositorio;
+import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 
@@ -24,9 +25,9 @@ public class PopUpFragment extends DialogFragment {
 	@NonNull
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		this._feed = getArguments().getParcelable("feed");
+		this._feed = getArguments().getParcelable(Constants.FEED);
 		String nome = _feed.getTitle();
-		String token = getArguments().getString("token");
+		String token = getArguments().getString(Constants.TOKEN);
 		_authorization = new TokenAuthorization(token);
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setMessage("O que deseja fazer com" + nome)

@@ -14,6 +14,7 @@ import com.example.luisafarias.myapplication.model.Channel;
 import com.example.luisafarias.myapplication.model.Feed;
 import com.example.luisafarias.myapplication.model.Repositorio;
 import com.example.luisafarias.myapplication.model.RetrofitClient;
+import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 import org.json.JSONException;
@@ -27,10 +28,10 @@ public class NewFeedFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		if (getArguments() != null) {
-			_userId = getArguments().getString("userId");
-			_token = getArguments().getString("token");
-			_feed = getArguments().getParcelable("feed");
-			_newOrEdit = getArguments().getBoolean("newOredit");
+			_userId = getArguments().getString(Constants.USER_ID);
+			_token = getArguments().getString(Constants.TOKEN);
+			_feed = getArguments().getParcelable(Constants.FEED);
+			_newOrEdit = getArguments().getBoolean(Constants.NEW_OR_EDIT);
 			_authorization = new TokenAuthorization(_token);
 			Log.d("NewFeedFragment", "testando");
 		}
@@ -105,6 +106,7 @@ public class NewFeedFragment extends Fragment {
 
 				@Override
 				public void onFailure(Exception e) {
+
 					Log.e(NewFeedFragment.class.getName(), e.getMessage());
 				}
 			});
@@ -123,6 +125,7 @@ public class NewFeedFragment extends Fragment {
 
 			@Override
 			public void onFailure(Call<Feed> call, Throwable t) {
+
 				Log.e("NewFeedFragment", t.getMessage());
 			}
 		});
