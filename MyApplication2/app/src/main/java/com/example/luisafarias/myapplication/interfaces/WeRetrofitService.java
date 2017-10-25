@@ -1,7 +1,6 @@
 package com.example.luisafarias.myapplication.interfaces;
 
 import com.example.luisafarias.myapplication.model.Feed;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 
@@ -11,6 +10,6 @@ import retrofit2.http.GET;
 
 public interface WeRetrofitService {
 
-    @GET("dynamo/brasil/rss2.xml")
-    Call<Feed> getItems();
+	@GET("dynamo/brasil/rss2.xml")
+	Call<Feed> getItems();
 }

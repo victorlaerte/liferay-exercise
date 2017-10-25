@@ -2,8 +2,6 @@ package com.example.luisafarias.myapplication.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -12,92 +10,90 @@ import org.simpleframework.xml.Root;
  */
 @Root(name = "item", strict = false)
 public class FeedItem implements Parcelable {
-    @Element(name = "pubDate", required = false)
-    private String pubDate;
-    @Element(name = "title", required = false)
-    private String title;
-    @Element(name = "description", required = false)
-    private String description;
-    @Element(name = "link", required = false)
-    private String link;
+	@Element(name = "pubDate", required = false) private String pubDate;
+	@Element(name = "title", required = false) private String title;
+	@Element(name = "description", required = false) private String description;
+	@Element(name = "link", required = false) private String link;
 
-    public FeedItem(){};//para desserializar precisa do construtor vazio public
+	public FeedItem() {
+	}
 
-    protected FeedItem(Parcel in) {
-        pubDate = in.readString();
-        title = in.readString();
-        description = in.readString();
-        link = in.readString();
-    }
+	;//para desserializar precisa do construtor vazio public
 
-    public static final Creator<FeedItem> CREATOR = new Creator<FeedItem>() {
-        @Override
-        public FeedItem createFromParcel(Parcel in) {
-            return new FeedItem(in);
-        }
+	protected FeedItem(Parcel in) {
+		pubDate = in.readString();
+		title = in.readString();
+		description = in.readString();
+		link = in.readString();
+	}
 
-        @Override
-        public FeedItem[] newArray(int size) {
-            return new FeedItem[size];
-        }
-    };
+	public static final Creator<FeedItem> CREATOR = new Creator<FeedItem>() {
+		@Override
+		public FeedItem createFromParcel(Parcel in) {
+			return new FeedItem(in);
+		}
 
-    public String getPubDate ()
-    {
-        return pubDate;
-    }
+		@Override
+		public FeedItem[] newArray(int size) {
+			return new FeedItem[size];
+		}
+	};
 
-    public void setPubDate (String pubDate)
-    {
-        this.pubDate = pubDate;
-    }
+	public String getPubDate() {
+		return pubDate;
+	}
 
-    public String getTitle ()
-    {
-        return title;
-    }
+	public void setPubDate(String pubDate) {
+		this.pubDate = pubDate;
+	}
 
-    public void setTitle (String title)
-    {
-        this.title = title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public String getDescription ()
-    {
-        return description;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public void setDescription (String description)
-    {
-        this.description = description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public String getLink ()
-    {
-        return link;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setLink (String link)
-    {
-        this.link = link;
-    }
+	public String getLink() {
+		return link;
+	}
 
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [pubDate = "+pubDate+", title = "+title+", description = "+description+", link = "+link+"]";
-    }
+	public void setLink(String link) {
+		this.link = link;
+	}
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+	@Override
+	public String toString() {
+		return "ClassPojo [pubDate = "
+			+ pubDate
+			+ ", title = "
+			+ title
+			+ ", description = "
+			+ description
+			+ ", link = "
+			+ link
+			+ "]";
+	}
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(pubDate);
-        dest.writeString(title);
-        dest.writeString(description);
-        dest.writeString(link);
-    }
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(pubDate);
+		dest.writeString(title);
+		dest.writeString(description);
+		dest.writeString(link);
+	}
 }
