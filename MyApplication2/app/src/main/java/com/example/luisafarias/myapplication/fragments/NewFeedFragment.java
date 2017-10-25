@@ -33,7 +33,7 @@ public class NewFeedFragment extends Fragment {
             _userId = getArguments().getString("userId");
             _token = getArguments().getString("token");
             _feed = getArguments().getParcelable("feed");
-            _newOredit = getArguments().getBoolean("newOredit");
+            _newOrEdit = getArguments().getBoolean("newOredit");
             _authorization = new TokenAuthorization(_token);
             Log.d("NewFeedFragment", "testando");
         }
@@ -46,7 +46,7 @@ public class NewFeedFragment extends Fragment {
         _nome = _view.findViewById(R.id.newNameFeed);
         _url = _view.findViewById(R.id.newUrlFeed);
         Button save = _view.findViewById(R.id.save);
-        if (_newOredit){
+        if (_newOrEdit){
             _nome.setText(_feed.get_title());
             _url.setText(_feed.get_url());
 
@@ -62,7 +62,7 @@ public class NewFeedFragment extends Fragment {
                 }
             });
         }
-        if (!_newOredit){
+        if (!_newOrEdit){
 
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -137,7 +137,7 @@ public class NewFeedFragment extends Fragment {
     private Authorization _authorization;
     private Channel _c;
     private Feed _feed;
-    private boolean _newOredit = false;
+    private boolean _newOrEdit = false;
     private EditText _nome;
     private String _token;
     private String _userId;

@@ -42,7 +42,7 @@ public class WeDeployActions {
                             JSONObject jsonObject = new JSONObject(response.getBody());
                             _userID = jsonObject.getString("id");
 
-                            callbackUserID.onSucces(_userID);
+                            callbackUserID.onSuccess(_userID);
 
                         } catch (JSONException e) {
                             callbackUserID.onFailure(e);
@@ -61,7 +61,7 @@ public class WeDeployActions {
     }
 
     public interface CallbackUserID{
-        void onSucces(String userID);
+        void onSuccess(String userID);
         void onFailure(Exception e);
     }
 

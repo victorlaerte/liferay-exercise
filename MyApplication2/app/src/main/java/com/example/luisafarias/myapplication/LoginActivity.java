@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                                     new TokenAuthorization(_token),
                                     new WeDeployActions.CallbackUserID() {
                                 @Override
-                                public void onSucces(String userID) {
+                                public void onSuccess(String userID) {
                                     _sharedPref = getSharedPreferences("user", privated);
                                     SharedPreferences.Editor editor = _sharedPref.edit();
                                     editor.putString("token",_token);
