@@ -27,12 +27,15 @@ public class LoginActivity extends AppCompatActivity {
 			String token = _sharedPref.getString(Constants.TOKEN, "");
 			String userID = _sharedPref.getString(Constants.USER_ID, "");
 
-			Intent intent = new Intent(this, MainActivity.class);
-			Bundle extra = new Bundle();
-			extra.putString(Constants.TOKEN_KEY, token);
-			extra.putString(Constants.USER_ID, userID);
-			intent.putExtra(Constants.TOKEN_USER_ID, extra);
-			startActivity(intent);
+//			Intent intent = new Intent(this, MainActivity.class);
+//			Bundle extra = new Bundle();
+//			extra.putString(Constants.TOKEN_KEY, token);
+//			extra.putString(Constants.USER_ID, userID);
+//			intent.putExtra(Constants.TOKEN_USER_ID, extra);
+//			finish();
+//			startActivity(intent);
+
+			openMainActivity(token,userID);
 		}
 		setContentView(R.layout.activity_login);
 	}
@@ -47,20 +50,9 @@ public class LoginActivity extends AppCompatActivity {
 
 	public void login(String emailLogin, String passwordLogin)
 		throws WeDeployException, JSONException {
-		final Intent intent = new Intent(this, MainActivity.class);
-		final Bundle extra = new Bundle();
+//		final Intent intent = new Intent(this, MainActivity.class);
+//		final Bundle extra = new Bundle();
 		final int privated = this.MODE_PRIVATE;
-
-		//        if (_sharedPref.contains("user")){
-		//            EditText editTextLogin = (EditText) findViewById(R.id.emailogin);
-		//            EditText editTextSenha = (EditText) findViewById(R.id.senhalogin);
-		//            String email = _sharedPref.getString("email","");
-		//            String senha = _sharedPref.getString("password","");
-		//            editTextLogin.setText(email);
-		//            editTextSenha.setText(senha);
-		//
-		//
-		//        }
 
 		_weDeploy.auth(Constants.AUTH_URL)
 			.signIn(emailLogin, passwordLogin)
@@ -88,14 +80,15 @@ public class LoginActivity extends AppCompatActivity {
 										editor.putString(Constants.TOKEN, _token);
 										editor.putString(Constants.USER_ID, userID);
 										editor.apply();
-										_login = true;
+										//_login = true;
 
-										extra.putString(Constants.TOKEN_KEY, _token);
-										extra.putString(Constants.USER_ID, userID);
-										intent.putExtra(Constants.TOKEN_USER_ID, extra);
-
-										finish();
-										startActivity(intent);
+//										extra.putString(Constants.TOKEN_KEY, _token);
+//										extra.putString(Constants.USER_ID, userID);
+//										intent.putExtra(Constants.TOKEN_USER_ID, extra);
+//
+//										finish();
+//										startActivity(intent);
+										openMainActivity(_token,userID);
 									}
 
 									@Override
@@ -124,15 +117,25 @@ public class LoginActivity extends AppCompatActivity {
 			});
 	}
 
+	public void openMainActivity(String token, String userId){
+		Intent intent = new Intent(this, MainActivity.class);
+		Bundle extra = new Bundle();
+		extra.putString(Constants.TOKEN_KEY, token);
+		extra.putString(Constants.USER_ID, userId);
+		intent.putExtra(Constants.TOKEN_USER_ID, extra);
+		finish();
+		startActivity(intent);
+	}
+
 	public void newAccount(View view) {
 		Intent intent = new Intent(this, NewUserActivity.class);
 		startActivity(intent);
 	}
 
-	private static boolean _login = false;
+	//private static boolean _login = false;
 	private SharedPreferences _sharedPref;
 	private static final String TAG = LoginActivity.class.getName();
 	private String _token;
-	private String _userID;
+	//private String _userID;
 	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
 }
