@@ -39,9 +39,9 @@ public class Repositorio implements IRepositorio {
 	@Override
 	public void addFeed(Feed feed, Authorization authorization,
 		final CallbackFeed callbackFeed) throws JSONException {
-		String nomeUrl = feed.get_title();
-		String userId = feed.get_userId();
-		String url = feed.get_url();
+		String nomeUrl = feed.getTitle();
+		String userId = feed.getUserId();
+		String url = feed.getUrl();
 
 		if (feed != null) {
 
@@ -65,9 +65,9 @@ public class Repositorio implements IRepositorio {
 								new JSONObject(response.getBody());
 
 							Feed feed = new Feed();
-							feed.set_title(jsonBody.getString("name"));
-							feed.set_url(jsonBody.getString("url"));
-							feed.set_id(jsonBody.getString("id"));
+							feed.setTitle(jsonBody.getString("name"));
+							feed.setUrl(jsonBody.getString("url"));
+							feed.setId(jsonBody.getString("id"));
 
 							callbackFeed.onSuccess(feed);
 						} catch (Exception e) {
@@ -86,8 +86,8 @@ public class Repositorio implements IRepositorio {
 	@Override
 	public void updateFeed(Feed feed, Authorization authorization,
 		final CallbackFeed callbackFeed) throws JSONException {
-		String nomeUrl = feed.get_title();
-		String url = feed.get_url();
+		String nomeUrl = feed.getTitle();
+		String url = feed.getUrl();
 
 		if (feed != null) {
 
@@ -96,7 +96,7 @@ public class Repositorio implements IRepositorio {
 
 			_weDeploy.data("https://data-weread.wedeploy.io")
 				.authorization(authorization)
-				.update("Feeds/" + feed.get_id(), feedJsonObject)
+				.update("Feeds/" + feed.getId(), feedJsonObject)
 				.execute(new Callback() {
 					public void onSuccess(Response response) {
 						Log.d("repositorio", "editado com sucesso");
@@ -113,7 +113,7 @@ public class Repositorio implements IRepositorio {
 		final CallbackFeed callbackFeed) {
 
 		if (feed != null) {
-			String id = feed.get_id();
+			String id = feed.getId();
 			Log.d(Repositorio.class.getName(), id);
 
 			_weDeploy.data(Constants.DATA_URL)
@@ -158,7 +158,7 @@ public class Repositorio implements IRepositorio {
 							String userId = jsonBody.getString("userId");
 							String id = jsonBody.getString("id");
 							feed = new Feed(nome, url, userId, null);
-							feed.set_id(id);
+							feed.setId(id);
 							feedList.add(feed);
 							//String jsonBodyString = jsonBody.toString();
 						}
@@ -196,9 +196,9 @@ public class Repositorio implements IRepositorio {
 						for (int i = 0; i < jsonArray.length(); i++) {
 							JSONObject jsonBody = (JSONObject) jsonArray.get(i);
 							Feed feed = new Feed();
-							feed.set_title(jsonBody.getString("name"));
-							feed.set_url(jsonBody.getString("url"));
-							feed.set_id(jsonBody.getString("id"));
+							feed.setTitle(jsonBody.getString("name"));
+							feed.setUrl(jsonBody.getString("url"));
+							feed.setId(jsonBody.getString("id"));
 							listaFeed.add(feed);
 						}
 

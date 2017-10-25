@@ -16,10 +16,10 @@ public class Feed implements Parcelable {
 	} //para desserializar precisa do construtor vazio public
 
 	public Feed(String nome, String url, String userId, Channel channel) {
-		set_title(nome);
-		set_url(url);
-		set_userId(userId);
-		set_channel(channel);
+		setTitle(nome);
+		setUrl(url);
+		setUserId(userId);
+		setChannel(channel);
 	}
 
 	protected Feed(Parcel in) {
@@ -41,47 +41,47 @@ public class Feed implements Parcelable {
 		}
 	};
 
-	public String get_title() {
+	public String getTitle() {
 		return this._title;
 	}
 
-	public String get_url() {
+	public String getUrl() {
 		return this._url;
 	}
 
-	public String get_userId() {
+	public String getUserId() {
 		return this._userId;
 	}
 
-	public String get_id() {
+	public String getId() {
 		return this._id;
 	}
 
-	public Channel get_channel() {
+	public Channel getChannel() {
 		return _channel;
 	}
 
-	public String get_version() {
+	public String getVersion() {
 		return _version;
 	}
 
-	public void set_channel(Channel channel) {
+	public void setChannel(Channel channel) {
 		this._channel = channel;
 	}
 
-	public void set_title(String _title) {
+	public void setTitle(String _title) {
 		this._title = _title;
 	}
 
-	public void set_url(String _url) {
+	public void setUrl(String _url) {
 		this._url = _url;
 	}
 
-	public void set_id(String _id) {
+	public void setId(String _id) {
 		this._id = _id;
 	}
 
-	private void set_userId(String _userId) {
+	private void setUserId(String _userId) {
 		this._userId = _userId;
 	}
 

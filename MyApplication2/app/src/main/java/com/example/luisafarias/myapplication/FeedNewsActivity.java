@@ -42,7 +42,7 @@ public class FeedNewsActivity extends AppCompatActivity {
 			public void onResponse(Call<Feed> call, Response<Feed> response) {
 				if (response.isSuccessful()) {
 					_adapter.updateAnswers(
-						response.body().get_channel().getItem());
+						response.body().getChannel().getItem());
 					Log.d("FeedNewsActivity", "posts loaded from API");
 				}
 			}

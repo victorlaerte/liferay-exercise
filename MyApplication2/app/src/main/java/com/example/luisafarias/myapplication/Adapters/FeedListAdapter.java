@@ -40,7 +40,7 @@ public class FeedListAdapter extends BaseAdapter {
 	}
 
 	public long getItemId(int position) {
-		return Long.parseLong(_feed.get(position).get_id());
+		return Long.parseLong(_feed.get(position).getId());
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -50,8 +50,8 @@ public class FeedListAdapter extends BaseAdapter {
 
 		TextView nome = view.findViewById(R.id.nome_url_recebida);
 		TextView urlTest = view.findViewById(R.id.idUrlTest);
-		nome.setText(feed.get_title());
-		urlTest.setText(feed.get_id());
+		nome.setText(feed.getTitle());
+		urlTest.setText(feed.getId());
 
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override

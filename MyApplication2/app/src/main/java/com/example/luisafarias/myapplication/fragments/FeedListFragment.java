@@ -27,9 +27,9 @@ public class FeedListFragment extends Fragment {
 			_token = getArguments().getString("tokenKey");
 			_feed = getArguments().getParcelable("feed");
 			if (_feed != null && _token != null) {
-				Log.d(FeedListFragment.class.getName(), _feed.get_title());
-				_authorization = new TokenAuthorization(_token);
+				Log.d(FeedListFragment.class.getName(), _feed.getTitle());
 			}
+			_authorization = new TokenAuthorization(_token);
 		}
 	}
 

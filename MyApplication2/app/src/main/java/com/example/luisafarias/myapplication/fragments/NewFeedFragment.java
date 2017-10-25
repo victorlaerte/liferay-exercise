@@ -45,8 +45,8 @@ public class NewFeedFragment extends Fragment {
 		_url = _view.findViewById(R.id.newUrlFeed);
 		Button save = _view.findViewById(R.id.save);
 		if (_newOrEdit) {
-			_nome.setText(_feed.get_title());
-			_url.setText(_feed.get_url());
+			_nome.setText(_feed.getTitle());
+			_url.setText(_feed.getUrl());
 
 			save.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -79,8 +79,8 @@ public class NewFeedFragment extends Fragment {
 
 	public void updateFeed() throws JSONException {
 		Feed feed = _feed;
-		feed.set_title(_nome.getText().toString());
-		feed.set_url(_url.getText().toString());
+		feed.setTitle(_nome.getText().toString());
+		feed.setUrl(_url.getText().toString());
 		Repositorio.getInstance()
 			.updateFeed(feed, _authorization, new Repositorio.CallbackFeed() {
 				@Override
@@ -117,7 +117,7 @@ public class NewFeedFragment extends Fragment {
 			@Override
 			public void onResponse(Call<Feed> call, Response<Feed> response) {
 				if (response.isSuccessful()) {
-					_channel = response.body().get_channel();
+					_channel = response.body().getChannel();
 				}
 			}
 
