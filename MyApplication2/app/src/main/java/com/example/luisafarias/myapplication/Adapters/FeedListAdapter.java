@@ -51,7 +51,7 @@ public class FeedListAdapter extends BaseAdapter {
 
 		TextView nome = view.findViewById(R.id.nome_url_recebida);
 		TextView urlTest = view.findViewById(R.id.idUrlTest);
-		nome.setText(feed.getTitle());
+		//nome.setText(feed.getTitle());
 		urlTest.setText(feed.getId());
 
 		view.setOnClickListener(new View.OnClickListener() {

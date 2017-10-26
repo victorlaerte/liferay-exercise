@@ -26,7 +26,7 @@ public class PopUpFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		this._feed = getArguments().getParcelable(Constants.FEED);
-		String nome = _feed.getTitle();
+		String nome = _feed.getChannel().getTitle();
 		String token = getArguments().getString(Constants.TOKEN);
 		_authorization = new TokenAuthorization(token);
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

@@ -45,8 +45,8 @@ public class NewFeedFragment extends Fragment {
 		_nome = _view.findViewById(R.id.newNameFeed);
 		_url = _view.findViewById(R.id.newUrlFeed);
 		Button save = _view.findViewById(R.id.save);
-		if (_newOrEdit) {
-			_nome.setText(_feed.getTitle());
+		if (_newOrEdit) { /**updateFeed**/
+			//_nome.setText(_feed.getTitle());
 			_url.setText(_feed.getUrl());
 
 			save.setOnClickListener(new View.OnClickListener() {
@@ -60,13 +60,14 @@ public class NewFeedFragment extends Fragment {
 				}
 			});
 		} else {
+			/**NewFeed**/
 			save.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					String name = _nome.getText().toString();
+					//String name = _nome.getText().toString();
 					String url = _url.getText().toString();
-					Feed feed = new Feed(name, url, _userId, null);
-					Log.d("teste", name + "  " + url);
+					Feed feed = new Feed(url, _userId, null);
+					Log.d("teste", url);
 					try {
 						saveNewFeed(feed);
 					} catch (JSONException e) {
@@ -80,7 +81,7 @@ public class NewFeedFragment extends Fragment {
 
 	public void updateFeed() throws JSONException {
 		Feed feed = _feed;
-		feed.setTitle(_nome.getText().toString());
+		//feed.setTitle(_nome.getText().toString());
 		feed.setUrl(_url.getText().toString());
 		Repositorio.getInstance()
 			.updateFeed(feed, _authorization, new Repositorio.CallbackFeed() {
