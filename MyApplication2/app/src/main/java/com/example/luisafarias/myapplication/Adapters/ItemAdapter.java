@@ -86,12 +86,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
 		public ItemHolder(View itemView) {
 			super(itemView);
-			titleTextField = (TextView) itemView.findViewById(R.id.title);
-			imageView = (ImageView) itemView.findViewById(R.id.image);
-			descriptionTextField =
-				(TextView) itemView.findViewById(R.id.description);
-			publicationDateTextField =
-				(TextView) itemView.findViewById(R.id.pubdate);
+			titleTextField = itemView.findViewById(R.id.title);
+			imageView = itemView.findViewById(R.id.image);
+			descriptionTextField = itemView.findViewById(R.id.description);
+			publicationDateTextField = itemView.findViewById(R.id.pubdate);
 		}
 	}
 }

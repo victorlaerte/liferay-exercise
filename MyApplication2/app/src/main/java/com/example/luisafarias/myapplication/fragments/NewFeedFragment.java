@@ -115,7 +115,7 @@ public class NewFeedFragment extends Fragment {
 	public Channel getChannelNF() {
 		WeRetrofitService wrs = RetrofitClient.getInstance(_feed.getPartMain())
 			.create(WeRetrofitService.class);
-		wrs.getItems().enqueue(new Callback<Feed>() {
+		wrs.getItems("dynamo/brasil/rss2.xml").enqueue(new Callback<Feed>() {
 			@Override
 			public void onResponse(Call<Feed> call, Response<Feed> response) {
 				if (response.isSuccessful()) {

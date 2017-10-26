@@ -37,7 +37,7 @@ public class FeedNewsActivity extends AppCompatActivity {
 	}
 
 	private void loadAnswers() {
-		_rs.getItems().enqueue(new Callback<Feed>() {
+		_rs.getItems("dynamo/brasil/rss2.xml").enqueue(new Callback<Feed>() {
 			@Override
 			public void onResponse(Call<Feed> call, Response<Feed> response) {
 				if (response.isSuccessful()) {

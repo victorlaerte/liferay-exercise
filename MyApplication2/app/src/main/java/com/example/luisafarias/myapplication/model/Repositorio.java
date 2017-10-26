@@ -42,6 +42,7 @@ public class Repositorio implements IRepositorio {
 		String nomeUrl = feed.getTitle();
 		String userId = feed.getUserId();
 		String url = feed.getUrl();
+		String channelTitle = feed.getChannel().getTitle();
 
 		if (feed != null) {
 
@@ -50,7 +51,8 @@ public class Repositorio implements IRepositorio {
 			//            }
 			JSONObject feedJsonObject = new JSONObject().put("name", nomeUrl)
 				.put("userId", userId)
-				.put("url", url);
+				.put("url", url)
+				.put("channelTitle", channelTitle);
 			//.put("id","teste12");
 
 			_weDeploy.data(Constants.DATA_URL)
@@ -68,6 +70,9 @@ public class Repositorio implements IRepositorio {
 							feed.setTitle(jsonBody.getString("name"));
 							feed.setUrl(jsonBody.getString("url"));
 							feed.setId(jsonBody.getString("id"));
+							Channel channel = new Channel();
+							channel.setTitle(jsonBody.getString("channelTitle"));
+							feed.setChannel(channel);
 
 							callbackFeed.onSuccess(feed);
 						} catch (Exception e) {
