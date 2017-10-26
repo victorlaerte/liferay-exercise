@@ -42,7 +42,7 @@ public class NewFeedFragment extends Fragment {
 
 		// Inflate the layout for this fragment
 		_view = inflater.inflate(R.layout.fragment_new_feed, container, false);
-		_nome = _view.findViewById(R.id.newNameFeed);
+		//_nome = _view.findViewById(R.id.newNameFeed);
 		_url = _view.findViewById(R.id.newUrlFeed);
 		Button save = _view.findViewById(R.id.save);
 		if (_newOrEdit) { /**updateFeed**/
@@ -53,7 +53,7 @@ public class NewFeedFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					try {
-						updateFeed();
+						updateFeed(_feed);
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -69,7 +69,7 @@ public class NewFeedFragment extends Fragment {
 					Feed feed = new Feed(url, _userId, null);
 					Log.d("teste", url);
 					try {
-						saveNewFeed(feed);
+						saveNewFeed(feed);//nesse metodo deve pegar o title do channel ou aqui dentro mesmo
 					} catch (JSONException e) {
 						Log.e(NewFeedFragment.class.getName(), e.getMessage());
 					}
@@ -79,9 +79,10 @@ public class NewFeedFragment extends Fragment {
 		return _view;
 	}
 
-	public void updateFeed() throws JSONException {
-		Feed feed = _feed;
+	public void updateFeed(Feed feed) throws JSONException {
+		//aqui tbm o channel deve ser setado
 		//feed.setTitle(_nome.getText().toString());
+		feed.setChannel(getChannelNF(feed));
 		feed.setUrl(_url.getText().toString());
 		Repositorio.getInstance()
 			.updateFeed(feed, _authorization, new Repositorio.CallbackFeed() {
@@ -98,7 +99,8 @@ public class NewFeedFragment extends Fragment {
 	}
 
 	public void saveNewFeed(Feed parameter) throws JSONException {
-		Repositorio.getInstance()
+		parameter.setChannel(getChannelNF(parameter));
+		Repositorio.getInstance()//aqui tbm já deve existir
 			.addFeed(parameter, _authorization, new Repositorio.CallbackFeed() {
 				@Override
 				public void onSuccess(Feed feed) {
@@ -113,10 +115,10 @@ public class NewFeedFragment extends Fragment {
 			});
 	}
 
-	public Channel getChannelNF() {
-		WeRetrofitService wrs = RetrofitClient.getInstance(_feed.getPartMain())
+	public Channel getChannelNF(Feed feed) {
+		WeRetrofitService wrs = RetrofitClient.getInstance(feed.getPartMain())
 			.create(WeRetrofitService.class);
-		wrs.getItems("dynamo/brasil/rss2.xml").enqueue(new Callback<Feed>() {
+		wrs.getItems(feed.getPartXml()).enqueue(new Callback<Feed>() {
 			@Override
 			public void onResponse(Call<Feed> call, Response<Feed> response) {
 				if (response.isSuccessful()) {
@@ -137,7 +139,7 @@ public class NewFeedFragment extends Fragment {
 	private Channel _channel;
 	private Feed _feed;
 	private boolean _newOrEdit = false;
-	private EditText _nome;
+	//private EditText _nome;
 	private String _token;
 	private String _userId;
 	private View _view;
