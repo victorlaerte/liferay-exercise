@@ -126,7 +126,7 @@ public class NewFeedFragment extends Fragment {
 	public Channel getChannelNF(Feed feed) throws IOException {
 		WeRetrofitService wrs = RetrofitClient.getInstance(feed.getPartMain())
 			.create(WeRetrofitService.class);
-		_channel = wrs.getItems(feed.getPartXml()).execute().body().getChannel();
+		_channel = wrs.getItems(feed.getPartMain()).execute().body().getChannel();
 //		wrs.getItems(feed.getPartXml()).enqueue(new Callback<Feed>() {
 //			@Override
 //			public void onResponse(Call<Feed> call, Response<Feed> response) {
@@ -142,6 +142,11 @@ public class NewFeedFragment extends Fragment {
 //			}
 //		});
 		return _channel;
+	}
+
+	public interface CallBackChannel{
+		void onSuccess(Channel channel);
+		void onFailure(Exception e);
 	}
 
 	private Authorization _authorization;
