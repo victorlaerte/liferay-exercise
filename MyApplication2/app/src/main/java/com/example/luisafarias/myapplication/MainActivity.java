@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import com.example.luisafarias.myapplication.adapters.FeedListAdapter;
+
 import com.example.luisafarias.myapplication.fragments.FeedListFragment;
 import com.example.luisafarias.myapplication.fragments.NewFeedFragment;
 import com.example.luisafarias.myapplication.model.Feed;
