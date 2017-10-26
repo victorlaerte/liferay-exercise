@@ -71,25 +71,25 @@ public class MainActivity extends AppCompatActivity {
 
 		/**onClick get feed from newFeedFragment **/
 
-		Button actionSaveFeed = (Button) findViewById(R.id.saveFeed);
-		actionSaveFeed.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				EditText newUrlName = (EditText) findViewById(R.id.newNameFeed);
-				EditText newUrl = (EditText) findViewById(R.id.newUrlFeed);
-
-				String name = newUrlName.getText().toString();
-				String url = newUrl.getText().toString();
-
-				Feed feed = new Feed(url, _userId, null);
-				Log.d("mainActivity", feed.getUrl());
-				try {
-					saveFeed(feed);
-				} catch (JSONException e) {
-					Log.e(MainActivity.class.getName(), e.getMessage());
-				}
-			}
-		});
+//		Button actionSaveFeed = (Button) findViewById(R.id.saveFeed);
+//		actionSaveFeed.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				//EditText newUrlName = (EditText) findViewById(R.id.newNameFeed);
+//				EditText newUrl = (EditText) findViewById(R.id.newUrlFeed);
+//
+//				//String name = newUrlName.getText().toString();
+//				String url = newUrl.getText().toString();
+//
+//				Feed feed = new Feed(url, _userId, null);
+//				Log.d("mainActivity", feed.getUrl());
+//				try {
+//					saveFeed(feed);
+//				} catch (JSONException e) {
+//					Log.e(MainActivity.class.getName(), e.getMessage());
+//				}
+//			}
+//		});
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -234,6 +234,6 @@ public class MainActivity extends AppCompatActivity {
 	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
 	private String _userId;
 	private String _token;
-	private FeedListAdapter _feedAdapter;
+	//private FeedListAdapter _feedAdapter;
 	private final int ACCESS_RESULT_NEW_FEED = 1234;
 }

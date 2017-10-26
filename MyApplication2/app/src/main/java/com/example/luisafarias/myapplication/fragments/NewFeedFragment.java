@@ -18,6 +18,9 @@ import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 import org.json.JSONException;
+
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,6 +59,8 @@ public class NewFeedFragment extends Fragment {
 						updateFeed(_feed);
 					} catch (JSONException e) {
 						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				}
 			});
@@ -72,6 +77,8 @@ public class NewFeedFragment extends Fragment {
 						saveNewFeed(feed);//nesse metodo deve pegar o title do channel ou aqui dentro mesmo
 					} catch (JSONException e) {
 						Log.e(NewFeedFragment.class.getName(), e.getMessage());
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				}
 			});
@@ -79,7 +86,7 @@ public class NewFeedFragment extends Fragment {
 		return _view;
 	}
 
-	public void updateFeed(Feed feed) throws JSONException {
+	public void updateFeed(Feed feed) throws JSONException, IOException {
 		//aqui tbm o channel deve ser setado
 		//feed.setTitle(_nome.getText().toString());
 		feed.setChannel(getChannelNF(feed));
@@ -98,8 +105,9 @@ public class NewFeedFragment extends Fragment {
 			});
 	}
 
-	public void saveNewFeed(Feed parameter) throws JSONException {
+	public void saveNewFeed(Feed parameter) throws JSONException, IOException {
 		parameter.setChannel(getChannelNF(parameter));
+		String titleC = getChannelNF(parameter).getTitle();
 		Repositorio.getInstance()//aqui tbm já deve existir
 			.addFeed(parameter, _authorization, new Repositorio.CallbackFeed() {
 				@Override
@@ -115,23 +123,24 @@ public class NewFeedFragment extends Fragment {
 			});
 	}
 
-	public Channel getChannelNF(Feed feed) {
+	public Channel getChannelNF(Feed feed) throws IOException {
 		WeRetrofitService wrs = RetrofitClient.getInstance(feed.getPartMain())
 			.create(WeRetrofitService.class);
-		wrs.getItems(feed.getPartXml()).enqueue(new Callback<Feed>() {
-			@Override
-			public void onResponse(Call<Feed> call, Response<Feed> response) {
-				if (response.isSuccessful()) {
-					_channel = response.body().getChannel();
-				}
-			}
-
-			@Override
-			public void onFailure(Call<Feed> call, Throwable t) {
-
-				Log.e("NewFeedFragment", t.getMessage());
-			}
-		});
+		_channel = wrs.getItems(feed.getPartXml()).execute().body().getChannel();
+//		wrs.getItems(feed.getPartXml()).enqueue(new Callback<Feed>() {
+//			@Override
+//			public void onResponse(Call<Feed> call, Response<Feed> response) {
+//				if (response.isSuccessful()) {
+//					_channel = response.body().getChannel();
+//				}
+//			}
+//
+//			@Override
+//			public void onFailure(Call<Feed> call, Throwable t) {
+//
+//				Log.e("NewFeedFragment", t.getMessage());
+//			}
+//		});
 		return _channel;
 	}
 

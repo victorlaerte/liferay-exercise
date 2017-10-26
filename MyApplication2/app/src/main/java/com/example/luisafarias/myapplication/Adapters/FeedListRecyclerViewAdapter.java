@@ -54,7 +54,13 @@ public class FeedListRecyclerViewAdapter
 	@Override
 	public void onBindViewHolder(CustomViewHolder holder, int position) {
 		final Feed feed = _feedList.get(position);
-		holder.name.setText(feed.getChannel().getTitle());
+//		if (feed.getChannel().getTitle() != null){
+//			holder.name.setText("erro aqui");
+//		}else{
+//			holder.name.setText("nao tenho");
+//		}
+		holder.name.setText("nao tenho");
+
 		holder.id.setText(feed.getId());
 
 		holder.setItemClickListener(new ItemClickListener() {
