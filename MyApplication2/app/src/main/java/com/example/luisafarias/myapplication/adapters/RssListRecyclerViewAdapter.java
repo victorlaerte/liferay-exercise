@@ -57,9 +57,9 @@ public class RssListRecyclerViewAdapter
 
 	@Override
 	public void onBindViewHolder(CustomViewHolder holder, int position) {
-		final Rss feed = _rssList.get(position);
-		holder.name.setText(feed.getChannel().getTitle());
-		holder.id.setText(feed.getId());
+		final Rss rss = _rssList.get(position);
+		holder.name.setText(rss.getChannel().getTitle());
+		holder.id.setText(rss.getId());
 
 
 
@@ -68,7 +68,7 @@ public class RssListRecyclerViewAdapter
 			public void onClick(View view, int position, boolean isLongClick) {
 				if (isLongClick) {
 					Bundle bundle = new Bundle();
-					bundle.putParcelable(Constants.RSS, feed);
+					bundle.putParcelable(Constants.RSS, rss);
 					bundle.putString(Constants.TOKEN, _token);
 					PopUpFragment popUpFragment = new PopUpFragment();
 					popUpFragment.setArguments(bundle);
@@ -80,6 +80,9 @@ public class RssListRecyclerViewAdapter
 				} else {
 					Log.d("click curto", _rssList.get(position).getUrl());
 					Intent intent = new Intent(_context, ItemListActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putParcelable(Constants.RSS,rss);
+					intent.putExtra(Constants.RSS,bundle);
 					_context.startActivity(intent);
 				}
 			}

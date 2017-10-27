@@ -8,7 +8,7 @@ import org.simpleframework.xml.Root;
 /**
  * Created by luisafarias on 19/10/17.
  */
-@Root(name = "item_body", strict = false)
+@Root(name = "item", strict = false)
 public class Item implements Parcelable {
 	@Element(name = "pubDate", required = false) private String pubDate;
 	@Element(name = "title", required = false) private String title;

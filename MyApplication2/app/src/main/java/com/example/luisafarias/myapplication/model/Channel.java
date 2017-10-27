@@ -21,7 +21,7 @@ public class Channel implements Parcelable {
 
 	@Element(name = "copyright") private String copyright;
 
-	@ElementList(name = "item_body", inline = true) private List<Item> item;
+	@ElementList(name = "item", inline = true) private List<Item> item;
 
 	//private Image image;
 	@Element(name = "language") private String language;

@@ -10,6 +10,7 @@ import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.Item;
 import com.example.luisafarias.myapplication.model.RetrofitClient;
+import com.example.luisafarias.myapplication.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,23 +23,25 @@ public class ItemListActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Bundle data = getIntent().getBundleExtra(Constants.RSS);
+		_rss = data.getParcelable(Constants.RSS);
 		setContentView(R.layout.activity_item_list);
 
-		_rs = RetrofitClient.getInstance("http://g1.globo.com/")
+		_rs = RetrofitClient.getInstance(_rss.getPartMain())
 			.create(WeRetrofitService.class);
-		_feedItemList = new ArrayList<Item>();
-		_feed_list = (RecyclerView) findViewById(R.id.feed_news_list);
-		_adapter = new ItemAdapter(this, _feedItemList);
+		_itemList = new ArrayList<Item>();
+		recyclerView = (RecyclerView) findViewById(R.id.feed_news_list);
+		_adapter = new ItemAdapter(this, _itemList);
 		//feed_list.setHasFixedSize(true);
 		LinearLayoutManager layoutMgr = new LinearLayoutManager(this);
-		_feed_list.setLayoutManager(layoutMgr);
-		_feed_list.setAdapter(_adapter);
+		recyclerView.setLayoutManager(layoutMgr);
+		recyclerView.setAdapter(_adapter);
 
 		loadAnswers();
 	}
 
 	private void loadAnswers() {
-		_rs.getItems("dynamo/brasil/rss2.xml").enqueue(new Callback<Rss>() {
+		_rs.getItems(_rss.getPartXml()).enqueue(new Callback<Rss>() {
 			@Override
 			public void onResponse(Call<Rss> call, Response<Rss> response) {
 				if (response.isSuccessful()) {
@@ -55,9 +58,9 @@ public class ItemListActivity extends AppCompatActivity {
 			}
 		});
 	}
-
-	private RecyclerView _feed_list;
-	private List<Item> _feedItemList;
+	private Rss _rss;
+	private RecyclerView recyclerView;
+	private List<Item> _itemList;
 	private ItemAdapter _adapter = null;
 	private WeRetrofitService _rs;
 }
