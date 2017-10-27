@@ -86,67 +86,96 @@ public class NewFeedFragment extends Fragment {
 		return _view;
 	}
 
-	public void updateFeed(Feed feed) throws JSONException, IOException {
+	public void updateFeed(final Feed feed) throws JSONException, IOException {
 		//aqui tbm o channel deve ser setado
 		//feed.setTitle(_nome.getText().toString());
-		feed.setChannel(getChannelNF(feed));
-		feed.setUrl(_url.getText().toString());
-		Repositorio.getInstance()
-			.updateFeed(feed, _authorization, new Repositorio.CallbackFeed() {
-				@Override
-				public void onSuccess(Feed feed) {
+		getChannelNF(feed, new CallBackChannel() {
+			@Override
+			public void onSuccess(Channel channel) throws JSONException {
 
-				}
+				feed.setUrl(_url.getText().toString());
+				Repositorio.getInstance()
+						.updateFeed(feed, _authorization, new Repositorio.CallbackFeed() {
+							@Override
+							public void onSuccess(Feed feed) {
 
-				@Override
-				public void onFailure(Exception e) {
+							}
 
-				}
-			});
+							@Override
+							public void onFailure(Exception e) {
+								Log.e("NewFeedFrament", e.getMessage());
+							}
+						});
+			}
+
+			@Override
+			public void onFailure(Throwable t) {
+				Log.e("NewFeedFrament", t.getMessage());
+			}
+		});
+
 	}
 
-	public void saveNewFeed(Feed parameter) throws JSONException, IOException {
-		parameter.setChannel(getChannelNF(parameter));
-		String titleC = getChannelNF(parameter).getTitle();
-		Repositorio.getInstance()//aqui tbm já deve existir
-			.addFeed(parameter, _authorization, new Repositorio.CallbackFeed() {
-				@Override
-				public void onSuccess(Feed feed) {
-					Log.d(NewFeedFragment.class.getName(), "salvo com sucesso");
-				}
+	public void saveNewFeed(final Feed feed) throws JSONException, IOException {
+		getChannelNF(feed, new CallBackChannel() {
+			//Feed feedParameter = feed;
+			@Override
+			public void onSuccess(Channel channel) throws JSONException {
+				String title = channel.getTitle();
+				feed.setChannel(channel);
+				Log.d("NewFeedFragment", "deu certo");
+				Repositorio.getInstance()
+						.addFeed(feed, _authorization, new Repositorio.CallbackFeed() {
+							@Override
+							public void onSuccess(Feed feed) {
+								Log.d(NewFeedFragment.class.getName(), "salvo com sucesso");
 
-				@Override
-				public void onFailure(Exception e) {
+							}
 
-					Log.e(NewFeedFragment.class.getName(), e.getMessage());
-				}
-			});
+							@Override
+							public void onFailure(Exception e) {
+
+								Log.e(NewFeedFragment.class.getName(), e.getMessage());
+							}
+						});
+			}
+
+			@Override
+			public void onFailure(Throwable t) {
+				Log.e("NewFeedFrament", t.getMessage());
+			}
+		});
+
 	}
 
-	public Channel getChannelNF(Feed feed) throws IOException {
+	public void getChannelNF(Feed feed, final CallBackChannel callBackChannel) throws IOException {
 		WeRetrofitService wrs = RetrofitClient.getInstance(feed.getPartMain())
 			.create(WeRetrofitService.class);
-		_channel = wrs.getItems(feed.getPartMain()).execute().body().getChannel();
-//		wrs.getItems(feed.getPartXml()).enqueue(new Callback<Feed>() {
-//			@Override
-//			public void onResponse(Call<Feed> call, Response<Feed> response) {
-//				if (response.isSuccessful()) {
-//					_channel = response.body().getChannel();
-//				}
-//			}
-//
-//			@Override
-//			public void onFailure(Call<Feed> call, Throwable t) {
-//
-//				Log.e("NewFeedFragment", t.getMessage());
-//			}
-//		});
-		return _channel;
+		wrs.getItems(feed.getPartXml()).enqueue(new Callback<Feed>() {
+			@Override
+			public void onResponse(Call<Feed> call, Response<Feed> response) {
+				if (response.isSuccessful()) {
+					_channel = response.body().getChannel();
+					try {
+						callBackChannel.onSuccess(_channel);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+			@Override
+			public void onFailure(Call<Feed> call, Throwable t) {
+
+				Log.e("NewFeedFragment", t.getMessage());
+				callBackChannel.onFailure(t);
+			}
+		});
 	}
 
 	public interface CallBackChannel{
-		void onSuccess(Channel channel);
-		void onFailure(Exception e);
+		void onSuccess(Channel channel) throws JSONException;
+		void onFailure(Throwable t);
 	}
 
 	private Authorization _authorization;

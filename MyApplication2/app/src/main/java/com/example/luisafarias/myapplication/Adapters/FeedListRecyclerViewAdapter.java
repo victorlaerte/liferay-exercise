@@ -76,9 +76,9 @@ public class FeedListRecyclerViewAdapter
 						((FragmentActivity) _context).getSupportFragmentManager(),
 						"idPopupFragment");
 
-					Log.d("click longo", _feedList.get(position).getChannel().getTitle());
+					Log.d("click longo", _feedList.get(position).getUrl());
 				} else {
-					Log.d("click curto", _feedList.get(position).getChannel().getTitle());
+					Log.d("click curto", _feedList.get(position).getUrl());
 				}
 			}
 		});
