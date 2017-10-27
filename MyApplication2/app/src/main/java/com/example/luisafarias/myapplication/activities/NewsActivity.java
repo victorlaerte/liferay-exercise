@@ -6,12 +6,16 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.example.luisafarias.myapplication.R;
+import com.example.luisafarias.myapplication.util.Constants;
 
 public class NewsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle data = getIntent().getBundleExtra(Constants.LINK);
+        _link = data.getString(Constants.LINK);
+
         setContentView(R.layout.activity_news);
 
         WebView wv = (WebView) findViewById(R.id.webView);
@@ -19,6 +23,8 @@ public class NewsActivity extends AppCompatActivity {
         WebSettings ws = wv.getSettings();
         ws.setJavaScriptEnabled(true);
         ws.setSupportZoom(false);
-        wv.loadUrl("http://paranaportal.uol.com.br/operacao-lava-jato/recibos-novos-e-originais-sao-apresentados-pela-defesa-de-lula/");
+        wv.loadUrl(_link);
     }
+
+    private String _link;
 }

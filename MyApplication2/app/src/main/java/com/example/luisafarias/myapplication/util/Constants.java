@@ -20,4 +20,6 @@ public class Constants {
 	public final static String USER = "user";
 	public final static String ACCESS_TOKEN = "access_token";
 	public final static String NEW_OR_EDIT = "newOrEdit";
+
+	public final static String LINK = "link";
 }

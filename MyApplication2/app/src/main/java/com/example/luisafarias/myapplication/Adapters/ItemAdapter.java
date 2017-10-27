@@ -1,6 +1,8 @@
 package com.example.luisafarias.myapplication.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.luisafarias.myapplication.R;
+import com.example.luisafarias.myapplication.activities.NewsActivity;
+import com.example.luisafarias.myapplication.interfaces.ItemClickListener;
 import com.example.luisafarias.myapplication.model.Item;
+import com.example.luisafarias.myapplication.util.Constants;
 
 import java.util.List;
 
@@ -60,27 +65,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
 	@Override
 	public void onBindViewHolder(final ItemHolder holder, int position) {
-		Item item = _feedItems.get(position);
+		final Item item = _feedItems.get(position);
 		holder.titleTextField.setText(item.getTitle());
 
-		//        Item item_body = feedItems.get(position);
-		//
-		//        holder.titleTextField.setText(item_body.get_title());
-		//        Document doc = Jsoup.parse(item_body.get_description());
-		//        Element imageElement = doc.select("img").first();
-		//        if (imageElement != null){
-		//            String absoluteUrl = imageElement.absUrl("src");
-		//            if (absoluteUrl != null){
-		//
-		//                holder.descriptionTextField.setText(doc.body().text());
-		//            }
-		//        }
-		//        holder.publicationDateTextField.setText(item_body.get_publicationDate());
+		holder.setItemClickListener(new ItemClickListener() {
+			@Override
+			public void onClick(View view, int position, boolean isLongClick) {
+				Intent intent = new Intent(_context, NewsActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString(Constants.LINK,item.getLink());
+				intent.putExtra(Constants.LINK,bundle);
+				_context.startActivity(intent);
+			}
+		});
 	}
 
-	public class ItemHolder extends RecyclerView.ViewHolder {
+	public class ItemHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
 		protected TextView titleTextField;
 		protected TextView descriptionTextField;
+		private ItemClickListener itemClickListener;
 
 		private ImageView imageView;
 		private TextView publicationDateTextField;
@@ -91,6 +94,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 			imageView = itemView.findViewById(R.id.image);
 			descriptionTextField = itemView.findViewById(R.id.description);
 			publicationDateTextField = itemView.findViewById(R.id.pubdate);
+			itemView.setOnClickListener(this);
+		}
+
+		@Override
+		public void onClick(View v) { itemClickListener.onClick(v, getAdapterPosition(),false);
+
+		}
+
+		public void setItemClickListener(ItemClickListener itemClickListener){
+			this.itemClickListener = itemClickListener;
 		}
 	}
 }
