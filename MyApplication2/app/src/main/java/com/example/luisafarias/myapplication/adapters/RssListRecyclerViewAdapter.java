@@ -11,8 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.luisafarias.myapplication.ItemListActivity;
-import com.example.luisafarias.myapplication.MainActivity;
+import com.example.luisafarias.myapplication.activities.ItemListActivity;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.interfaces.ItemClickListener;

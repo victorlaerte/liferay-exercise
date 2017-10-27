@@ -1,4 +1,4 @@
-package com.example.luisafarias.myapplication;
+package com.example.luisafarias.myapplication.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.RssListFragment;
 import com.example.luisafarias.myapplication.fragments.NewRssFragment;
 import com.example.luisafarias.myapplication.model.Rss;

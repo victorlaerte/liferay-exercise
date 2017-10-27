@@ -1,18 +1,18 @@
-package com.example.luisafarias.myapplication;
+package com.example.luisafarias.myapplication.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.transport.Response;
-import java.net.URL;
 
 public class NewUserActivity extends AppCompatActivity {
 

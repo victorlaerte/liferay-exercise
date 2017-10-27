@@ -1,7 +1,7 @@
 package com.example.luisafarias.myapplication.model;
 
 import android.util.Log;
-import com.example.luisafarias.myapplication.MainActivity;
+import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.interfaces.IRepositorio;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;

@@ -1,4 +1,4 @@
-package com.example.luisafarias.myapplication;
+package com.example.luisafarias.myapplication.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.WeDeployActions;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;

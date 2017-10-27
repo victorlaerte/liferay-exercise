@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.luisafarias.myapplication.MainActivity;
+import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.adapters.RssListRecyclerViewAdapter;
 import com.example.luisafarias.myapplication.model.Rss;
