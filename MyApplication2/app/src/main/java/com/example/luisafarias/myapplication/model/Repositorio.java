@@ -24,7 +24,6 @@ public class Repositorio implements IRepositorio {
 	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
 	Feed feed;
 	ArrayList<Feed> feedList = new ArrayList();
-	//ArrayList<String> nomeLista = new ArrayList();
 
 	private Repositorio() {
 	}
@@ -39,21 +38,16 @@ public class Repositorio implements IRepositorio {
 	@Override
 	public void addFeed(Feed feed, Authorization authorization,
 		final CallbackFeed callbackFeed) throws JSONException {
-		//String nomeUrl = feed.getTitle();
 		String userId = feed.getUserId();
 		String url = feed.getUrl();
 		String channelTitle = feed.getChannel().getTitle();
 
 		if (feed != null) {
 
-			//            if(!feedList.contains(feed)){
-			//                feedList.add(feed);
-			//            }
 			JSONObject feedJsonObject = new JSONObject()
 				.put("userId", userId)
 				.put("url", url)
 				.put("channelTitle", channelTitle);
-			//.put("id","teste12");
 
 			_weDeploy.data(Constants.DATA_URL)
 				.authorization(authorization)
@@ -67,7 +61,6 @@ public class Repositorio implements IRepositorio {
 								new JSONObject(response.getBody());
 
 							Feed feed = new Feed();
-							//feed.setTitle(jsonBody.getString("name"));
 							feed.setUrl(jsonBody.getString("url"));
 							feed.setId(jsonBody.getString("id"));
 							Channel channel = new Channel();
@@ -89,9 +82,8 @@ public class Repositorio implements IRepositorio {
 	}
 
 	@Override
-	public void updateFeed(Feed feed, Authorization authorization,
+	public void updateFeed(Feed feed, Authorization authorization,//pq eu editaria um rss?
 		final CallbackFeed callbackFeed) throws JSONException {
-		//String nomeUrl = feed.getTitle();
 		String url = feed.getUrl();
 
 		if (feed != null) {
@@ -160,17 +152,21 @@ public class Repositorio implements IRepositorio {
 
 						for (int i = 0; i < jsonArray.length(); i++) {
 							JSONObject jsonBody = (JSONObject) jsonArray.get(i);
-							String nome = jsonBody.getString("name");
+							//String nome = jsonBody.getString("name");
 							String url = jsonBody.getString("url");
 							String userId = jsonBody.getString("userId");
 							String id = jsonBody.getString("id");
+							String channelTitle = jsonBody.getString("channelTitle");
+							Log.d("tittleChannel",channelTitle);
+							Channel channel = new Channel();
+							channel.setTitle(channelTitle);
 							feed = new Feed(url, userId, null);
 							feed.setId(id);
 							feedList.add(feed);
 							//String jsonBodyString = jsonBody.toString();
 						}
 					} catch (JSONException e) {
-						e.printStackTrace();
+						Log.e(Repositorio.class.getName(),e.getMessage());
 					}
 				}
 
@@ -205,7 +201,13 @@ public class Repositorio implements IRepositorio {
 							Feed feed = new Feed();
 							//feed.setTitle(jsonBody.getString("name"));
 							feed.setUrl(jsonBody.getString("url"));
+							//String a = feed.getUrl();
 							feed.setId(jsonBody.getString("id"));
+							//jsonBody.getString("channelTitle");
+							//Log.d("repositorio",a);
+							Channel temporaryChannel = new Channel();
+							temporaryChannel.setTitle(jsonBody.getString("channelTitle"));
+							feed.setChannel(temporaryChannel);
 							listaFeed.add(feed);
 						}
 

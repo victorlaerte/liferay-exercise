@@ -59,9 +59,11 @@ public class FeedListRecyclerViewAdapter
 //		}else{
 //			holder.name.setText("nao tenho");
 //		}
-		holder.name.setText("nao tenho");
+		holder.name.setText(feed.getChannel().getTitle());
 
 		holder.id.setText(feed.getId());
+		//Log.d("FeedListAdapter", feed.getId());
+
 
 		holder.setItemClickListener(new ItemClickListener() {
 			@Override
