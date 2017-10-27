@@ -1,6 +1,7 @@
 package com.example.luisafarias.myapplication.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.luisafarias.myapplication.ItemListActivity;
+import com.example.luisafarias.myapplication.MainActivity;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.interfaces.ItemClickListener;
@@ -54,15 +58,9 @@ public class RssListRecyclerViewAdapter
 	@Override
 	public void onBindViewHolder(CustomViewHolder holder, int position) {
 		final Rss feed = _rssList.get(position);
-//		if (feed.getChannel().getTitle() != null){
-//			holder.name.setText("erro aqui");
-//		}else{
-//			holder.name.setText("nao tenho");
-//		}
 		holder.name.setText(feed.getChannel().getTitle());
-
 		holder.id.setText(feed.getId());
-		//Log.d("FeedListAdapter", feed.getId());
+
 
 
 		holder.setItemClickListener(new ItemClickListener() {
@@ -81,6 +79,8 @@ public class RssListRecyclerViewAdapter
 					Log.d("click longo", _rssList.get(position).getUrl());
 				} else {
 					Log.d("click curto", _rssList.get(position).getUrl());
+					Intent intent = new Intent(_context, ItemListActivity.class);
+					_context.startActivity(intent);
 				}
 			}
 		});
