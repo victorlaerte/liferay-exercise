@@ -9,8 +9,8 @@ public class Constants {
 
 	/*****ArgumentKeys*****/
 
-	/*****FeedListRecyclerViewAdapter to PopUpFragment*****/
-	public final static String FEED = "feed";
+	/*****RssListRecyclerViewAdapter to PopUpFragment*****/
+	public final static String RSS = "rss";
 	public final static String TOKEN = "token";
 
 	public final static String TOKEN_KEY = "tokenKey";

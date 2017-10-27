@@ -10,7 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import com.example.luisafarias.myapplication.MainActivity;
-import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.Repositorio;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
@@ -25,8 +25,8 @@ public class PopUpFragment extends DialogFragment {
 	@NonNull
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		this._feed = getArguments().getParcelable(Constants.FEED);
-		String nome = _feed.getChannel().getTitle();
+		this._rss = getArguments().getParcelable(Constants.RSS);
+		String nome = _rss.getChannel().getTitle();
 		String token = getArguments().getString(Constants.TOKEN);
 		_authorization = new TokenAuthorization(token);
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -34,11 +34,11 @@ public class PopUpFragment extends DialogFragment {
 			.setPositiveButton("Editar", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					if (_feed != null && _authorization != null) {
-						Log.d(_feed.getPartXml(),
-							_feed.getPartMain());/****teste******/
+					if (_rss != null && _authorization != null) {
+						Log.d(_rss.getPartXml(),
+								_rss.getPartMain());/****teste******/
 						MainActivity activity = (MainActivity) getActivity();
-						activity.goEditFeed(_feed);
+						activity.goEditFeed(_rss);
 					}
 				}
 			})
@@ -46,12 +46,12 @@ public class PopUpFragment extends DialogFragment {
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						if (_feed != null && _authorization != null) {
+						if (_rss != null && _authorization != null) {
 							Repositorio.getInstance()
-								.removeFeed(_feed, _authorization,
+								.removeFeed(_rss, _authorization,
 									new Repositorio.CallbackFeed() {
 										@Override
-										public void onSuccess(Feed feed) {
+										public void onSuccess(Rss feed) {
 											Snackbar.make(getView(), "Removido",
 												Snackbar.LENGTH_LONG).show();
 										}
@@ -72,12 +72,12 @@ public class PopUpFragment extends DialogFragment {
 	@Override
 	public void onPause() {
 		FragmentManager fm = (getActivity()).getFragmentManager();
-		FeedListFragment fld = (FeedListFragment) fm.findFragmentByTag("test");
+		RssListFragment fld = (RssListFragment) fm.findFragmentByTag("test");
 		fld.reloadFeeds();
 		Log.d("PopUpFragment", "OnPause");
 		super.onPause();
 	}
 
 	private Authorization _authorization;
-	private Feed _feed;
+	private Rss _rss;
 }

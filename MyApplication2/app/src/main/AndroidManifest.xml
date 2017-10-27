@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".NewUserActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".FeedNewsActivity"></activity>
+        <activity android:name=".ItemListActivity"></activity>
     </application>
 
 </manifest>

@@ -22,8 +22,8 @@ public class Repositorio implements IRepositorio {
 
 	private static Repositorio _uniqueInstance;
 	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
-	Feed feed;
-	ArrayList<Feed> feedList = new ArrayList();
+	Rss feed;
+	ArrayList<Rss> feedList = new ArrayList();
 
 	private Repositorio() {
 	}
@@ -36,8 +36,8 @@ public class Repositorio implements IRepositorio {
 	}
 
 	@Override
-	public void addFeed(Feed feed, Authorization authorization,
-		final CallbackFeed callbackFeed) throws JSONException {
+	public void addFeed(Rss feed, Authorization authorization,
+						final CallbackFeed callbackFeed) throws JSONException {
 		String userId = feed.getUserId();
 		String url = feed.getUrl();
 		String channelTitle = feed.getChannel().getTitle();
@@ -60,7 +60,7 @@ public class Repositorio implements IRepositorio {
 							JSONObject jsonBody =
 								new JSONObject(response.getBody());
 
-							Feed feed = new Feed();
+							Rss feed = new Rss();
 							feed.setUrl(jsonBody.getString("url"));
 							feed.setId(jsonBody.getString("id"));
 							Channel channel = new Channel();
@@ -82,8 +82,8 @@ public class Repositorio implements IRepositorio {
 	}
 
 	@Override
-	public void updateFeed(Feed feed, Authorization authorization,//pq eu editaria um rss?
-		final CallbackFeed callbackFeed) throws JSONException {
+	public void updateFeed(Rss feed, Authorization authorization,//pq eu editaria um rss?
+						   final CallbackFeed callbackFeed) throws JSONException {
 		String url = feed.getUrl();
 
 		if (feed != null) {
@@ -107,8 +107,8 @@ public class Repositorio implements IRepositorio {
 		}
 	}
 
-	public void removeFeed(final Feed feed, Authorization authorization,
-		final CallbackFeed callbackFeed) {
+	public void removeFeed(final Rss feed, Authorization authorization,
+						   final CallbackFeed callbackFeed) {
 
 		if (feed != null) {
 			String id = feed.getId();
@@ -134,12 +134,12 @@ public class Repositorio implements IRepositorio {
 	}
 
 	@Override
-	public Feed getFeed(Feed feed, Authorization authorization) {
+	public Rss getFeed(Rss feed, Authorization authorization) {
 		return null;
 	}
 
 	@Override
-	public ArrayList<Feed> getAllFeeds(Authorization authorization) {
+	public ArrayList<Rss> getAllFeeds(Authorization authorization) {
 
 		_weDeploy.data(Constants.DATA_URL)
 			.authorization(authorization)
@@ -160,7 +160,7 @@ public class Repositorio implements IRepositorio {
 							Log.d("tittleChannel",channelTitle);
 							Channel channel = new Channel();
 							channel.setTitle(channelTitle);
-							feed = new Feed(url, userId, null);
+							feed = new Rss(url, userId, null);
 							feed.setId(id);
 							feedList.add(feed);
 							//String jsonBodyString = jsonBody.toString();
@@ -178,7 +178,7 @@ public class Repositorio implements IRepositorio {
 	}
 
 	@Override
-	public List<Feed> feedList() {
+	public List<Rss> feedList() {
 		return null;
 	}
 
@@ -194,11 +194,11 @@ public class Repositorio implements IRepositorio {
 					try {
 						JSONArray jsonArray = new JSONArray(response.getBody());
 
-						List<Feed> listaFeed = new ArrayList<Feed>();
+						List<Rss> listaFeed = new ArrayList<Rss>();
 
 						for (int i = 0; i < jsonArray.length(); i++) {
 							JSONObject jsonBody = (JSONObject) jsonArray.get(i);
-							Feed feed = new Feed();
+							Rss feed = new Rss();
 							//feed.setTitle(jsonBody.getString("name"));
 							feed.setUrl(jsonBody.getString("url"));
 							//String a = feed.getUrl();
@@ -225,13 +225,13 @@ public class Repositorio implements IRepositorio {
 	}
 
 	public interface CallbackFeeds {
-		void onSuccess(List<Feed> feedList);
+		void onSuccess(List<Rss> feedList);
 
 		void onFailure(Exception e);
 	}
 
 	public interface CallbackFeed {
-		void onSuccess(Feed feed);
+		void onSuccess(Rss feed);
 
 		void onFailure(Exception e);
 	}

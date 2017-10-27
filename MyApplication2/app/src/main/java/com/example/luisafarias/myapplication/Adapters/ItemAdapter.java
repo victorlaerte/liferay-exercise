@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.luisafarias.myapplication.R;
-import com.example.luisafarias.myapplication.model.FeedItem;
+import com.example.luisafarias.myapplication.model.Item;
+
 import java.util.List;
 
 /**
@@ -17,13 +18,13 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
-	private List<FeedItem> _feedItems;
+	private List<Item> _feedItems;
 
 	//TODO Se não esttiver utilizando remover
 	private Context _context;
 	private LayoutInflater _layoutInflater;
 
-	public ItemAdapter(Context context, List<FeedItem> feed) {
+	public ItemAdapter(Context context, List<Item> feed) {
 		this._feedItems = feed;
 		this._context = context;
 	}
@@ -31,10 +32,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 	@Override
 	public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext())
-			.inflate(R.layout.feed_item, parent, false);
+			.inflate(R.layout.item_body, parent, false);
 		return new ItemHolder(view);
 		//        final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-		//        final View v = layoutInflater.inflate(R.layout.feed_item,parent,false);
+		//        final View v = layoutInflater.inflate(R.layout.item_body,parent,false);
 		//        return new ItemHolder(v);
 	}
 
@@ -43,12 +44,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 		return _feedItems.size();
 	}
 
-	public void updateAnswers(List<FeedItem> items) {
+	public void updateAnswers(List<Item> items) {
 		this._feedItems = items;
 		notifyDataSetChanged();
 	}
 
-	private FeedItem getItem(int adapterPosition) {
+	private Item getItem(int adapterPosition) {
 		return _feedItems.get(adapterPosition);
 	}
 
@@ -59,13 +60,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
 	@Override
 	public void onBindViewHolder(final ItemHolder holder, int position) {
-		FeedItem item = _feedItems.get(position);
+		Item item = _feedItems.get(position);
 		holder.titleTextField.setText(item.getTitle());
 
-		//        FeedItem item = feedItems.get(position);
+		//        Item item_body = feedItems.get(position);
 		//
-		//        holder.titleTextField.setText(item.get_title());
-		//        Document doc = Jsoup.parse(item.get_description());
+		//        holder.titleTextField.setText(item_body.get_title());
+		//        Document doc = Jsoup.parse(item_body.get_description());
 		//        Element imageElement = doc.select("img").first();
 		//        if (imageElement != null){
 		//            String absoluteUrl = imageElement.absUrl("src");
@@ -74,7 +75,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 		//                holder.descriptionTextField.setText(doc.body().text());
 		//            }
 		//        }
-		//        holder.publicationDateTextField.setText(item.get_publicationDate());
+		//        holder.publicationDateTextField.setText(item_body.get_publicationDate());
 	}
 
 	public class ItemHolder extends RecyclerView.ViewHolder {

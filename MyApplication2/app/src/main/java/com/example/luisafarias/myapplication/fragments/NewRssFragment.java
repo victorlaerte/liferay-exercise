@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
 import com.example.luisafarias.myapplication.model.Channel;
-import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.Repositorio;
 import com.example.luisafarias.myapplication.model.RetrofitClient;
 import com.example.luisafarias.myapplication.util.Constants;
@@ -25,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewFeedFragment extends Fragment {
+public class NewRssFragment extends Fragment {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,10 +33,10 @@ public class NewFeedFragment extends Fragment {
 		if (getArguments() != null) {
 			_userId = getArguments().getString(Constants.USER_ID);
 			_token = getArguments().getString(Constants.TOKEN);
-			_feed = getArguments().getParcelable(Constants.FEED);
+			_rss = getArguments().getParcelable(Constants.RSS);
 			_newOrEdit = getArguments().getBoolean(Constants.NEW_OR_EDIT);
 			_authorization = new TokenAuthorization(_token);
-			Log.d("NewFeedFragment", "testando");
+			Log.d("NewRssFragment", "testando");
 		}
 	}
 
@@ -44,19 +44,19 @@ public class NewFeedFragment extends Fragment {
 		Bundle savedInstanceState) {
 
 		// Inflate the layout for this fragment
-		_view = inflater.inflate(R.layout.fragment_new_feed, container, false);
+		_view = inflater.inflate(R.layout.fragment_new_rss, container, false);
 		//_nome = _view.findViewById(R.id.newNameFeed);
 		_url = _view.findViewById(R.id.newUrlFeed);
 		Button save = _view.findViewById(R.id.save);
 		if (_newOrEdit) { /**updateFeed**/
 			//_nome.setText(_feed.getTitle());
-			_url.setText(_feed.getUrl());
+			_url.setText(_rss.getUrl());
 
 			save.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					try {
-						updateFeed(_feed);
+						updateFeed(_rss);
 					} catch (JSONException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
@@ -71,12 +71,12 @@ public class NewFeedFragment extends Fragment {
 				public void onClick(View v) {
 					//String name = _nome.getText().toString();
 					String url = _url.getText().toString();
-					Feed feed = new Feed(url, _userId, null);
+					Rss rss = new Rss(url, _userId, null);
 					Log.d("teste", url);
 					try {
-						saveNewFeed(feed);//nesse metodo deve pegar o title do channel ou aqui dentro mesmo
+						saveNewFeed(rss);//nesse metodo deve pegar o title do channel ou aqui dentro mesmo
 					} catch (JSONException e) {
-						Log.e(NewFeedFragment.class.getName(), e.getMessage());
+						Log.e(NewRssFragment.class.getName(), e.getMessage());
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -86,18 +86,18 @@ public class NewFeedFragment extends Fragment {
 		return _view;
 	}
 
-	public void updateFeed(final Feed feed) throws JSONException, IOException {
+	public void updateFeed(final Rss rss) throws JSONException, IOException {
 		//aqui tbm o channel deve ser setado
 		//feed.setTitle(_nome.getText().toString());
-		getChannelNF(feed, new CallBackChannel() {
+		getChannelNF(rss, new CallBackChannel() {
 			@Override
 			public void onSuccess(Channel channel) throws JSONException {
 
-				feed.setUrl(_url.getText().toString());
+				rss.setUrl(_url.getText().toString());
 				Repositorio.getInstance()
-						.updateFeed(feed, _authorization, new Repositorio.CallbackFeed() {
+						.updateFeed(rss, _authorization, new Repositorio.CallbackFeed() {
 							@Override
-							public void onSuccess(Feed feed) {
+							public void onSuccess(Rss rss) {
 
 							}
 
@@ -116,26 +116,26 @@ public class NewFeedFragment extends Fragment {
 
 	}
 
-	public void saveNewFeed(final Feed feed) throws JSONException, IOException {
-		getChannelNF(feed, new CallBackChannel() {
-			//Feed feedParameter = feed;
+	public void saveNewFeed(final Rss rss) throws JSONException, IOException {
+		getChannelNF(rss, new CallBackChannel() {
+			//Rss feedParameter = feed;
 			@Override
 			public void onSuccess(Channel channel) throws JSONException {
 				String title = channel.getTitle();
-				feed.setChannel(channel);
-				Log.d("NewFeedFragment", "deu certo");
+				rss.setChannel(channel);
+				Log.d("NewRssFragment", "deu certo");
 				Repositorio.getInstance()
-						.addFeed(feed, _authorization, new Repositorio.CallbackFeed() {
+						.addFeed(rss, _authorization, new Repositorio.CallbackFeed() {
 							@Override
-							public void onSuccess(Feed feed) {
-								Log.d(NewFeedFragment.class.getName(), "salvo com sucesso");
+							public void onSuccess(Rss rss) {
+								Log.d(NewRssFragment.class.getName(), "salvo com sucesso");
 
 							}
 
 							@Override
 							public void onFailure(Exception e) {
 
-								Log.e(NewFeedFragment.class.getName(), e.getMessage());
+								Log.e(NewRssFragment.class.getName(), e.getMessage());
 							}
 						});
 			}
@@ -148,12 +148,12 @@ public class NewFeedFragment extends Fragment {
 
 	}
 
-	public void getChannelNF(Feed feed, final CallBackChannel callBackChannel) throws IOException {
-		WeRetrofitService wrs = RetrofitClient.getInstance(feed.getPartMain())
+	public void getChannelNF(Rss _rss, final CallBackChannel callBackChannel) throws IOException {
+		WeRetrofitService wrs = RetrofitClient.getInstance(_rss.getPartMain())
 			.create(WeRetrofitService.class);
-		wrs.getItems(feed.getPartXml()).enqueue(new Callback<Feed>() {
+		wrs.getItems(_rss.getPartXml()).enqueue(new Callback<Rss>() {
 			@Override
-			public void onResponse(Call<Feed> call, Response<Feed> response) {
+			public void onResponse(Call<Rss> call, Response<Rss> response) {
 				if (response.isSuccessful()) {
 					_channel = response.body().getChannel();
 					try {
@@ -165,9 +165,9 @@ public class NewFeedFragment extends Fragment {
 			}
 
 			@Override
-			public void onFailure(Call<Feed> call, Throwable t) {
+			public void onFailure(Call<Rss> call, Throwable t) {
 
-				Log.e("NewFeedFragment", t.getMessage());
+				Log.e("NewRssFragment", t.getMessage());
 				callBackChannel.onFailure(t);
 			}
 		});
@@ -180,7 +180,7 @@ public class NewFeedFragment extends Fragment {
 
 	private Authorization _authorization;
 	private Channel _channel;
-	private Feed _feed;
+	private Rss _rss;
 	private boolean _newOrEdit = false;
 	//private EditText _nome;
 	private String _token;

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.interfaces.ItemClickListener;
-import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.util.Constants;
 
 import java.util.List;
@@ -21,22 +21,22 @@ import java.util.List;
  * Created by luisafarias on 16/10/17.
  */
 
-public class FeedListRecyclerViewAdapter
-	extends RecyclerView.Adapter<FeedListRecyclerViewAdapter.CustomViewHolder> {
+public class RssListRecyclerViewAdapter
+	extends RecyclerView.Adapter<RssListRecyclerViewAdapter.CustomViewHolder> {
 
-	private List<Feed> _feedList;
+	private List<Rss> _rssList;
 	private Context _context;
 	private String _token;
 
-	public FeedListRecyclerViewAdapter(Context context, List<Feed> feedList,
-		String token) {
+	public RssListRecyclerViewAdapter(Context context, List<Rss> rssList,
+                                      String token) {
 		this._context = context;
-		set_feedList(feedList);
+		set_feedList(rssList);
 		set_token(token);
 	}
 
-	public void set_feedList(List<Feed> feedList) {
-		this._feedList = feedList;
+	public void set_feedList(List<Rss> feedList) {
+		this._rssList = feedList;
 	}
 
 	public void set_token(String token) {
@@ -46,14 +46,14 @@ public class FeedListRecyclerViewAdapter
 	@Override
 	public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(_context)
-			.inflate(R.layout.feed_body, null);//dar uma olhada aqui depois
+			.inflate(R.layout.rss_body, null);//dar uma olhada aqui depois
 		CustomViewHolder viewHolder = new CustomViewHolder(view);
 		return viewHolder;
 	}
 
 	@Override
 	public void onBindViewHolder(CustomViewHolder holder, int position) {
-		final Feed feed = _feedList.get(position);
+		final Rss feed = _rssList.get(position);
 //		if (feed.getChannel().getTitle() != null){
 //			holder.name.setText("erro aqui");
 //		}else{
@@ -70,7 +70,7 @@ public class FeedListRecyclerViewAdapter
 			public void onClick(View view, int position, boolean isLongClick) {
 				if (isLongClick) {
 					Bundle bundle = new Bundle();
-					bundle.putParcelable(Constants.FEED, feed);
+					bundle.putParcelable(Constants.RSS, feed);
 					bundle.putString(Constants.TOKEN, _token);
 					PopUpFragment popUpFragment = new PopUpFragment();
 					popUpFragment.setArguments(bundle);
@@ -78,9 +78,9 @@ public class FeedListRecyclerViewAdapter
 						((FragmentActivity) _context).getSupportFragmentManager(),
 						"idPopupFragment");
 
-					Log.d("click longo", _feedList.get(position).getUrl());
+					Log.d("click longo", _rssList.get(position).getUrl());
 				} else {
-					Log.d("click curto", _feedList.get(position).getUrl());
+					Log.d("click curto", _rssList.get(position).getUrl());
 				}
 			}
 		});
@@ -88,11 +88,11 @@ public class FeedListRecyclerViewAdapter
 
 	@Override
 	public int getItemCount() {
-		return _feedList.size();
+		return _rssList.size();
 	}
 
-	public void updateAnswers(List<Feed> feeds) {
-		this._feedList = feeds;
+	public void updateAnswers(List<Rss> rsss) {
+		this._rssList = rsss;
 		notifyDataSetChanged();
 	}
 

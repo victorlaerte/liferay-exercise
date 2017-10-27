@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.example.luisafarias.myapplication.MainActivity;
 import com.example.luisafarias.myapplication.R;
-import com.example.luisafarias.myapplication.adapters.FeedListRecyclerViewAdapter;
-import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.adapters.RssListRecyclerViewAdapter;
+import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.Repositorio;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
@@ -19,16 +19,16 @@ import com.wedeploy.android.auth.TokenAuthorization;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedListFragment extends Fragment {
+public class RssListFragment extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null) {
 			_token = getArguments().getString(Constants.TOKEN_KEY);
-			_feed = getArguments().getParcelable(Constants.FEED);
-			if (_feed != null && _token != null) {
-				Log.d(FeedListFragment.class.getName(), _feed.getChannel().getTitle());
+			_rss = getArguments().getParcelable(Constants.RSS);
+			if (_rss != null && _token != null) {
+				Log.d(RssListFragment.class.getName(), _rss.getChannel().getTitle());
 			}
 			_authorization = new TokenAuthorization(_token);
 		}
@@ -36,12 +36,12 @@ public class FeedListFragment extends Fragment {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		Bundle savedInstanceState) {
-		List<Feed> feedList = new ArrayList<Feed>();
+		List<Rss> feedList = new ArrayList<Rss>();
 
-		_view = inflater.inflate(R.layout.fragment_feed_list, container, false);
+		_view = inflater.inflate(R.layout.fragment_rss_list, container, false);
 		_recycleView = _view.findViewById(R.id.recyclerView);
 		_recycleViewAdapter =
-			new FeedListRecyclerViewAdapter(_view.getContext(), feedList,
+			new RssListRecyclerViewAdapter(_view.getContext(), feedList,
 				_token);
 		LinearLayoutManager lm = new LinearLayoutManager(getActivity());
 		_recycleView.setLayoutManager(lm);
@@ -54,7 +54,7 @@ public class FeedListFragment extends Fragment {
 		Repositorio.getInstance()
 			.feedListAll(_authorization, new Repositorio.CallbackFeeds() {
 				@Override
-				public void onSuccess(List<Feed> feedList) {
+				public void onSuccess(List<Rss> feedList) {
 					_recycleViewAdapter.updateAnswers(feedList);
 				}
 
@@ -66,8 +66,8 @@ public class FeedListFragment extends Fragment {
 	}
 
 	private Authorization _authorization;
-	private Feed _feed;
-	private FeedListRecyclerViewAdapter _recycleViewAdapter;
+	private Rss _rss;
+	private RssListRecyclerViewAdapter _recycleViewAdapter;
 	private RecyclerView _recycleView;
 	private String _token;
 	private View _view;

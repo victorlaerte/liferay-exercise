@@ -1,8 +1,7 @@
 package com.example.luisafarias.myapplication.interfaces;
 
-import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.model.Rss;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Url;
@@ -13,10 +12,6 @@ import retrofit2.http.Url;
 
 public interface WeRetrofitService {
 
-	//TODO https://stackoverflow.com/questions/32559333/retrofit-2-dynamic-url
 	@GET
-	Call<Feed> getItems(@Url String url);
-
-	@GET
-	ResponseBody getItem(@Url String url);
+	Call<Rss> getItems(@Url String url);
 }

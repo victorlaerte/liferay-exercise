@@ -10,32 +10,32 @@ import org.simpleframework.xml.Root;
  * Created by luisafarias on 26/09/17.
  */
 @Root(name = "rss", strict = false)
-public class Feed implements Parcelable {
+public class Rss implements Parcelable {
 
-	public Feed() {
+	public Rss() {
 	} //para desserializar precisa do construtor vazio public
 
-	public Feed(String url, String userId, Channel channel) {
+	public Rss(String url, String userId, Channel channel) {
 		setUrl(url);
 		setUserId(userId);
 		setChannel(channel);
 	}
 
-	protected Feed(Parcel in) {
+	protected Rss(Parcel in) {
 		_url = in.readString();
 		_userId = in.readString();
 		_id = in.readString();
 	}
 
-	public static final Creator<Feed> CREATOR = new Creator<Feed>() {
+	public static final Creator<Rss> CREATOR = new Creator<Rss>() {
 		@Override
-		public Feed createFromParcel(Parcel in) {
-			return new Feed(in);
+		public Rss createFromParcel(Parcel in) {
+			return new Rss(in);
 		}
 
 		@Override
-		public Feed[] newArray(int size) {
-			return new Feed[size];
+		public Rss[] newArray(int size) {
+			return new Rss[size];
 		}
 	};
 

@@ -15,9 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.luisafarias.myapplication.fragments.FeedListFragment;
-import com.example.luisafarias.myapplication.fragments.NewFeedFragment;
-import com.example.luisafarias.myapplication.model.Feed;
+import com.example.luisafarias.myapplication.fragments.RssListFragment;
+import com.example.luisafarias.myapplication.fragments.NewRssFragment;
+import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.Repositorio;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 		Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(myToolbar);
 
-		FeedListFragment feedListFragment = new FeedListFragment();
+		RssListFragment feedListFragment = new RssListFragment();
 		FragmentManager fm = getFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
 		//       ft.replace(R.id.frame_layout_fragment,feedListFragment, "test");
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 //				//String name = newUrlName.getText().toString();
 //				String url = newUrl.getText().toString();
 //
-//				Feed feed = new Feed(url, _userId, null);
+//				Rss feed = new Rss(url, _userId, null);
 //				Log.d("mainActivity", feed.getUrl());
 //				try {
 //					saveFeed(feed);
@@ -134,13 +134,13 @@ public class MainActivity extends AppCompatActivity {
 
 		if (requestCode == ACCESS_RESULT_NEW_FEED) {
 			if (intent != null) {
-				Feed feed = intent.getExtras().getParcelable(Constants.FEED);
+				Rss feed = intent.getExtras().getParcelable(Constants.RSS);
 				try {
 					Repositorio.getInstance()
 						.addFeed(feed, _authorization,
 							new Repositorio.CallbackFeed() {
 								@Override
-								public void onSuccess(Feed feed) {
+								public void onSuccess(Rss feed) {
 									//reloadFeeds();
 									Log.d(MainActivity.class.getName(),
 										"salvou");
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
 		bundle.putString(Constants.TOKEN, _token);
 		bundle.putString(Constants.USER_ID, _userId);
 		bundle.putBoolean(Constants.NEW_OR_EDIT, false);
-		Fragment fragment = new NewFeedFragment();
+		Fragment fragment = new NewRssFragment();
 		fragment.setArguments(bundle);
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction fragmentTransaction =
@@ -179,12 +179,12 @@ public class MainActivity extends AppCompatActivity {
 		fragmentTransaction.commit();
 	}
 
-	public void goEditFeed(Feed feed) {
+	public void goEditFeed(Rss feed) {
 		Bundle bundle = new Bundle();
-		bundle.putParcelable(Constants.FEED, feed);
+		bundle.putParcelable(Constants.RSS, feed);
 		bundle.putBoolean(Constants.NEW_OR_EDIT, true);
 		bundle.putString(Constants.TOKEN, _token);
-		Fragment fragment = new NewFeedFragment();
+		Fragment fragment = new NewRssFragment();
 		fragment.setArguments(bundle);
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction fragmentTransaction =
@@ -195,12 +195,12 @@ public class MainActivity extends AppCompatActivity {
 		fragmentTransaction.commit();
 	}
 
-//	public void saveFeed(Feed feed) throws JSONException {
+//	public void saveFeed(Rss feed) throws JSONException {
 //		Repositorio.getInstance()
 //			.addFeed(feed, _authorization, new Repositorio.CallbackFeed() {
 //
 //				@Override
-//				public void onSuccess(Feed feed) {
+//				public void onSuccess(Rss feed) {
 //					Log.d(MainActivity.class.getName(), "salvou");
 //					Snackbar.make(container, "Salvou", Snackbar.LENGTH_LONG)
 //						.show();
@@ -217,13 +217,13 @@ public class MainActivity extends AppCompatActivity {
 
 	public void onAqui(View view) {//teste para saber se está salvando elemento
 
-		Intent intent = new Intent(this, FeedNewsActivity.class);
+		Intent intent = new Intent(this, ItemListActivity.class);
 		startActivity(intent);
 	}
 
 	//private ListView _allFeeds;
 	private Authorization _authorization;
-	//private Feed _feed;
+	//private Rss _feed;
 	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
 	private String _userId;
 	private String _token;

@@ -8,34 +8,34 @@ import org.simpleframework.xml.Root;
 /**
  * Created by luisafarias on 19/10/17.
  */
-@Root(name = "item", strict = false)
-public class FeedItem implements Parcelable {
+@Root(name = "item_body", strict = false)
+public class Item implements Parcelable {
 	@Element(name = "pubDate", required = false) private String pubDate;
 	@Element(name = "title", required = false) private String title;
 	@Element(name = "description", required = false) private String description;
 	@Element(name = "link", required = false) private String link;
 
-	public FeedItem() {
+	public Item() {
 	}
 
 	;//para desserializar precisa do construtor vazio public
 
-	protected FeedItem(Parcel in) {
+	protected Item(Parcel in) {
 		pubDate = in.readString();
 		title = in.readString();
 		description = in.readString();
 		link = in.readString();
 	}
 
-	public static final Creator<FeedItem> CREATOR = new Creator<FeedItem>() {
+	public static final Creator<Item> CREATOR = new Creator<Item>() {
 		@Override
-		public FeedItem createFromParcel(Parcel in) {
-			return new FeedItem(in);
+		public Item createFromParcel(Parcel in) {
+			return new Item(in);
 		}
 
 		@Override
-		public FeedItem[] newArray(int size) {
-			return new FeedItem[size];
+		public Item[] newArray(int size) {
+			return new Item[size];
 		}
 	};
 
