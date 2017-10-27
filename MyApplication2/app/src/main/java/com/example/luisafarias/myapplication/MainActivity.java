@@ -14,8 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.example.luisafarias.myapplication.fragments.FeedListFragment;
 import com.example.luisafarias.myapplication.fragments.NewFeedFragment;
@@ -197,25 +195,25 @@ public class MainActivity extends AppCompatActivity {
 		fragmentTransaction.commit();
 	}
 
-	public void saveFeed(Feed feed) throws JSONException {
-		Repositorio.getInstance()
-			.addFeed(feed, _authorization, new Repositorio.CallbackFeed() {
-
-				@Override
-				public void onSuccess(Feed feed) {
-					Log.d(MainActivity.class.getName(), "salvou");
-					Snackbar.make(container, "Salvou", Snackbar.LENGTH_LONG)
-						.show();
-				}
-
-				@Override
-				public void onFailure(Exception e) {
-					Log.e(MainActivity.class.getName(), e.getMessage());
-					Snackbar.make(container, e.getMessage(),
-						Snackbar.LENGTH_LONG).show();
-				}
-			});
-	}
+//	public void saveFeed(Feed feed) throws JSONException {
+//		Repositorio.getInstance()
+//			.addFeed(feed, _authorization, new Repositorio.CallbackFeed() {
+//
+//				@Override
+//				public void onSuccess(Feed feed) {
+//					Log.d(MainActivity.class.getName(), "salvou");
+//					Snackbar.make(container, "Salvou", Snackbar.LENGTH_LONG)
+//						.show();
+//				}
+//
+//				@Override
+//				public void onFailure(Exception e) {
+//					Log.e(MainActivity.class.getName(), e.getMessage());
+//					Snackbar.make(container, e.getMessage(),
+//						Snackbar.LENGTH_LONG).show();
+//				}
+//			});
+//	}
 
 	public void onAqui(View view) {//teste para saber se está salvando elemento
 
@@ -223,14 +221,9 @@ public class MainActivity extends AppCompatActivity {
 		startActivity(intent);
 	}
 
-	//    public void popup(View view){
-	//        PopUpFragment popUpFragment = new PopUpFragment();
-	//        popUpFragment.show(getSupportFragmentManager(),"teste");
-	//    }
-
 	//private ListView _allFeeds;
 	private Authorization _authorization;
-	private Feed _feed;
+	//private Feed _feed;
 	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
 	private String _userId;
 	private String _token;

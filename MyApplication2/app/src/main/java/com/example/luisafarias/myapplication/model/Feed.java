@@ -16,14 +16,12 @@ public class Feed implements Parcelable {
 	} //para desserializar precisa do construtor vazio public
 
 	public Feed(String url, String userId, Channel channel) {
-		//setTitle(nome);
 		setUrl(url);
 		setUserId(userId);
 		setChannel(channel);
 	}
 
 	protected Feed(Parcel in) {
-		//_title = in.readString();
 		_url = in.readString();
 		_userId = in.readString();
 		_id = in.readString();
@@ -40,10 +38,6 @@ public class Feed implements Parcelable {
 			return new Feed[size];
 		}
 	};
-
-//	public String getTitle() {
-//		return this._title;
-//	}
 
 	public String getUrl() {
 		return this._url;
@@ -68,10 +62,6 @@ public class Feed implements Parcelable {
 	public void setChannel(Channel channel) {
 		this._channel = channel;
 	}
-
-	//public void setTitle(String _title) {
-//		this._title = _title;
-//	}
 
 	public void setUrl(String _url) {
 		this._url = _url;
@@ -112,7 +102,6 @@ public class Feed implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel parcel, int i) {
-		//parcel.writeString(_title);
 		parcel.writeString(_url);
 		parcel.writeString(_userId);
 		parcel.writeString(_id);
@@ -134,7 +123,6 @@ public class Feed implements Parcelable {
 	private String _description;
 	private String _id;
 	private String _image;
-	//private String _title;
 	private String _url;
 	private String _userId;
 }
