@@ -2,6 +2,7 @@ package com.example.luisafarias.myapplication.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import com.example.luisafarias.myapplication.model.RetrofitClient;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
+import com.wedeploy.android.util.URLUtil;
+
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -57,6 +60,7 @@ public class NewRssFragment extends Fragment {
 				public void onClick(View v) {
 					try {
 						updateFeed(_rss);
+
 					} catch (JSONException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
@@ -74,7 +78,11 @@ public class NewRssFragment extends Fragment {
 					Rss rss = new Rss(url, _userId, null);
 					Log.d("teste", url);
 					try {
-						saveNewFeed(rss);//nesse metodo deve pegar o title do channel ou aqui dentro mesmo
+						if (android.webkit.URLUtil.isValidUrl(url)){
+							saveNewFeed(rss);
+						}else {
+							Snackbar.make(getView(),"Url invalida", Snackbar.LENGTH_LONG).show();
+						}
 					} catch (JSONException e) {
 						Log.e(NewRssFragment.class.getName(), e.getMessage());
 					} catch (IOException e) {

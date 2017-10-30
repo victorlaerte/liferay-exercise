@@ -30,14 +30,12 @@ import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
 
-	ConstraintLayout container;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		container = (ConstraintLayout) findViewById(R.id.container);
+		_constraintLayout = (ConstraintLayout) findViewById(R.id.container);
 
 		Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(myToolbar);
@@ -145,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 									//reloadFeeds();
 									Log.d(MainActivity.class.getName(),
 										"salvou");
-									Snackbar.make(container, "Salvou",
+									Snackbar.make(_constraintLayout, "Salvou",
 										Snackbar.LENGTH_LONG).show();
 								}
 
@@ -153,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 								public void onFailure(Exception e) {
 									Log.e(MainActivity.class.getName(),
 										e.getMessage());
-									Snackbar.make(container, e.getMessage(),
+									Snackbar.make(_constraintLayout, e.getMessage(),
 										Snackbar.LENGTH_LONG).show();
 								}
 							});
@@ -203,14 +201,14 @@ public class MainActivity extends AppCompatActivity {
 //				@Override
 //				public void onSuccess(Rss feed) {
 //					Log.d(MainActivity.class.getName(), "salvou");
-//					Snackbar.make(container, "Salvou", Snackbar.LENGTH_LONG)
+//					Snackbar.make(_constraintLayout, "Salvou", Snackbar.LENGTH_LONG)
 //						.show();
 //				}
 //
 //				@Override
 //				public void onFailure(Exception e) {
 //					Log.e(MainActivity.class.getName(), e.getMessage());
-//					Snackbar.make(container, e.getMessage(),
+//					Snackbar.make(_constraintLayout, e.getMessage(),
 //						Snackbar.LENGTH_LONG).show();
 //				}
 //			});
@@ -224,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
 	//private ListView _allFeeds;
 	private Authorization _authorization;
+	ConstraintLayout _constraintLayout;
 	//private Rss _feed;
 	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
 	private String _userId;
