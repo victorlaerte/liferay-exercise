@@ -22,4 +22,5 @@ public class Constants {
 	public final static String NEW_OR_EDIT = "newOrEdit";
 
 	public final static String LINK = "link";
+	public final static String INVALID_URL = "url inválida";
 }

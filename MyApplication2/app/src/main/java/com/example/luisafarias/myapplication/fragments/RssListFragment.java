@@ -50,6 +50,8 @@ public class RssListFragment extends Fragment {
 		return _view;
 	}
 
+
+
 	public void reloadFeeds() {
 		Repositorio.getInstance()
 			.feedListAll(_authorization, new Repositorio.CallbackFeeds() {
