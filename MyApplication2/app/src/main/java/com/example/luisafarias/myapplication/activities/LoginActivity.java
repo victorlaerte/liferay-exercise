@@ -3,6 +3,7 @@ package com.example.luisafarias.myapplication.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.transport.Response;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,10 +49,10 @@ public class LoginActivity extends AppCompatActivity {
 		String emailLogin = editTextLogin.getText().toString();
 		EditText editTextSenha = (EditText) findViewById(R.id.senhalogin);
 		String passwordLogin = editTextSenha.getText().toString();
-		login(emailLogin, passwordLogin);
+		login(emailLogin, passwordLogin, view);
 	}
 
-	public void login(String emailLogin, String passwordLogin)
+	public void login(String emailLogin, String passwordLogin, final View view)
 		throws WeDeployException, JSONException {
 		//		final Intent intent = new Intent(this, MainActivity.class);
 		//		final Bundle extra = new Bundle();
@@ -58,21 +60,19 @@ public class LoginActivity extends AppCompatActivity {
 			.signIn(emailLogin, passwordLogin)
 			.execute(new Callback() {
 				public void onSuccess(Response response) {
-					onLoginSuccess(response);
+					onLoginSuccess(response, view);
 				}
 
-				public void onFailure(Exception e) {
-					Log.e(NewUserActivity.class.getName(), e.getMessage());
+                    public void onFailure(Exception e) {
+                        Log.e(NewUserActivity.class.getName(), e.getMessage());
 
-                        /*
-                         * TODO: Toast, Snackbar
-                         * e.getMessage();
-                         */
+						Snackbar.make(view, e.getMessage(),
+								Snackbar.LENGTH_LONG).show();
 				}
 			});
 	}
 
-	private void onLoginSuccess(Response response) {
+	private void onLoginSuccess(Response response, final View view) {
 		Log.d(TAG, "entrei");
 
 		final JSONObject jsonBody;
@@ -95,16 +95,16 @@ public class LoginActivity extends AppCompatActivity {
 						public void onFailure(Exception e) {
 							Log.e(LoginActivity.class.getName(),
 								e.getMessage());
+							Snackbar.make(view, e.getMessage(),
+									Snackbar.LENGTH_LONG).show();
 						}
 					});
 
 		} catch (JSONException e) {
 			Log.e(TAG, e.getMessage());
+			Snackbar.make(view, e.getMessage(),
+					Snackbar.LENGTH_LONG).show();
 		}
-
-        /*
-         * TODO: Toast, Snackbar
-         */
 	}
 
 	private void saveUser(String userID) {
@@ -136,4 +136,4 @@ public class LoginActivity extends AppCompatActivity {
 	private String _token;
 	//private String _userID;
 	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
-}
+    }
