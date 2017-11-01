@@ -35,8 +35,8 @@ public class PopUpFragment extends DialogFragment {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					if (_rss != null && _authorization != null) {
-						Log.d(_rss.getPartXml(),
-								_rss.getPartMain());/****teste******/
+						Log.d(_rss.getURLEndPoint(),
+								_rss.getURLHost());/****teste******/
 						MainActivity activity = (MainActivity) getActivity();
 						activity.goEditFeed(_rss);
 					}

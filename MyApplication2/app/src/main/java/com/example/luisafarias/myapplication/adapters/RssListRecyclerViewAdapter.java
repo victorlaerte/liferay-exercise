@@ -10,14 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.example.luisafarias.myapplication.activities.ItemListActivity;
 import com.example.luisafarias.myapplication.R;
+import com.example.luisafarias.myapplication.activities.ItemListActivity;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.interfaces.ItemClickListener;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.util.Constants;
-
 import java.util.List;
 
 /**
@@ -32,7 +30,7 @@ public class RssListRecyclerViewAdapter
 	private String _token;
 
 	public RssListRecyclerViewAdapter(Context context, List<Rss> rssList,
-                                      String token) {
+		String token) {
 		this._context = context;
 		set_feedList(rssList);
 		set_token(token);
@@ -60,8 +58,6 @@ public class RssListRecyclerViewAdapter
 		holder.name.setText(rss.getChannel().getTitle());
 		holder.id.setText(rss.getId());
 
-
-
 		holder.setItemClickListener(new ItemClickListener() {
 			@Override
 			public void onClick(View view, int position, boolean isLongClick) {
@@ -78,10 +74,11 @@ public class RssListRecyclerViewAdapter
 					Log.d("click longo", _rssList.get(position).getUrl());
 				} else {
 					Log.d("click curto", _rssList.get(position).getUrl());
-					Intent intent = new Intent(_context, ItemListActivity.class);
+					Intent intent =
+						new Intent(_context, ItemListActivity.class);
 					Bundle bundle = new Bundle();
-					bundle.putParcelable(Constants.RSS,rss);
-					intent.putExtra(Constants.RSS,bundle);
+					bundle.putParcelable(Constants.RSS, rss);
+					intent.putExtra(Constants.RSS, bundle);
 					_context.startActivity(intent);
 				}
 			}

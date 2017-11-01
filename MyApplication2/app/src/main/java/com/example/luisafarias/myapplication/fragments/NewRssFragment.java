@@ -18,7 +18,6 @@ import com.example.luisafarias.myapplication.model.RetrofitClient;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
-import com.wedeploy.android.util.URLUtil;
 
 import org.json.JSONException;
 
@@ -97,7 +96,7 @@ public class NewRssFragment extends Fragment {
 	public void updateFeed(final Rss rss) throws JSONException, IOException {
 		//aqui tbm o channel deve ser setado
 		//feed.setTitle(_nome.getText().toString());
-		getChannelNF(rss, new CallBackChannel() {
+		getRemoteChannel(rss, new CallBackChannel() {
 			@Override
 			public void onSuccess(Channel channel) throws JSONException {
 
@@ -125,7 +124,7 @@ public class NewRssFragment extends Fragment {
 	}
 
 	public void saveNewFeed(final Rss rss) throws JSONException, IOException {
-		getChannelNF(rss, new CallBackChannel() {
+		getRemoteChannel(rss, new CallBackChannel() {
 			//Rss feedParameter = feed;
 			@Override
 			public void onSuccess(Channel channel) throws JSONException {
@@ -156,10 +155,10 @@ public class NewRssFragment extends Fragment {
 
 	}
 
-	public void getChannelNF(Rss _rss, final CallBackChannel callBackChannel) throws IOException {
-		WeRetrofitService wrs = RetrofitClient.getInstance(_rss.getPartMain())
+	public void getRemoteChannel(Rss _rss, final CallBackChannel callBackChannel) throws IOException {
+		WeRetrofitService wrs = RetrofitClient.getInstance(_rss.getURLHost())
 			.create(WeRetrofitService.class);
-		wrs.getItems(_rss.getPartXml()).enqueue(new Callback<Rss>() {
+		wrs.getItems(_rss.getURLEndPoint()).enqueue(new Callback<Rss>() {
 			@Override
 			public void onResponse(Call<Rss> call, Response<Rss> response) {
 				if (response.isSuccessful()) {

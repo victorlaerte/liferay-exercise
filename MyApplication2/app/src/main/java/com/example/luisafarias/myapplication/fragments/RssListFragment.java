@@ -27,10 +27,9 @@ public class RssListFragment extends Fragment {
 		if (getArguments() != null) {
 			_token = getArguments().getString(Constants.TOKEN_KEY);
 			_rss = getArguments().getParcelable(Constants.RSS);
-			if (_rss != null && _token != null) {
-				Log.d(RssListFragment.class.getName(), _rss.getChannel().getTitle());
+			if (_token != null) {
+				_authorization = new TokenAuthorization(_token);
 			}
-			_authorization = new TokenAuthorization(_token);
 		}
 	}
 

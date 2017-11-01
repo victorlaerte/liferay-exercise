@@ -29,7 +29,7 @@ public class ItemListActivity extends AppCompatActivity {
 		_rss = data.getParcelable(Constants.RSS);
 		setContentView(R.layout.activity_item_list);
 
-		_rsfit = RetrofitClient.getInstance(_rss.getPartMain())
+		_rsfit = RetrofitClient.getInstance(_rss.getURLHost())
 			.create(WeRetrofitService.class);
 		_itemList = new ArrayList<Item>();
 		recyclerView = (RecyclerView) findViewById(R.id.feed_news_list);
@@ -43,7 +43,7 @@ public class ItemListActivity extends AppCompatActivity {
 	}
 
 	private void loadAnswers() {
-		_rsfit.getItems(_rss.getPartXml()).enqueue(new Callback<Rss>() {
+		_rsfit.getItems(_rss.getURLEndPoint()).enqueue(new Callback<Rss>() {
 			@Override
 			public void onResponse(Call<Rss> call, Response<Rss> response) {
 				if (response.isSuccessful()) {

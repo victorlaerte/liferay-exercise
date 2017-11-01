@@ -75,7 +75,7 @@ public class Rss implements Parcelable {
 		this._userId = _userId;
 	}
 
-	public String getPartMain() {
+	public String getURLHost() {
 		int a = 0;
 		if (_url.contains(".br")) {
 			a = _url.indexOf(".br/");
@@ -85,7 +85,7 @@ public class Rss implements Parcelable {
 		return _url.substring(0, (a + 5));
 	}
 
-	public String getPartXml() {
+	public String getURLEndPoint() {
 		int a = 0;
 		if (_url.contains(".br")) {
 			a = _url.indexOf(".br/");

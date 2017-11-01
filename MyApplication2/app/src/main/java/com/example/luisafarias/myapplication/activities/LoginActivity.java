@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.WeDeployActions;
 import com.example.luisafarias.myapplication.util.Constants;
@@ -25,19 +24,20 @@ public class LoginActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		_sharedPref = getSharedPreferences(Constants.USER, this.MODE_PRIVATE);
-		if (_sharedPref.contains(Constants.TOKEN) && _sharedPref.contains(Constants.USER_ID)) {
+		if (_sharedPref.contains(Constants.TOKEN) && _sharedPref.contains(
+			Constants.USER_ID)) {
 			String token = _sharedPref.getString(Constants.TOKEN, "");
 			String userID = _sharedPref.getString(Constants.USER_ID, "");
 
-//			Intent intent = new Intent(this, MainActivity.class);
-//			Bundle extra = new Bundle();
-//			extra.putString(Constants.TOKEN_KEY, token);
-//			extra.putString(Constants.USER_ID, userID);
-//			intent.putExtra(Constants.TOKEN_USER_ID, extra);
-//			finish();
-//			startActivity(intent);
+			//			Intent intent = new Intent(this, MainActivity.class);
+			//			Bundle extra = new Bundle();
+			//			extra.putString(Constants.TOKEN_KEY, token);
+			//			extra.putString(Constants.USER_ID, userID);
+			//			intent.putExtra(Constants.TOKEN_USER_ID, extra);
+			//			finish();
+			//			startActivity(intent);
 
-			openMainActivity(token,userID);
+			openMainActivity(token, userID);
 		}
 		setContentView(R.layout.activity_login);
 	}
@@ -52,60 +52,13 @@ public class LoginActivity extends AppCompatActivity {
 
 	public void login(String emailLogin, String passwordLogin)
 		throws WeDeployException, JSONException {
-//		final Intent intent = new Intent(this, MainActivity.class);
-//		final Bundle extra = new Bundle();
-		final int privated = this.MODE_PRIVATE;
-
+		//		final Intent intent = new Intent(this, MainActivity.class);
+		//		final Bundle extra = new Bundle();
 		_weDeploy.auth(Constants.AUTH_URL)
 			.signIn(emailLogin, passwordLogin)
 			.execute(new Callback() {
 				public void onSuccess(Response response) {
-					Log.d(TAG, "entrei");
-
-					final JSONObject jsonBody;
-					try {
-						jsonBody = new JSONObject(response.getBody());
-						_token = jsonBody.getString(Constants.ACCESS_TOKEN);
-
-						//Log.d("shared token",_sharedPref.getString("token",""));
-
-						WeDeployActions.getInstance()
-							.getCurrentUser(new TokenAuthorization(_token),
-								new WeDeployActions.CallbackUserID() {
-									@Override
-									public void onSuccess(String userID) {
-										_sharedPref =
-											getSharedPreferences(Constants.USER,
-												privated);
-										SharedPreferences.Editor editor =
-											_sharedPref.edit();
-										editor.putString(Constants.TOKEN, _token);
-										editor.putString(Constants.USER_ID, userID);
-										editor.apply();
-										//_login = true;
-
-//										extra.putString(Constants.TOKEN_KEY, _token);
-//										extra.putString(Constants.USER_ID, userID);
-//										intent.putExtra(Constants.TOKEN_USER_ID, extra);
-//
-//										finish();
-//										startActivity(intent);
-										openMainActivity(_token,userID);
-									}
-
-									@Override
-									public void onFailure(Exception e) {
-										Log.e(LoginActivity.class.getName(),
-											e.getMessage());
-									}
-								});
-					} catch (JSONException e) {
-						Log.e(TAG, e.getMessage());
-					}
-
-                        /*
-                         * TODO: Toast, Snackbar
-                         */
+					onLoginSuccess(response);
 				}
 
 				public void onFailure(Exception e) {
@@ -119,7 +72,50 @@ public class LoginActivity extends AppCompatActivity {
 			});
 	}
 
-	public void openMainActivity(String token, String userId){
+	private void onLoginSuccess(Response response) {
+		Log.d(TAG, "entrei");
+
+		final JSONObject jsonBody;
+		try {
+			jsonBody = new JSONObject(response.getBody());
+			_token = jsonBody.getString(Constants.ACCESS_TOKEN);
+
+			//Log.d("shared token",_sharedPref.getString("token",""));
+
+			WeDeployActions.getInstance()
+				.getCurrentUser(new TokenAuthorization(_token),
+					new WeDeployActions.CallbackUserID() {
+						@Override
+						public void onSuccess(String userID) {
+							saveUser(userID);
+							openMainActivity(_token, userID);
+						}
+
+						@Override
+						public void onFailure(Exception e) {
+							Log.e(LoginActivity.class.getName(),
+								e.getMessage());
+						}
+					});
+
+		} catch (JSONException e) {
+			Log.e(TAG, e.getMessage());
+		}
+
+        /*
+         * TODO: Toast, Snackbar
+         */
+	}
+
+	private void saveUser(String userID) {
+		_sharedPref = getSharedPreferences(Constants.USER, MODE_PRIVATE);
+		SharedPreferences.Editor editor = _sharedPref.edit();
+		editor.putString(Constants.TOKEN, _token);
+		editor.putString(Constants.USER_ID, userID);
+		editor.apply();
+	}
+
+	public void openMainActivity(String token, String userId) {
 		Intent intent = new Intent(this, MainActivity.class);
 		Bundle extra = new Bundle();
 		extra.putString(Constants.TOKEN_KEY, token);

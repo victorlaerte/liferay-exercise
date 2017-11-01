@@ -68,25 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
 		/**onClick get feed from newFeedFragment **/
 
-//		Button actionSaveFeed = (Button) findViewById(R.id.saveFeed);
-//		actionSaveFeed.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				//EditText newUrlName = (EditText) findViewById(R.id.newNameFeed);
-//				EditText newUrl = (EditText) findViewById(R.id.newUrlFeed);
-//
-//				//String name = newUrlName.getText().toString();
-//				String url = newUrl.getText().toString();
-//
-//				Rss feed = new Rss(url, _userId, null);
-//				Log.d("mainActivity", feed.getUrl());
-//				try {
-//					saveFeed(feed);
-//				} catch (JSONException e) {
-//					Log.e(MainActivity.class.getName(), e.getMessage());
-//				}
-//			}
-//		});
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
