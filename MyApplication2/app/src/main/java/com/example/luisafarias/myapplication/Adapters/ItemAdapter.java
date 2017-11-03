@@ -23,12 +23,6 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
-	private List<Item> _feedItems;
-
-	//TODO Se não esttiver utilizando remover
-	private Context _context;
-	private LayoutInflater _layoutInflater;
-
 	public ItemAdapter(Context context, List<Item> feed) {
 		this._feedItems = feed;
 		this._context = context;
@@ -106,4 +100,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 			this.itemClickListener = itemClickListener;
 		}
 	}
+
+	private List<Item> _feedItems;
+	private Context _context;
+	//private LayoutInflater _layoutInflater;
 }

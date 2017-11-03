@@ -25,16 +25,16 @@ public class NewUserActivity extends AppCompatActivity {
 	}
 
 	public void createUser(View view) throws WeDeployException {
-		EditText editTextNome = (EditText) findViewById(R.id.caixanomee);
-		String nome = editTextNome.getText().toString();
+		EditText editTextName = (EditText) findViewById(R.id.caixanomee);
+		String name = editTextName.getText().toString();
 		EditText editTextEmail = (EditText) findViewById(R.id.caixaemaill);
 		String email = editTextEmail.getText().toString();
-		EditText editTextSenha = (EditText) findViewById(R.id.caixaSenha);
-		String senha = editTextSenha.getText().toString();
+		EditText editTextPassword = (EditText) findViewById(R.id.caixaSenha);
+		String password = editTextPassword.getText().toString();
 
 		if (_isValidEmail(email)){
 			_weDeploy.auth(Constants.AUTH_URL)
-					.createUser(email, senha, nome)
+					.createUser(email, password, name)
 					.execute(new Callback() {
 						public void onSuccess(Response response) {
 							_openFeedListActivity();

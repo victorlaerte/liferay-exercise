@@ -11,7 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.model.Rss;
-import com.example.luisafarias.myapplication.model.Repositorio;
+import com.example.luisafarias.myapplication.model.RssRepositorio;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
@@ -38,7 +38,7 @@ public class PopUpFragment extends DialogFragment {
 						Log.d(_rss.getURLEndPoint(),
 								_rss.getURLHost());/****teste******/
 						MainActivity activity = (MainActivity) getActivity();
-						activity.goEditFeed(_rss);
+						activity.goEditRss(_rss);
 					}
 				}
 			})
@@ -47,9 +47,9 @@ public class PopUpFragment extends DialogFragment {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (_rss != null && _authorization != null) {
-							Repositorio.getInstance()
-								.removeFeed(_rss, _authorization,
-									new Repositorio.CallbackFeed() {
+							RssRepositorio.getInstance()
+								.removeRss(_rss, _authorization,
+									new RssRepositorio.CallbackRss() {
 										@Override
 										public void onSuccess(Rss feed) {
 											Snackbar.make(getView(), "Removido",

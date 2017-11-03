@@ -16,7 +16,7 @@ import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
 import com.example.luisafarias.myapplication.model.Channel;
 import com.example.luisafarias.myapplication.model.Rss;
-import com.example.luisafarias.myapplication.model.Repositorio;
+import com.example.luisafarias.myapplication.model.RssRepositorio;
 import com.example.luisafarias.myapplication.model.RetrofitClient;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
@@ -89,7 +89,7 @@ public class NewRssFragment extends Fragment {
 						Log.d("teste", url);
 						try {
 							if (android.webkit.URLUtil.isValidUrl(url)){
-								saveNewFeed(rss);
+								saveNewRss(rss);
 							}else {
 								Snackbar.make(v.getRootView().findViewById(R.id.coordinator),"Url invalida", Snackbar.LENGTH_LONG).show();
 							}
@@ -105,7 +105,7 @@ public class NewRssFragment extends Fragment {
 		return _view;
 	}
 
-	public void updateFeed(final Rss rss) throws JSONException, IOException {
+	public void updateRss(final Rss rss) throws JSONException, IOException {
 		//aqui tbm o channel deve ser setado
 		//feed.setTitle(_nome.getText().toString());
 		getRemoteChannel(rss, new CallBackChannel() {
@@ -113,8 +113,8 @@ public class NewRssFragment extends Fragment {
 			public void onSuccess(Channel channel) throws JSONException {
 
 				rss.setUrl(_urlEditText.getText().toString());
-				Repositorio.getInstance()
-						.updateFeed(rss, _authorization, new Repositorio.CallbackFeed() {
+				RssRepositorio.getInstance()
+						.updateRss(rss, _authorization, new RssRepositorio.CallbackRss() {
 							@Override
 							public void onSuccess(Rss rss) {
 
@@ -135,16 +135,15 @@ public class NewRssFragment extends Fragment {
 
 	}
 
-	public void saveNewFeed(final Rss rss) throws JSONException, IOException {
+	public void saveNewRss(final Rss rss) throws JSONException, IOException {
 		getRemoteChannel(rss, new CallBackChannel() {
-			//Rss feedParameter = feed;
 			@Override
 			public void onSuccess(Channel channel) throws JSONException {
 				String title = channel.getTitle();
 				rss.setChannel(channel);
 				Log.d("NewRssFragment", "deu certo");
-				Repositorio.getInstance()
-						.addFeed(rss, _authorization, new Repositorio.CallbackFeed() {
+				RssRepositorio.getInstance()
+						.addRss(rss, _authorization, new RssRepositorio.CallbackRss() {
 							@Override
 							public void onSuccess(Rss rss) {
 								Log.d(NewRssFragment.class.getName(), "salvo com sucesso");
@@ -161,16 +160,16 @@ public class NewRssFragment extends Fragment {
 
 			@Override
 			public void onFailure(Throwable t) {
-				Log.e("NewFeedFrament", t.getMessage());
+				Log.e("NewRssFrament", t.getMessage());
 			}
 		});
 
 	}
 
-	public void getRemoteChannel(Rss _rss, final CallBackChannel callBackChannel) throws IOException {
-		WeRetrofitService wrs = RetrofitClient.getInstance(_rss.getURLHost())
+	public void getRemoteChannel(Rss rss, final CallBackChannel callBackChannel) throws IOException {
+		WeRetrofitService wrs = RetrofitClient.getInstance(rss.getURLHost())
 			.create(WeRetrofitService.class);
-		wrs.getItems(_rss.getURLEndPoint()).enqueue(new Callback<Rss>() {
+		wrs.getItems(rss.getURLEndPoint()).enqueue(new Callback<Rss>() {
 			@Override
 			public void onResponse(Call<Rss> call, Response<Rss> response) {
 				if (response.isSuccessful()) {

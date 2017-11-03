@@ -32,15 +32,15 @@ public class RssListRecyclerViewAdapter
 	public RssListRecyclerViewAdapter(Context context, List<Rss> rssList,
 		String token) {
 		this._context = context;
-		set_feedList(rssList);
-		set_token(token);
+		setRssList(rssList);
+		setToken(token);
 	}
 
-	public void set_feedList(List<Rss> feedList) {
-		this._rssList = feedList;
+	public void setRssList(List<Rss> rssList) {
+		this._rssList = rssList;
 	}
 
-	public void set_token(String token) {
+	public void setToken(String token) {
 		this._token = token;
 	}
 

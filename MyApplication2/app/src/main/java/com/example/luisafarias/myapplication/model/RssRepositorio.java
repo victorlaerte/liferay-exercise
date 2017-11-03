@@ -18,31 +18,31 @@ import org.json.JSONObject;
  * Created by luisafarias on 26/09/17.
  */
 
-public class Repositorio implements IRepositorio {
+public class RssRepositorio implements IRepositorio {
 
-	private static Repositorio _uniqueInstance;
+	private static RssRepositorio _uniqueInstance;
 	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
-	Rss feed;
-	ArrayList<Rss> feedList = new ArrayList();
+	Rss rss;
+	ArrayList<Rss> rssList = new ArrayList();
 
-	private Repositorio() {
+	private RssRepositorio() {
 	}
 
-	public static Repositorio getInstance() {
+	public static RssRepositorio getInstance() {
 		if (_uniqueInstance == null) {
-			_uniqueInstance = new Repositorio();
+			_uniqueInstance = new RssRepositorio();
 		}
 		return _uniqueInstance;
 	}
 
 	@Override
-	public void addFeed(Rss feed, Authorization authorization,
-						final CallbackFeed callbackFeed) throws JSONException {
-		String userId = feed.getUserId();
-		String url = feed.getUrl();
-		String channelTitle = feed.getChannel().getTitle();
+	public void addRss(Rss rss, Authorization authorization,
+						final CallbackRss callbackRss) throws JSONException {
+		String userId = rss.getUserId();
+		String url = rss.getUrl();
+		String channelTitle = rss.getChannel().getTitle();
 
-		if (feed != null) {
+		if (rss != null) {
 
 			JSONObject feedJsonObject = new JSONObject()
 				.put("userId", userId)
@@ -60,40 +60,40 @@ public class Repositorio implements IRepositorio {
 							JSONObject jsonBody =
 								new JSONObject(response.getBody());
 
-							Rss feed = new Rss();
-							feed.setUrl(jsonBody.getString("url"));
-							feed.setId(jsonBody.getString("id"));
+							Rss rss = new Rss();
+							rss.setUrl(jsonBody.getString("url"));
+							rss.setId(jsonBody.getString("id"));
 							Channel channel = new Channel();
 							channel.setTitle(jsonBody.getString("channelTitle"));
-							feed.setChannel(channel);
+							rss.setChannel(channel);
 
-							callbackFeed.onSuccess(feed);
+							callbackRss.onSuccess(rss);
 						} catch (Exception e) {
-							callbackFeed.onFailure(e);
+							callbackRss.onFailure(e);
 						}
 					}
 
 					public void onFailure(Exception e) {
 						Log.e("repositorio", e.getMessage());
-						callbackFeed.onFailure(e);
+						callbackRss.onFailure(e);
 					}
 				});
 		}
 	}
 
 	@Override
-	public void updateFeed(Rss feed, Authorization authorization,//pq eu editaria um rss?
-						   final CallbackFeed callbackFeed) throws JSONException {
-		String url = feed.getUrl();
+	public void updateRss(Rss rss, Authorization authorization,//pq eu editaria um rss?
+						   final CallbackRss callbackRss) throws JSONException {
+		String url = rss.getUrl();
 
-		if (feed != null) {
+		if (rss != null) {
 
 			JSONObject feedJsonObject =
 				new JSONObject().put("url", url);
 
 			_weDeploy.data(Constants.DATA_URL)
 				.authorization(authorization)
-				.update("Feeds/" + feed.getId(), feedJsonObject)
+				.update("rss/" + rss.getId(), feedJsonObject)
 				.execute(new Callback() {
 					public void onSuccess(Response response) {
 
@@ -107,43 +107,43 @@ public class Repositorio implements IRepositorio {
 		}
 	}
 
-	public void removeFeed(final Rss feed, Authorization authorization,
-						   final CallbackFeed callbackFeed) {
+	public void removeRss(final Rss rss, Authorization authorization,
+						   final CallbackRss callbackRss) {
 
-		if (feed != null) {
-			String id = feed.getId();
-			Log.d(Repositorio.class.getName(), id);
+		if (rss != null) {
+			String id = rss.getId();
+			Log.d(RssRepositorio.class.getName(), id);
 
 			_weDeploy.data(Constants.DATA_URL)
 				.authorization(authorization)
-				.delete("Feeds/" + id)
+				.delete("Rss/" + id)
 				.execute(new Callback() {
 					@Override
 					public void onSuccess(Response response) {
-						Log.d(Repositorio.class.getName(), "removeu");
-						feedList.remove(feed);
+						Log.d(RssRepositorio.class.getName(), "removeu");
+						rssList.remove(rss);
 					}
 
 					@Override
 					public void onFailure(Exception e) {
 
-						Log.e(Repositorio.class.getName(), e.getMessage());
+						Log.e(RssRepositorio.class.getName(), e.getMessage());
 					}
 				});
 		}
 	}
 
 	@Override
-	public Rss getFeed(Rss feed, Authorization authorization) {
+	public Rss getRss(Rss rss, Authorization authorization) {
 		return null;
 	}
 
 	@Override
-	public ArrayList<Rss> getAllFeeds(Authorization authorization) {
+	public ArrayList<Rss> getAllRss(Authorization authorization) {
 
 		_weDeploy.data(Constants.DATA_URL)
 			.authorization(authorization)
-			.get("Feeds")
+			.get("Rss")
 			.execute(new Callback() {
 				public void onSuccess(Response response) {
 
@@ -160,13 +160,13 @@ public class Repositorio implements IRepositorio {
 							Log.d("tittleChannel",channelTitle);
 							Channel channel = new Channel();
 							channel.setTitle(channelTitle);
-							feed = new Rss(url, userId, null);
-							feed.setId(id);
-							feedList.add(feed);
+							rss = new Rss(url, userId, null);
+							rss.setId(id);
+							rssList.add(rss);
 							//String jsonBodyString = jsonBody.toString();
 						}
 					} catch (JSONException e) {
-						Log.e(Repositorio.class.getName(),e.getMessage());
+						Log.e(RssRepositorio.class.getName(),e.getMessage());
 					}
 				}
 
@@ -174,16 +174,16 @@ public class Repositorio implements IRepositorio {
 					Log.e(MainActivity.class.getName(), e.getMessage());
 				}
 			});
-		return feedList;
+		return rssList;
 	}
 
 	@Override
-	public List<Rss> feedList() {
+	public List<Rss> rssList() {
 		return null;
 	}
 
-	public void feedListAll(Authorization authorization,
-		final CallbackFeeds callbackFeeds) {
+	public void rssListAll(Authorization authorization,
+		final CallbackRssList callbackRssList) {
 		_weDeploy.data(Constants.DATA_URL)
 			.authorization(authorization)
 			.get("Feeds")
@@ -194,44 +194,44 @@ public class Repositorio implements IRepositorio {
 					try {
 						JSONArray jsonArray = new JSONArray(response.getBody());
 
-						List<Rss> listaFeed = new ArrayList<Rss>();
+						List<Rss> listaRss = new ArrayList<Rss>();
 
 						for (int i = 0; i < jsonArray.length(); i++) {
 							JSONObject jsonBody = (JSONObject) jsonArray.get(i);
-							Rss feed = new Rss();
+							Rss rss = new Rss();
 							//feed.setTitle(jsonBody.getString("name"));
-							feed.setUrl(jsonBody.getString("url"));
+							rss.setUrl(jsonBody.getString("url"));
 							//String a = feed.getUrl();
-							feed.setId(jsonBody.getString("id"));
+							rss.setId(jsonBody.getString("id"));
 							//jsonBody.getString("channelTitle");
 							//Log.d("repositorio",a);
 							Channel temporaryChannel = new Channel();
 							temporaryChannel.setTitle(jsonBody.getString("channelTitle"));
-							feed.setChannel(temporaryChannel);
-							Log.d("Repositorio", feed.getUrl());
-							listaFeed.add(feed);
+							rss.setChannel(temporaryChannel);
+							Log.d("RssRepositorio", rss.getUrl());
+							listaRss.add(rss);
 						}
 
-						callbackFeeds.onSuccess(listaFeed);
+						callbackRssList.onSuccess(listaRss);
 					} catch (Exception e) {
-						callbackFeeds.onFailure(e);
+						callbackRssList.onFailure(e);
 					}
 				}
 
 				@Override
 				public void onFailure(Exception e) {
-					callbackFeeds.onFailure(e);
+					callbackRssList.onFailure(e);
 				}
 			});
 	}
 
-	public interface CallbackFeeds {
-		void onSuccess(List<Rss> feedList);
+	public interface CallbackRssList {
+		void onSuccess(List<Rss> rssList);
 
 		void onFailure(Exception e);
 	}
 
-	public interface CallbackFeed {
+	public interface CallbackRss {
 		void onSuccess(Rss feed);
 
 		void onFailure(Exception e);

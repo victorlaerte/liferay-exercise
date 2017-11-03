@@ -19,7 +19,7 @@ import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.RssListFragment;
 import com.example.luisafarias.myapplication.fragments.NewRssFragment;
 import com.example.luisafarias.myapplication.model.Rss;
-import com.example.luisafarias.myapplication.model.Repositorio;
+import com.example.luisafarias.myapplication.model.RssRepositorio;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
@@ -40,38 +40,32 @@ public class MainActivity extends AppCompatActivity {
 		Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(myToolbar);
 
-		RssListFragment feedListFragment = new RssListFragment();
+		RssListFragment rssListFragment = new RssListFragment();
 		FragmentManager fm = getFragmentManager();
 		FragmentTransaction ft = fm.beginTransaction();
-		//       ft.replace(R.id.frame_layout_fragment,feedListFragment, "test");
-		ft.add(R.id.frame_layout_fragment, feedListFragment, "test");
+		ft.add(R.id.frame_layout_fragment, rssListFragment, "test");
 		ft.commit();
 
 		Bundle data = getIntent().getBundleExtra(Constants.TOKEN_USER_ID);
 		_token = data.getString(Constants.TOKEN_KEY);
 		_userId = data.getString(Constants.USER_ID);
 
-		if (_userId != null) Log.d("mainrecebeuserID", _userId);
+		if (_userId != null) Log.d("mainReceveUserID", _userId);
 
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.TOKEN_KEY, _token);
-		feedListFragment.setArguments(bundle);
+		rssListFragment.setArguments(bundle);
 
 		if (_token == null) {
 			throw new IllegalArgumentException();
 		}
 
 		_authorization = new TokenAuthorization(_token);
-		//_allFeeds = (ListView) findViewById(R.id.lista_feed);
-
-		//reloadFeeds();
-
-		/**onClick get feed from newFeedFragment **/
 
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_feed, menu);
+		getMenuInflater().inflate(R.menu.menu_rss, menu);
 		return true;
 	}
 
@@ -98,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
 					public void onFailure(Exception e) {
 
-						Log.e(MainActivity.class.getName(), e.getMessage()+ "oiiiii");
+						Log.e(MainActivity.class.getName(), e.getMessage());
 					}
 				});
 		}
@@ -116,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
 			if (intent != null) {
 				Rss feed = intent.getExtras().getParcelable(Constants.RSS);
 				try {
-					Repositorio.getInstance()
-						.addFeed(feed, _authorization,
-							new Repositorio.CallbackFeed() {
+					RssRepositorio.getInstance()
+						.addRss(feed, _authorization,
+							new RssRepositorio.CallbackRss() {
 								@Override
 								public void onSuccess(Rss feed) {
 									//reloadFeeds();
@@ -143,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
-	public void goAddNewFeed(View view) {
+	public void goAddNewRss(View view) {
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.TOKEN, _token);
 		bundle.putString(Constants.USER_ID, _userId);
@@ -158,8 +152,8 @@ public class MainActivity extends AppCompatActivity {
 			null);//quando apertar botao de voltar ele volta para o fragment anterior
 		fragmentTransaction.commit();
 	}
-
-	public void goEditFeed(Rss feed) {
+/***nao irei mais usar o goEditRss***/
+	public void goEditRss(Rss feed) {
 		Bundle bundle = new Bundle();
 		bundle.putParcelable(Constants.RSS, feed);
 		bundle.putBoolean(Constants.NEW_OR_EDIT, true);
@@ -174,26 +168,6 @@ public class MainActivity extends AppCompatActivity {
 			null);//quando apertar botao de volta ele voltar para o fragment anterior
 		fragmentTransaction.commit();
 	}
-
-//	public void saveFeed(Rss feed) throws JSONException {
-//		Repositorio.getInstance()
-//			.addFeed(feed, _authorization, new Repositorio.CallbackFeed() {
-//
-//				@Override
-//				public void onSuccess(Rss feed) {
-//					Log.d(MainActivity.class.getName(), "salvou");
-//					Snackbar.make(_constraintLayout, "Salvou", Snackbar.LENGTH_LONG)
-//						.show();
-//				}
-//
-//				@Override
-//				public void onFailure(Exception e) {
-//					Log.e(MainActivity.class.getName(), e.getMessage());
-//					Snackbar.make(_constraintLayout, e.getMessage(),
-//						Snackbar.LENGTH_LONG).show();
-//				}
-//			});
-//	}
 
 	public void onAqui(View view) {//teste para saber se está salvando elemento
 

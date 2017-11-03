@@ -12,7 +12,7 @@ import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.adapters.RssListRecyclerViewAdapter;
 import com.example.luisafarias.myapplication.model.Rss;
-import com.example.luisafarias.myapplication.model.Repositorio;
+import com.example.luisafarias.myapplication.model.RssRepositorio;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
@@ -35,12 +35,12 @@ public class RssListFragment extends Fragment {
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		Bundle savedInstanceState) {
-		List<Rss> feedList = new ArrayList<Rss>();
+		List<Rss> rssList = new ArrayList<Rss>();
 
 		_view = inflater.inflate(R.layout.fragment_rss_list, container, false);
 		_recycleView = _view.findViewById(R.id.recyclerView);
 		_recycleViewAdapter =
-			new RssListRecyclerViewAdapter(_view.getContext(), feedList,
+			new RssListRecyclerViewAdapter(_view.getContext(), rssList,
 				_token);
 		LinearLayoutManager lm = new LinearLayoutManager(getActivity());
 		_recycleView.setLayoutManager(lm);
@@ -52,8 +52,8 @@ public class RssListFragment extends Fragment {
 
 
 	public void reloadFeeds() {
-		Repositorio.getInstance()
-			.feedListAll(_authorization, new Repositorio.CallbackFeeds() {
+		RssRepositorio.getInstance()
+			.rssListAll(_authorization, new RssRepositorio.CallbackRssList() {
 				@Override
 				public void onSuccess(List<Rss> feedList) {
 					_recycleViewAdapter.updateAnswers(feedList);
