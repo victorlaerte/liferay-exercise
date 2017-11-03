@@ -62,7 +62,7 @@ public class NewRssFragment extends Fragment {
 		}
 
 		Button save = _view.findViewById(R.id.save);
-//		if (_newOrEdit) { /**updateFeed**/
+//		if (_newOrEdit) { /**updateFeed**/ /**excluir isso futuramente**/
 //			_urlEditText.setText(_rss.getUrl());
 //
 //			save.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +105,7 @@ public class NewRssFragment extends Fragment {
 		return _view;
 	}
 
-	public void updateRss(final Rss rss) throws JSONException, IOException {
+	public void updateRss(final Rss rss) throws JSONException, IOException {/**excluir esse metodo futuramente*/
 		//aqui tbm o channel deve ser setado
 		//feed.setTitle(_nome.getText().toString());
 		getRemoteChannel(rss, new CallBackChannel() {
@@ -147,9 +147,7 @@ public class NewRssFragment extends Fragment {
 							@Override
 							public void onSuccess(Rss rss) {
 								Log.d(NewRssFragment.class.getName(), "salvo com sucesso");
-
 							}
-
 							@Override
 							public void onFailure(Exception e) {
 
@@ -166,7 +164,8 @@ public class NewRssFragment extends Fragment {
 
 	}
 
-	public void getRemoteChannel(Rss rss, final CallBackChannel callBackChannel) throws IOException {
+	public void getRemoteChannel(
+			Rss rss, final CallBackChannel callBackChannel) throws IOException {
 		WeRetrofitService wrs = RetrofitClient.getInstance(rss.getURLHost())
 			.create(WeRetrofitService.class);
 		wrs.getItems(rss.getURLEndPoint()).enqueue(new Callback<Rss>() {

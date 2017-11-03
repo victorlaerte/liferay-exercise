@@ -55,12 +55,14 @@ public class RssListFragment extends Fragment {
 		RssRepositorio.getInstance()
 			.rssListAll(_authorization, new RssRepositorio.CallbackRssList() {
 				@Override
-				public void onSuccess(List<Rss> feedList) {
+				public void onSuccess(
+						List<Rss> feedList) {
 					_recycleViewAdapter.updateAnswers(feedList);
 				}
 
 				@Override
 				public void onFailure(Exception e) {
+
 					Log.e(MainActivity.class.getName(), e.getMessage());
 				}
 			});

@@ -171,6 +171,7 @@ public class RssRepositorio implements IRepositorio {
 				}
 
 				public void onFailure(Exception e) {
+
 					Log.e(MainActivity.class.getName(), e.getMessage());
 				}
 			});
@@ -232,7 +233,7 @@ public class RssRepositorio implements IRepositorio {
 	}
 
 	public interface CallbackRss {
-		void onSuccess(Rss feed);
+		void onSuccess(Rss rss);
 
 		void onFailure(Exception e);
 	}

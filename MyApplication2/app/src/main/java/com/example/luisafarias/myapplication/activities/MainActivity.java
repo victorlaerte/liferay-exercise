@@ -75,13 +75,20 @@ public class MainActivity extends AppCompatActivity {
 		int id = item.getItemId();
 
 		if (id == R.id.logout) {
-			_weDeploy.auth(Constants.AUTH_URL)
+			logout(intent);
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void logout(final Intent intent){
+		_weDeploy.auth(Constants.AUTH_URL)
 				.authorization(_authorization)
 				.signOut()
 				.execute(new Callback() {
 					public void onSuccess(Response response) {
 						SharedPreferences sharedPref =
-							getSharedPreferences(Constants.USER, MODE_PRIVATE);
+								getSharedPreferences(Constants.USER, MODE_PRIVATE);
 						SharedPreferences.Editor editor = sharedPref.edit();
 						editor.clear();
 						editor.apply();
@@ -95,11 +102,8 @@ public class MainActivity extends AppCompatActivity {
 						Log.e(MainActivity.class.getName(), e.getMessage());
 					}
 				});
-		}
-
-		return super.onOptionsItemSelected(item);
 	}
-
+/**acho que nao uso mais esse metodo***/
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode,
 		final Intent intent) {
