@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
 					public void onFailure(Exception e) {
 
-						Log.e(MainActivity.class.getName(), e.getMessage());
+						Log.e(MainActivity.class.getName(), e.getMessage()+ "oiiiii");
 					}
 				});
 		}

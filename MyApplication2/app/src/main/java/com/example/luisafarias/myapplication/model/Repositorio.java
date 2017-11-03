@@ -208,6 +208,7 @@ public class Repositorio implements IRepositorio {
 							Channel temporaryChannel = new Channel();
 							temporaryChannel.setTitle(jsonBody.getString("channelTitle"));
 							feed.setChannel(temporaryChannel);
+							Log.d("Repositorio", feed.getUrl());
 							listaFeed.add(feed);
 						}
 

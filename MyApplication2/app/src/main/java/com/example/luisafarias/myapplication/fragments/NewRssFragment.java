@@ -56,6 +56,7 @@ public class NewRssFragment extends Fragment {
 		final String copied = item.getText().toString();
 
 		_urlEditText = _view.findViewById(R.id.newUrlFeed);
+
 		if (android.webkit.URLUtil.isValidUrl(copied)){
 			_urlEditText.setText(copied);
 		}
