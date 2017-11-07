@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		_constraintLayout = (ConstraintLayout) findViewById(R.id.container);
+		_constraintLayout = (CoordinatorLayout) findViewById(R.id.container);
 
 		Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(myToolbar);
@@ -181,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
 	//private ListView _allFeeds;
 	private Authorization _authorization;
-	ConstraintLayout _constraintLayout;
+	CoordinatorLayout _constraintLayout;
 	//private Rss _feed;
 	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
 	private String _userId;
