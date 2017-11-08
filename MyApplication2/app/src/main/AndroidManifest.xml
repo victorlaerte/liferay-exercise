@@ -22,10 +22,6 @@
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.ItemListActivity" />
         <activity android:name=".activities.NewsActivity" />
-        <activity
-            android:name=".testando"
-            android:label="@string/title_activity_testando"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

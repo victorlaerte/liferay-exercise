@@ -11,33 +11,30 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimary"
+        android:layout_height="?android:actionBarSize"
+        android:background="@color/toolBar"
         android:elevation="4dp" />
 
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addRssFrag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
         android:clickable="true"
         android:onClick="goAddNewRss"
         android:src="@drawable/add_plus"
-        app:backgroundTint="@color/colorAccent"
-        app:elevation="9dp"
+        app:backgroundTint="@color/floatBotton"
+        app:elevation="4dp"
         app:fabSize="mini" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="?android:actionBarSize"
         android:orientation="horizontal">
 
         <FrameLayout

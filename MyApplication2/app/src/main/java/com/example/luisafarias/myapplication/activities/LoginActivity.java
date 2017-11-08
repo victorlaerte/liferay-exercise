@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 				}
 
                     public void onFailure(Exception e) {
-                        Log.e(NewUserActivity.class.getName(), e.getMessage());
+                        Log.e(LoginActivity.class.getName(), e.getMessage());
 
 						Snackbar.make(view, e.getMessage(),
 								Snackbar.LENGTH_LONG).show();
