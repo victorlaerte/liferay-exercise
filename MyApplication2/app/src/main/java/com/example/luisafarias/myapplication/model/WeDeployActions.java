@@ -112,7 +112,10 @@ public class WeDeployActions {
 
 							@Override
 							public void onFailure(Exception e) {
+
 								Log.e("WeDeployActions", e.getMessage());
+
+								callbackNewUser.onFailure(e);
 							}
 						});
 
@@ -123,6 +126,25 @@ public class WeDeployActions {
 						Log.e("WeDeployActions", e.getMessage());
 					}
 				});
+	}
+
+	public void logoutUser(String token, final CallbackLogoutUser callbackLogoutUser){
+		Authorization authorization = new TokenAuthorization(token);
+		_weDeploy.auth(Constants.AUTH_URL)
+				.authorization(authorization)
+				.signOut()
+		.execute(new Callback() {
+			@Override
+			public void onSuccess(Response response) {
+				callbackLogoutUser.onSuccess();
+			}
+
+			@Override
+			public void onFailure(Exception e) {
+				callbackLogoutUser.onFailure(e);
+
+			}
+		});
 	}
 
 	public interface CallbackUserID {
@@ -139,6 +161,11 @@ public class WeDeployActions {
 
 	public interface CallbackNewUser {
 		void onSuccess(String token, String userId);
+		void onFailure(Exception e);
+	}
+
+	public interface CallbackLogoutUser {
+		void onSuccess();
 		void onFailure(Exception e);
 	}
 

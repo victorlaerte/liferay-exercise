@@ -39,9 +39,9 @@ public class LoginActivity extends AppCompatActivity {
 			//			intent.putExtra(Constants.TOKEN_USER_ID, extra);
 			//			finish();
 			//			startActivity(intent);
-
+			Log.d("LoginActivity",token+" "+userID);
 			openMainActivity(token, userID);
-		}
+		}else Log.d("LoginActivity","n tem nada");
 		setContentView(R.layout.activity_login);
 	}
 
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 		WeDeployActions.getInstance().login(emailLogin, passwordLogin, new WeDeployActions.CallbackLogin() {
 			@Override
 			public void onSuccess(String token, String userID) {
-				saveUser(userID);
+				saveUser(userID, token);
 				openMainActivity(token,userID);
 			}
 
@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
 					new WeDeployActions.CallbackUserID() {
 						@Override
 						public void onSuccess(String userID) {
-							saveUser(userID);
+							saveUser(userID, _token);
 							openMainActivity(_token, userID);
 						}
 
@@ -128,12 +128,14 @@ public class LoginActivity extends AppCompatActivity {
 		}
 	}
 
-	public void saveUser(String userID) {
+	public void saveUser(String userID, String token) {
 		_sharedPref = getSharedPreferences(Constants.USER, MODE_PRIVATE);
 		SharedPreferences.Editor editor = _sharedPref.edit();
-		editor.putString(Constants.TOKEN, _token);
+		editor.putString(Constants.TOKEN, token);
 		editor.putString(Constants.USER_ID, userID);
 		editor.apply();
+
+		//openMainActivity(_token, userID);
 	}
 
 	public void openMainActivity(String token, String userId) {

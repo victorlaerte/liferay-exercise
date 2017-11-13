@@ -21,6 +21,7 @@ import com.example.luisafarias.myapplication.fragments.RssListFragment;
 import com.example.luisafarias.myapplication.fragments.NewRssFragment;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssRepositorio;
+import com.example.luisafarias.myapplication.model.WeDeployActions;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
@@ -83,26 +84,50 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void logout(final Intent intent){
-		_weDeploy.auth(Constants.AUTH_URL)
-				.authorization(_authorization)
-				.signOut()
-				.execute(new Callback() {
-					public void onSuccess(Response response) {
-						SharedPreferences sharedPref =
-								getSharedPreferences(Constants.USER, MODE_PRIVATE);
-						SharedPreferences.Editor editor = sharedPref.edit();
-						editor.clear();
-						editor.apply();
-						Log.d(MainActivity.class.getName(), "saiu");
-						finish();
-						startActivity(intent);
-					}
+		WeDeployActions.getInstance().logoutUser(_token,
+				new WeDeployActions.CallbackLogoutUser() {
+			@Override
+			public void onSuccess() {
+				SharedPreferences sharedPref =
+						getSharedPreferences(Constants.USER, MODE_PRIVATE);
+				SharedPreferences.Editor editor = sharedPref.edit();
+				editor.clear();
+				editor.apply();
+				Log.d(MainActivity.class.getName(), "saiu");
+				finish();
+				startActivity(intent);
+			}
 
-					public void onFailure(Exception e) {
+			@Override
+			public void onFailure(Exception e) {
+				Log.e(MainActivity.class.getName(), e.getMessage()+"o erro aquiii");
+			}
+		});
 
-						Log.e(MainActivity.class.getName(), e.getMessage());
-					}
-				});
+
+
+
+
+//		_weDeploy.auth(Constants.AUTH_URL)
+//				.authorization(_authorization)
+//				.signOut()
+//				.execute(new Callback() {
+//					public void onSuccess(Response response) {
+//						SharedPreferences sharedPref =
+//								getSharedPreferences(Constants.USER, MODE_PRIVATE);
+//						SharedPreferences.Editor editor = sharedPref.edit();
+//						editor.clear();
+//						editor.apply();
+//						Log.d(MainActivity.class.getName(), "saiu");
+//						finish();
+//						startActivity(intent);
+//					}
+//
+//					public void onFailure(Exception e) {
+//
+//						Log.e(MainActivity.class.getName(), e.getMessage()+"o erro aquiii");
+//					}
+//				});
 	}
 /**acho que nao uso mais esse metodo***/
 	@Override
