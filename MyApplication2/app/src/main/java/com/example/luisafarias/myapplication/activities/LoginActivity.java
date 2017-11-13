@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
 			//			startActivity(intent);
 			Log.d("LoginActivity",token+" "+userID);
 			openMainActivity(token, userID);
-		}else Log.d("LoginActivity","n tem nada");
+		}
 		setContentView(R.layout.activity_login);
 	}
 
