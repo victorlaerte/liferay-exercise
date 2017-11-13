@@ -44,7 +44,7 @@ public class WeDeployActions {
 								@Override
 								public void onSuccess(String userID) {
 
-									callbackLogin.onSuccuss(token,userID);
+									callbackLogin.onSuccess(token,userID);
 								}
 
 								@Override
@@ -96,6 +96,22 @@ public class WeDeployActions {
 			});
 	}
 
+	public void createNewUser(String email, String password, String name, CallbackNewUser){
+		_weDeploy.auth(Constants.AUTH_URL)
+				.createUser(email,password,name)
+				.execute(new Callback() {
+					@Override
+					public void onSuccess(Response response) {
+
+					}
+
+					@Override
+					public void onFailure(Exception e) {
+						Log.e("WeDeployActions", e.getMessage());
+					}
+				});
+	}
+
 	public interface CallbackUserID {
 		void onSuccess(String userID);
 
@@ -103,8 +119,13 @@ public class WeDeployActions {
 	}
 
 	public interface CallbackLogin {
-		void onSuccuss(String token, String userID);
+		void onSuccess(String token, String userID);
 
+		void onFailure(Exception e);
+	}
+
+	public interface CallbackNewUser {
+		void onSuccess(Response response);
 		void onFailure(Exception e);
 	}
 

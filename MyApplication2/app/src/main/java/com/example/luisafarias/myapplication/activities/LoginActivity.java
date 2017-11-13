@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
 
 		WeDeployActions.getInstance().login(emailLogin, passwordLogin, new WeDeployActions.CallbackLogin() {
 			@Override
-			public void onSuccuss(String token, String userID) {
+			public void onSuccess(String token, String userID) {
 				saveUser(userID);
 				openMainActivity(token,userID);
 			}
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 //			});
 
 	}
-
+/***aho que nao usarei mais esse metodo***/
 	private void currentUserSuccess(Response response, final View view) {
 		Log.d(TAG, "entrei");
 
