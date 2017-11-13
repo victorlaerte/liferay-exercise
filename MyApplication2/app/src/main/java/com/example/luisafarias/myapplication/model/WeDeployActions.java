@@ -29,103 +29,86 @@ public class WeDeployActions {
 		return _uniqueInstance;
 	}
 
-	public void login(final String email, String password, final CallbackLogin callbackLogin){
+	public void login(final String email, String password, Callback callback){
 		_weDeploy.auth(Constants.AUTH_URL)
 				.signIn(email,password)
-				.execute(new Callback() {
-					@Override
-					public void onSuccess(Response response) {
-						Log.d("WeDeployActions", email);
-						try {
-							JSONObject jsonObject = new JSONObject(response.getBody());
-							final String token = jsonObject.getString(Constants.ACCESS_TOKEN);
-							Authorization au = new TokenAuthorization(token);
-							getCurrentUser(au, new CallbackUserID() {
-								@Override
-								public void onSuccess(String userID) {
-
-									callbackLogin.onSuccess(token,userID);
-								}
-
-								@Override
-								public void onFailure(Exception e) {
-									callbackLogin.onFailure(e);
-
-								}
-							});
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-
-					}
-
-					@Override
-					public void onFailure(Exception e) {
-						Log.e("WeDeployActions", e.getMessage());
-					}
-				});
+		.execute(callback);
+//		_weDeploy.auth(Constants.AUTH_URL)
+//				.signIn(email,password)
+//				.execute(new Callback() {
+//					@Override
+//					public void onSuccess(Response response) {
+//						Log.d("WeDeployActions", email);
+//						try {
+//							JSONObject jsonObject = new JSONObject(response.getBody());
+//							final String token = jsonObject.getString(Constants.ACCESS_TOKEN);
+//							Authorization au = new TokenAuthorization(token);
+//							getCurrentUser(au, new CallbackUserID() {
+//								@Override
+//								public void onSuccess(String userID) {
+//
+//									callbackLogin.onSuccess(token,userID);
+//								}
+//
+//								@Override
+//								public void onFailure(Exception e) {
+//									callbackLogin.onFailure(e);
+//
+//								}
+//							});
+//						} catch (JSONException e) {
+//							e.printStackTrace();
+//						}
+//
+//					}
+//
+//					@Override
+//					public void onFailure(Exception e) {
+//						Log.e("WeDeployActions", e.getMessage());
+//					}
+//				});
 	}
 
 	public void getCurrentUser(Authorization authorization,
-		final CallbackUserID callbackUserID) {
+		Callback callback) {
 
 		_weDeploy.auth(Constants.AUTH_URL)
-			.authorization(authorization)
-			.getCurrentUser()
-			.execute(new Callback() {
-				@Override
-				public void onSuccess(Response response) {
-					try {
-						JSONObject jsonObject =
-							new JSONObject(response.getBody());
-						_userID = jsonObject.getString("id");
+				.authorization(authorization)
+				.getCurrentUser()
+				.execute(callback);
 
-						callbackUserID.onSuccess(_userID);
-					} catch (JSONException e) {
-						callbackUserID.onFailure(e);
-						e.printStackTrace();
-						Log.e(WeDeployActions.class.getName(), e.getMessage());
-					}
-				}
-
-				@Override
-				public void onFailure(Exception e) {
-					callbackUserID.onFailure(e);
-					Log.e(WeDeployActions.class.getName(), e.getMessage());
-				}
-			});
+//		_weDeploy.auth(Constants.AUTH_URL)
+//			.authorization(authorization)
+//			.getCurrentUser()
+//			.execute(new Callback() {
+//				@Override
+//				public void onSuccess(Response response) {
+//					try {
+//						JSONObject jsonObject =
+//							new JSONObject(response.getBody());
+//						_userID = jsonObject.getString("id");
+//
+//						callbackUserID.onSuccess(_userID);
+//					} catch (JSONException e) {
+//						callbackUserID.onFailure(e);
+//						e.printStackTrace();
+//						Log.e(WeDeployActions.class.getName(), e.getMessage());
+//					}
+//				}
+//
+//				@Override
+//				public void onFailure(Exception e) {
+//					callbackUserID.onFailure(e);
+//					Log.e(WeDeployActions.class.getName(), e.getMessage());
+//				}
+//			});
 	}
 
 	public void createNewUser(final String email, final String password, String name,
-							  final CallbackNewUser callbackNewUser){
+							  final Callback callback){
 		_weDeploy.auth(Constants.AUTH_URL)
 				.createUser(email,password,name)
-				.execute(new Callback() {
-					@Override
-					public void onSuccess(Response response) {
-						login(email, password, new CallbackLogin() {
-							@Override
-							public void onSuccess(String token, String userID) {
-
-								callbackNewUser.onSuccess(token,userID);
-							}
-
-							@Override
-							public void onFailure(Exception e) {
-
-								Log.e("WeDeployActions", e.getMessage());
-
-								callbackNewUser.onFailure(e);
-							}
-						});
-
-					}
-
-					@Override
-					public void onFailure(Exception e) {
-						Log.e("WeDeployActions", e.getMessage());
-					}
-				});
+				.execute(callback);
 	}
 
 	public void logoutUser(String token, final CallbackLogoutUser callbackLogoutUser){

@@ -17,8 +17,13 @@ import com.example.luisafarias.myapplication.model.WeDeployActions;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
+import com.wedeploy.android.auth.Authorization;
+import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.exception.WeDeployException;
 import com.wedeploy.android.transport.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class NewUserActivity extends AppCompatActivity {
 
@@ -34,24 +39,78 @@ public class NewUserActivity extends AppCompatActivity {
 		EditText editTextEmail = (EditText) findViewById(R.id.box_email);
 		final String email = editTextEmail.getText().toString();
 		EditText editTextPassword = (EditText) findViewById(R.id.box_password);
-		String password = editTextPassword.getText().toString();
+		final String password = editTextPassword.getText().toString();
 
 		WeDeployActions.getInstance().createNewUser(email, password,
-				name, new WeDeployActions.CallbackNewUser() {
+				name, new Callback() {
+					@Override
+					public void onSuccess(Response response) {
 
-			@Override
-			public void onSuccess(String token, String userId) {
-				saveUser(token,userId);
-				openMainActivity(token,userId);
-			}
+						WeDeployActions.getInstance().login(email, password, new Callback() {
+                            @Override
+                            public void onSuccess(Response response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.getBody());
+                                    final String token = jsonObject.getString(
+                                            Constants.ACCESS_TOKEN);
+                                    Authorization authorization = new TokenAuthorization(token);
+                                    WeDeployActions.getInstance().getCurrentUser(authorization,
+                                            new Callback() {
+                                                @Override
+                                                public void onSuccess(Response response) {
+                                                    try {
+                                                        JSONObject jsonObject1 = new JSONObject(
+                                                                response.getBody());
+                                                        String userId = jsonObject1.getString(
+                                                                Constants.ID);
+                                                        saveUser(token,userId);
+                                                        openMainActivity(token,userId);
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
 
-			@Override
-			public void onFailure(Exception e) {
-				Log.e("NewUserActivity",e.getMessage());
-				Snackbar.make(view.getRootView().findViewById(R.id.layout_new_user),
-						"Erro ao criar usuario",Snackbar.LENGTH_LONG).show();
-			}
-		});
+                                                }
+
+                                                @Override
+                                                public void onFailure(Exception e) {
+
+                                                }
+                                            });
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Exception e) {
+
+                            }
+                        });
+
+					}
+
+					@Override
+					public void onFailure(Exception e) {
+
+					}
+				});
+
+//						Callback() {
+//
+//			@Override
+//			public void onSuccess(String token, String userId) {
+//				saveUser(token,userId);
+//				openMainActivity(token,userId);
+//			}
+//
+//			@Override
+//			public void onFailure(Exception e) {
+//				Log.e("NewUserActivity",e.getMessage());
+//				Snackbar.make(view.getRootView().findViewById(R.id.layout_new_user),
+//						"Erro ao criar usuario",Snackbar.LENGTH_LONG).show();
+//			}
+//		});
 
 
 //		//if (_isValidEmail( email)){
@@ -78,7 +137,7 @@ public class NewUserActivity extends AppCompatActivity {
 
 	}
 
-	public void saveUser(String userId, String token){
+	public void saveUser(String token, String userId){
 		SharedPreferences sharedP = getSharedPreferences(Constants.USER, MODE_APPEND);
 		SharedPreferences.Editor editor = sharedP.edit();
 		editor.putString(Constants.TOKEN, token);

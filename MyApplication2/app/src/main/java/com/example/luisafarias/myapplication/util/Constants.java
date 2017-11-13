@@ -23,4 +23,6 @@ public class Constants {
 
 	public final static String LINK = "link";
 	public final static String INVALID_URL = "url inválida";
+
+	public final static String ID = "id";
 }
