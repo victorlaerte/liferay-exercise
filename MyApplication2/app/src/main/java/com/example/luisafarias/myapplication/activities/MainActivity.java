@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
 			@Override
 			public void onFailure(Exception e) {
-				Log.e(MainActivity.class.getName(), e.getMessage()+"o erro aquiii");
+				Log.e("MainActivity", e.getMessage());
 			}
 		});
 

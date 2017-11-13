@@ -56,7 +56,8 @@ public class LoginActivity extends AppCompatActivity {
 	public void login(String emailLogin, String passwordLogin, final View view)
 		throws WeDeployException, JSONException {
 
-		WeDeployActions.getInstance().login(emailLogin, passwordLogin, new WeDeployActions.CallbackLogin() {
+		WeDeployActions.getInstance().login(emailLogin, passwordLogin,
+				new WeDeployActions.CallbackLogin() {
 			@Override
 			public void onSuccess(String token, String userID) {
 				saveUser(userID, token);
