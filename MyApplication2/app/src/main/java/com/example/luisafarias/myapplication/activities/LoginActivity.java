@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 			.signIn(emailLogin, passwordLogin)
 			.execute(new Callback() {
 				public void onSuccess(Response response) {
-					onLoginSuccess(response, view);
+					currentUserSuccess(response, view);
 				}
 
                     public void onFailure(Exception e) {
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 			});
 	}
 
-	private void onLoginSuccess(Response response, final View view) {
+	private void currentUserSuccess(Response response, final View view) {
 		Log.d(TAG, "entrei");
 
 		final JSONObject jsonBody;

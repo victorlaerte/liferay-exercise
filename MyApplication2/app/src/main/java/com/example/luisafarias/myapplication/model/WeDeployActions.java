@@ -28,6 +28,10 @@ public class WeDeployActions {
 		return _uniqueInstance;
 	}
 
+	public void login(String email, String password){
+		
+	}
+
 	public void getCurrentUser(Authorization authorization,
 		final CallbackUserID callbackUserID) {
 

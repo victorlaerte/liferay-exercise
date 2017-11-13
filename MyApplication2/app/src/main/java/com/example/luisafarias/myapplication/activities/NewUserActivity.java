@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.luisafarias.myapplication.R;
+import com.example.luisafarias.myapplication.model.RssRepositorio;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
@@ -25,16 +26,16 @@ public class NewUserActivity extends AppCompatActivity {
 	}
 
 	public void createUser(View view) throws WeDeployException {
-		EditText editTextName = (EditText) findViewById(R.id.caixanomee);
+		EditText editTextName = (EditText) findViewById(R.id.box_name);
 		String name = editTextName.getText().toString();
-		EditText editTextEmail = (EditText) findViewById(R.id.caixaemaill);
-		String email = editTextEmail.getText().toString();
-		EditText editTextPassword = (EditText) findViewById(R.id.caixaSenha);
+		EditText editTextEmail = (EditText) findViewById(R.id.box_email);
+		final String email = editTextEmail.getText().toString();
+		EditText editTextPassword = (EditText) findViewById(R.id.box_password);
 		String password = editTextPassword.getText().toString();
 
-		if (_isValidEmail(email)){
+		//if (_isValidEmail( email)){
 			_weDeploy.auth(Constants.AUTH_URL)
-					.createUser(email, password, name)
+					.createUser(email,password,name)
 					.execute(new Callback() {
 						public void onSuccess(Response response) {
 							_openFeedListActivity();
@@ -43,12 +44,15 @@ public class NewUserActivity extends AppCompatActivity {
 						public void onFailure(Exception e) {
 
 							Log.e(NewUserActivity.class.getName(), e.getMessage());
+							Log.d("NewUserActivity", email);
 						}
 					});
-		}else {
-			Snackbar.make(view, "E-mail invalido!",
-					Snackbar.LENGTH_LONG).show();
-		}
+//		}else {
+//			Snackbar.make(view, "E-mail invalido!",
+//
+//					Snackbar.LENGTH_LONG).show();
+//			Log.d("NewUserActivity", email);
+//		}
 
 	}
 
@@ -58,7 +62,7 @@ public class NewUserActivity extends AppCompatActivity {
 	}
 
 	private boolean _isValidEmail(String email){
-		if (email!= null && email != null){
+		if (email== null){
 			return false;
 		}else {
 			return Patterns.EMAIL_ADDRESS.matcher(email).matches();
