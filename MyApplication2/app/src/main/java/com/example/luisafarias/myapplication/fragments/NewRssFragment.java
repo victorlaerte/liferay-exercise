@@ -50,7 +50,8 @@ public class NewRssFragment extends Fragment {
 
 		// Inflate the layout for this fragment
 		_view = inflater.inflate(R.layout.fragment_new_rss, container, false);
-		ClipboardManager cbm = (ClipboardManager) _view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+		ClipboardManager cbm = (ClipboardManager) _view.getContext()
+				.getSystemService(Context.CLIPBOARD_SERVICE);
 		ClipData cd = cbm.getPrimaryClip();
 		ClipData.Item item = cd.getItemAt(0);
 		final String copied = item.getText().toString();

@@ -5,6 +5,7 @@ import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.auth.Authorization;
+import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.transport.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,8 +29,41 @@ public class WeDeployActions {
 		return _uniqueInstance;
 	}
 
-	public void login(String email, String password){
-		
+	public void login(final String email, String password, final CallbackLogin callbackLogin){
+		_weDeploy.auth(Constants.AUTH_URL)
+				.signIn(email,password)
+				.execute(new Callback() {
+					@Override
+					public void onSuccess(Response response) {
+						Log.d("WeDeployActions", email);
+						try {
+							JSONObject jsonObject = new JSONObject(response.getBody());
+							final String token = jsonObject.getString(Constants.ACCESS_TOKEN);
+							Authorization au = new TokenAuthorization(token);
+							getCurrentUser(au, new CallbackUserID() {
+								@Override
+								public void onSuccess(String userID) {
+
+									callbackLogin.onSuccuss(token,userID);
+								}
+
+								@Override
+								public void onFailure(Exception e) {
+									callbackLogin.onFailure(e);
+
+								}
+							});
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+
+					}
+
+					@Override
+					public void onFailure(Exception e) {
+						Log.e("WeDeployActions", e.getMessage());
+					}
+				});
 	}
 
 	public void getCurrentUser(Authorization authorization,
@@ -64,6 +98,12 @@ public class WeDeployActions {
 
 	public interface CallbackUserID {
 		void onSuccess(String userID);
+
+		void onFailure(Exception e);
+	}
+
+	public interface CallbackLogin {
+		void onSuccuss(String token, String userID);
 
 		void onFailure(Exception e);
 	}

@@ -54,22 +54,42 @@ public class LoginActivity extends AppCompatActivity {
 
 	public void login(String emailLogin, String passwordLogin, final View view)
 		throws WeDeployException, JSONException {
+
+		WeDeployActions.getInstance().login(emailLogin, passwordLogin, new WeDeployActions.CallbackLogin() {
+			@Override
+			public void onSuccuss(String token, String userID) {
+				saveUser(userID);
+				openMainActivity(token,userID);
+			}
+
+			@Override
+			public void onFailure(Exception e) {
+				Log.e("LoginActivity",e.getMessage());
+				Snackbar.make(view,e.getMessage(), Snackbar.LENGTH_LONG).show();
+			}
+		});/***alteracoes aqui dentro**/
+
+
+
 		//		final Intent intent = new Intent(this, MainActivity.class);
 		//		final Bundle extra = new Bundle();
-		_weDeploy.auth(Constants.AUTH_URL)
-			.signIn(emailLogin, passwordLogin)
-			.execute(new Callback() {
-				public void onSuccess(Response response) {
-					currentUserSuccess(response, view);
-				}
 
-                    public void onFailure(Exception e) {
-                        Log.e(LoginActivity.class.getName(), e.getMessage());
 
-						Snackbar.make(view, e.getMessage(),
-								Snackbar.LENGTH_LONG).show();
-				}
-			});
+//		_weDeploy.auth(Constants.AUTH_URL)
+//			.signIn(emailLogin, passwordLogin)
+//			.execute(new Callback() {
+//				public void onSuccess(Response response) {
+//					currentUserSuccess(response, view);
+//				}
+//
+//                    public void onFailure(Exception e) {
+//                        Log.e(LoginActivity.class.getName(), e.getMessage());
+//
+//						Snackbar.make(view, e.getMessage(),
+//								Snackbar.LENGTH_LONG).show();
+//				}
+//			});
+
 	}
 
 	private void currentUserSuccess(Response response, final View view) {
