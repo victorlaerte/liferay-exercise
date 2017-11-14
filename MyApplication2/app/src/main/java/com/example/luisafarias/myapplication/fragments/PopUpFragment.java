@@ -48,6 +48,7 @@ public class PopUpFragment extends DialogFragment {
 
                                                 @Override
                                                 public void onFailure(Exception e) {
+                                                    Log.e("PopUpFragment", e.getMessage()+"oiee");
                                                     Snackbar.make(getView(),
                                                             e.getMessage(),
                                                             Snackbar.LENGTH_LONG).show();
