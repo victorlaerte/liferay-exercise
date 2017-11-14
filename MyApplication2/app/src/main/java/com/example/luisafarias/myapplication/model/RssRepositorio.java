@@ -220,7 +220,7 @@ public class RssRepositorio {
 		return null;
 	}
 
-	public void rssListAll(Authorization authorization,
+	public void rssListAll(Authorization authorization,/**nesse caso em especial eu acho melhor deicar o callback extra pq eu uso esse metodo no RssListFragment onde preciso **/
 		final CallbackRssList callbackRssList) {
 		_weDeploy.data(Constants.DATA_URL)
 			.authorization(authorization)
