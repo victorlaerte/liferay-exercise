@@ -151,7 +151,7 @@ public class RssRepositorio {
 
 			_weDeploy.data(Constants.DATA_URL)
 				.authorization(authorization)
-				.delete("Rss/" + id)
+				.delete("Feeds/" + id)
 				.execute(new Callback() {
 					@Override
 					public void onSuccess(Response response) {
