@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+
 import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssRepositorio;
@@ -22,62 +23,58 @@ import com.wedeploy.android.auth.TokenAuthorization;
 
 public class PopUpFragment extends DialogFragment {
 
-	@NonNull
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		this._rss = getArguments().getParcelable(Constants.RSS);
-		String nome = _rss.getChannel().getTitle();
-		String token = getArguments().getString(Constants.TOKEN);
-		_authorization = new TokenAuthorization(token);
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setMessage("Deseja excluir " + nome)
-			.setPositiveButton("Cancelar", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					if (_rss != null && _authorization != null) {
-						Log.d(_rss.getURLEndPoint(),
-								_rss.getURLHost());/****teste******/
-						MainActivity activity = (MainActivity) getActivity();
-						activity.goEditRss(_rss);
-					}
-				}
-			})
-			.setNegativeButton("excluir",
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						if (_rss != null && _authorization != null) {
-							RssRepositorio.getInstance()
-								.removeRss(_rss, _authorization,
-									new RssRepositorio.CallbackRss() {
-										@Override
-										public void onSuccess(Rss feed) {
-											Snackbar.make(getView(), "Removido",
-												Snackbar.LENGTH_LONG).show();
-										}
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        this._rss = getArguments().getParcelable(Constants.RSS);
+        String nome = _rss.getChannel().getTitle();
+        String token = getArguments().getString(Constants.TOKEN);
+        _authorization = new TokenAuthorization(token);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Deseja excluir " + nome)
+                .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-										@Override
-										public void onFailure(Exception e) {
-											Snackbar.make(getView(),
-												e.getMessage(),
-												Snackbar.LENGTH_LONG).show();
-										}
-									});
-						}
-					}
-				});
-		return builder.create();
-	}
+                        if (_rss != null && _authorization != null) {
+                            RssRepositorio.getInstance()
+                                    .removeRss(_rss, _authorization,
+                                            new RssRepositorio.CallbackRss() {
+                                                @Override
+                                                public void onSuccess(Rss feed) {
+                                                    Snackbar.make(getView(), "Removido",
+                                                            Snackbar.LENGTH_LONG).show();
+                                                }
 
-	@Override
-	public void onPause() {
-		FragmentManager fm = (getActivity()).getFragmentManager();
-		RssListFragment fld = (RssListFragment) fm.findFragmentByTag("test");
-		fld.reloadFeeds();
-		Log.d("PopUpFragment", "OnPause");
-		super.onPause();
-	}
+                                                @Override
+                                                public void onFailure(Exception e) {
+                                                    Snackbar.make(getView(),
+                                                            e.getMessage(),
+                                                            Snackbar.LENGTH_LONG).show();
+                                                }
+                                            });
+                        }
 
-	private Authorization _authorization;
-	private Rss _rss;
+                    }
+                })
+                .setNegativeButton("Cancelar",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+        return builder.create();
+    }
+
+    @Override
+    public void onPause() {
+        FragmentManager fm = (getActivity()).getFragmentManager();
+        RssListFragment fld = (RssListFragment) fm.findFragmentByTag("test");
+        fld.reloadFeeds();
+        Log.d("PopUpFragment", "OnPause");
+        super.onPause();
+    }
+
+    private Authorization _authorization;
+    private Rss _rss;
 }
