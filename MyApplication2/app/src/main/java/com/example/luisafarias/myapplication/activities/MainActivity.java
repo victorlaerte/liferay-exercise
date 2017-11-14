@@ -104,68 +104,44 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-
-
-
-
-//		_weDeploy.auth(Constants.AUTH_URL)
-//				.authorization(_authorization)
-//				.signOut()
-//				.execute(new Callback() {
-//					public void onSuccess(Response response) {
-//						SharedPreferences sharedPref =
-//								getSharedPreferences(Constants.USER, MODE_PRIVATE);
-//						SharedPreferences.Editor editor = sharedPref.edit();
-//						editor.clear();
-//						editor.apply();
-//						Log.d(MainActivity.class.getName(), "saiu");
-//						finish();
-//						startActivity(intent);
-//					}
-//
-//					public void onFailure(Exception e) {
-//
-//						Log.e(MainActivity.class.getName(), e.getMessage()+"o erro aquiii");
-//					}
-//				});
 	}
 /**acho que nao uso mais esse metodo***/
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode,
-		final Intent intent) {
-
-		super.onActivityResult(requestCode, resultCode, intent);
-
-		if (requestCode == ACCESS_RESULT_NEW_FEED) {
-			if (intent != null) {
-				Rss feed = intent.getExtras().getParcelable(Constants.RSS);
-				try {
-					RssRepositorio.getInstance()
-						.addRss(feed, _authorization,
-							new RssRepositorio.CallbackRss() {
-								@Override
-								public void onSuccess(Rss feed) {
-									//reloadFeeds();
-									Log.d(MainActivity.class.getName(),
-										"salvou");
-									Snackbar.make(_constraintLayout, "Salvou",
-										Snackbar.LENGTH_LONG).show();
-								}
-
-								@Override
-								public void onFailure(Exception e) {
-									Log.e(MainActivity.class.getName(),
-										e.getMessage());
-									Snackbar.make(_constraintLayout, e.getMessage(),
-										Snackbar.LENGTH_LONG).show();
-								}
-							});
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+//	@Override
+//	protected void onActivityResult(int requestCode, int resultCode,
+//		final Intent intent) {
+//
+//		super.onActivityResult(requestCode, resultCode, intent);
+//
+//		if (requestCode == ACCESS_RESULT_NEW_FEED) {
+//			if (intent != null) {
+//				Rss feed = intent.getExtras().getParcelable(Constants.RSS);
+//				try {
+//					RssRepositorio.getInstance()
+//						.addRss(feed, _authorization,
+//							new RssRepositorio.CallbackRss() {
+//								@Override
+//								public void onSuccess(Rss feed) {
+//									//reloadFeeds();
+//									Log.d(MainActivity.class.getName(),
+//										"salvou");
+//									Snackbar.make(_constraintLayout, "Salvou",
+//										Snackbar.LENGTH_LONG).show();
+//								}
+//
+//								@Override
+//								public void onFailure(Exception e) {
+//									Log.e(MainActivity.class.getName(),
+//										e.getMessage());
+//									Snackbar.make(_constraintLayout, e.getMessage(),
+//										Snackbar.LENGTH_LONG).show();
+//								}
+//							});
+//				} catch (JSONException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//	}
 
 	public void goAddNewRss(View view) {
 		Bundle bundle = new Bundle();
@@ -209,9 +185,9 @@ public class MainActivity extends AppCompatActivity {
 	private Authorization _authorization;
 	CoordinatorLayout _constraintLayout;
 	//private Rss _feed;
-	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
+	//private WeDeploy _weDeploy = new WeDeploy.Builder().build();
 	private String _userId;
 	private String _token;
 	//private FeedListAdapter _feedAdapter;
-	private final int ACCESS_RESULT_NEW_FEED = 1234;
+	//private final int ACCESS_RESULT_NEW_FEED = 1234;
 }
