@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,111 +32,89 @@ public class NewUserActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_user);
+
+		_constraintLayout = findViewById(R.id.layout_new_user);
 	}
 
 	public void createUser(final View view) throws WeDeployException {
-		EditText editTextName = (EditText) findViewById(R.id.box_name);
+		EditText editTextName = findViewById(R.id.box_name);
 		final String name = editTextName.getText().toString();
-		EditText editTextEmail = (EditText) findViewById(R.id.box_email);
+		EditText editTextEmail = findViewById(R.id.box_email);
 		final String email = editTextEmail.getText().toString();
-		EditText editTextPassword = (EditText) findViewById(R.id.box_password);
+		EditText editTextPassword = findViewById(R.id.box_password);
 		final String password = editTextPassword.getText().toString();
 
 		WeDeployActions.getInstance().createNewUser(email, password,
 				name, new Callback() {
 					@Override
 					public void onSuccess(Response response) {
+						Snackbar.make(_constraintLayout,"Usuario criado com sucesso",
+								Snackbar.LENGTH_LONG).show();
+						login(email, password);
 
-						WeDeployActions.getInstance().login(email, password, new Callback() {
-                            @Override
-                            public void onSuccess(Response response) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response.getBody());
-                                    final String token = jsonObject.getString(
-                                            Constants.ACCESS_TOKEN);
-                                    Authorization authorization = new TokenAuthorization(token);
-                                    WeDeployActions.getInstance().getCurrentUser(authorization,
-                                            new Callback() {
-                                                @Override
-                                                public void onSuccess(Response response) {
-                                                    try {
-                                                        JSONObject jsonObject1 = new JSONObject(
-                                                                response.getBody());
-                                                        String userId = jsonObject1.getString(
-                                                                Constants.ID);
-                                                        saveUser(token,userId);
-                                                        openMainActivity(token,userId);
-                                                    } catch (JSONException e) {
-                                                        e.printStackTrace();
-                                                    }
+					}
+					@Override
+					public void onFailure(Exception e) {
+						Log.e("NewUserActivity", e.getMessage());
+						Snackbar.make(_constraintLayout,"Nao foi possivel criar usuario",
+								Snackbar.LENGTH_LONG).show();
+					}
+				});
+	}
 
-                                                }
+	private void login(String email, String password) {
+		WeDeployActions.getInstance().login(email, password, new Callback() {
+			@Override
+			public void onSuccess(Response response) {
+				try {
+					JSONObject jsonObject = new JSONObject(response.getBody());
+					final String token = jsonObject.getString(
+							Constants.ACCESS_TOKEN);
+					currentUser(token);
 
-                                                @Override
-                                                public void onFailure(Exception e) {
+				} catch (JSONException e) {
+					Log.e("NewUserActivity", e.getMessage());
+					Snackbar.make(_constraintLayout,"Nao foi possivel fazer login",
+							Snackbar.LENGTH_LONG).show();
+				}
+			}
 
-                                                }
-                                            });
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+			@Override
+			public void onFailure(Exception e) {
 
-                            }
+			}
+		});
+	}
 
-                            @Override
-                            public void onFailure(Exception e) {
-
-                            }
-                        });
+	public void currentUser(final String token){
+		Authorization authorization = new TokenAuthorization(token);
+		WeDeployActions.getInstance().getCurrentUser(authorization,
+				new Callback() {
+					@Override
+					public void onSuccess(Response response) {
+						try {
+							JSONObject jsonObject1 = new JSONObject(
+									response.getBody());
+							String userId = jsonObject1.getString(
+									Constants.ID);
+							saveUser(token, userId);
+							openMainActivity(token, userId);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
 
 					}
 
 					@Override
 					public void onFailure(Exception e) {
-
+						Log.e("NewUserActivity", e.getMessage());
+						Snackbar.make(_constraintLayout,"Nao foi possivel acessar usuario",
+								Snackbar.LENGTH_LONG).show();
 					}
 				});
-
-//						Callback() {
-//
-//			@Override
-//			public void onSuccess(String token, String userId) {
-//				saveUser(token,userId);
-//				openMainActivity(token,userId);
-//			}
-//
-//			@Override
-//			public void onFailure(Exception e) {
-//				Log.e("NewUserActivity",e.getMessage());
-//				Snackbar.make(view.getRootView().findViewById(R.id.layout_new_user),
-//						"Erro ao criar usuario",Snackbar.LENGTH_LONG).show();
-//			}
-//		});
-
-
-//		//if (_isValidEmail( email)){
-//			_weDeploy.auth(Constants.AUTH_URL)
-//					.createUser(email,password,name)
-//					.execute(new Callback() {
-//						public void onSuccess(Response response) {
-//							//_openFeedListActivity();
-//							Log.d("NewUserActivity", "Salvou");
-//						}
-//
-//						public void onFailure(Exception e) {
-//
-//							Log.e(NewUserActivity.class.getName(), e.getMessage());
-//							Log.d("NewUserActivity", email);
-//						}
-//					});
-////		}else {
-////			Snackbar.make(view, "E-mail invalido!",
-////
-////					Snackbar.LENGTH_LONG).show();
-////			Log.d("NewUserActivity", email);
-////		}
-
 	}
+
+
 
 	public void saveUser(String token, String userId){
 		SharedPreferences sharedP = getSharedPreferences(Constants.USER, MODE_APPEND);
@@ -155,11 +134,6 @@ public class NewUserActivity extends AppCompatActivity {
 		startActivity(intent);
 	}
 
-//	private void _openFeedListActivity() {
-//		Intent intent = new Intent(NewUserActivity.this, MainActivity.class);
-//		startActivity(intent);
-//	}
-
 	private boolean _isValidEmail(String email){
 		if (email== null){
 			return false;
@@ -169,5 +143,5 @@ public class NewUserActivity extends AppCompatActivity {
 
 	}
 
-	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
+	private ConstraintLayout _constraintLayout;
 }

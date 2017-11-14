@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		_constraintLayout = (CoordinatorLayout) findViewById(R.id.container);
+		_constraintLayout = findViewById(R.id.container);
 
-		Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+		Toolbar myToolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(myToolbar);
 
 		RssListFragment rssListFragment = new RssListFragment();
