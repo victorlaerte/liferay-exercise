@@ -18,7 +18,7 @@ import org.json.JSONObject;
  * Created by luisafarias on 26/09/17.
  */
 
-public class RssRepositorio implements IRepositorio {
+public class RssRepositorio {
 
 	private static RssRepositorio _uniqueInstance;
 	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
@@ -35,9 +35,9 @@ public class RssRepositorio implements IRepositorio {
 		return _uniqueInstance;
 	}
 
-	@Override
+
 	public void addRss(Rss rss, Authorization authorization,
-						final CallbackRss callbackRss) throws JSONException {
+					   final Callback callback) throws JSONException {
 		String userId = rss.getUserId();
 		String url = rss.getUrl();
 		String channelTitle = rss.getChannel().getTitle();
@@ -50,65 +50,100 @@ public class RssRepositorio implements IRepositorio {
 				.put("channelTitle", channelTitle);
 
 			_weDeploy.data(Constants.DATA_URL)
-				.authorization(authorization)
-				.create("Feeds", feedJsonObject)
-				.execute(new Callback() {
-					public void onSuccess(Response response) {
-						Log.d("repositorio", "salvo com sucesso");
+					.authorization(authorization)
+					.create("Feeds", feedJsonObject)
+					.execute(new Callback() {
+						@Override
+						public void onSuccess(Response response) {
+							Log.d("repositorio", "salvo com sucesso");
 
-						try {
-							JSONObject jsonBody =
-								new JSONObject(response.getBody());
+							try {
+								JSONObject jsonBody =
+										new JSONObject(response.getBody());
 
-							Rss rss = new Rss();
-							rss.setUrl(jsonBody.getString("url"));
-							rss.setId(jsonBody.getString("id"));
-							Channel channel = new Channel();
-							channel.setTitle(jsonBody.getString("channelTitle"));
-							rss.setChannel(channel);
+								Rss rss = new Rss();
+								rss.setUrl(jsonBody.getString("url"));
+								rss.setId(jsonBody.getString("id"));
+								Channel channel = new Channel();
+								channel.setTitle(jsonBody.getString("channelTitle"));
+								rss.setChannel(channel);
+							} catch (Exception e) {
+								callback.onFailure(e);
+							}
 
-							callbackRss.onSuccess(rss);
-						} catch (Exception e) {
-							callbackRss.onFailure(e);
+							callback.onSuccess(response);
 						}
-					}
 
-					public void onFailure(Exception e) {
-						Log.e("repositorio", e.getMessage());
-						callbackRss.onFailure(e);
-					}
-				});
+						@Override
+						public void onFailure(Exception e) {
+
+							callback.onFailure(e);
+						}
+					});
+
+//			_weDeploy.data(Constants.DATA_URL)
+//				.authorization(authorization)
+//				.create("Feeds", feedJsonObject)
+//				.execute(new Callback() {
+//					public void onSuccess(Response response) {
+//						Log.d("repositorio", "salvo com sucesso");
+//
+//						try {
+//							JSONObject jsonBody =
+//								new JSONObject(response.getBody());
+//
+//							Rss rss = new Rss();
+//							rss.setUrl(jsonBody.getString("url"));
+//							rss.setId(jsonBody.getString("id"));
+//							Channel channel = new Channel();
+//							channel.setTitle(jsonBody.getString("channelTitle"));
+//							rss.setChannel(channel);
+//
+//							callbackRss.onSuccess(rss);
+//						} catch (Exception e) {
+//							callbackRss.onFailure(e);
+//						}
+//					}
+//
+//					public void onFailure(Exception e) {
+//						Log.e("repositorio", e.getMessage());
+//						callbackRss.onFailure(e);
+//					}
+//				});
 		}
 	}
 
-	@Override
-	public void updateRss(Rss rss, Authorization authorization,//pq eu editaria um rss?
-						   final CallbackRss callbackRss) throws JSONException {
-		String url = rss.getUrl();
-
-		if (rss != null) {
-
-			JSONObject feedJsonObject =
-				new JSONObject().put("url", url);
-
-			_weDeploy.data(Constants.DATA_URL)
-				.authorization(authorization)
-				.update("rss/" + rss.getId(), feedJsonObject)
-				.execute(new Callback() {
-					public void onSuccess(Response response) {
-
-						Log.d("repositorio", "editado com sucesso");
-					}
-
-					public void onFailure(Exception e) {
-						Log.e("repositorio", e.getMessage());
-					}
-				});
-		}
-	}
+//	@Override
+//	public void updateRss(Rss rss, Authorization authorization,//pq eu editaria um rss?
+//						   final Callback callback) throws JSONException {
+//		String url = rss.getUrl();
+//
+//		if (rss != null) {
+//
+//			JSONObject feedJsonObject =
+//				new JSONObject().put("url", url);
+//
+//			_weDeploy.data(Constants.DATA_URL)
+//				.authorization(authorization)
+//				.update("rss/" + rss.getId(), feedJsonObject)
+//				.execute(new Callback() {
+//					public void onSuccess(Response response) {
+//
+//						Log.d("repositorio", "editado com sucesso");
+//						callback.onSuccess(response);
+//					}
+//
+//					public void onFailure(Exception e) {
+//
+//						Log.e("repositorio", e.getMessage());
+//						callback.onFailure(e);
+//					}
+//				});
+//		}
+//	}
 
 	public void removeRss(final Rss rss, Authorization authorization,
-						   final CallbackRss callbackRss) {
+						   final Callback callback) {
 
 		if (rss != null) {
 			String id = rss.getId();
@@ -122,23 +157,25 @@ public class RssRepositorio implements IRepositorio {
 					public void onSuccess(Response response) {
 						Log.d(RssRepositorio.class.getName(), "removeu");
 						rssList.remove(rss);
+						callback.onSuccess(response);
 					}
 
 					@Override
 					public void onFailure(Exception e) {
 
 						Log.e(RssRepositorio.class.getName(), e.getMessage());
+						callback.onFailure(e);
 					}
 				});
 		}
 	}
 
-	@Override
+
 	public Rss getRss(Rss rss, Authorization authorization) {
 		return null;
 	}
 
-	@Override
+
 	public ArrayList<Rss> getAllRss(Authorization authorization) {
 
 		_weDeploy.data(Constants.DATA_URL)
@@ -178,7 +215,7 @@ public class RssRepositorio implements IRepositorio {
 		return rssList;
 	}
 
-	@Override
+
 	public List<Rss> rssList() {
 		return null;
 	}
@@ -232,9 +269,4 @@ public class RssRepositorio implements IRepositorio {
 		void onFailure(Exception e);
 	}
 
-	public interface CallbackRss {
-		void onSuccess(Rss rss);
-
-		void onFailure(Exception e);
-	}
 }

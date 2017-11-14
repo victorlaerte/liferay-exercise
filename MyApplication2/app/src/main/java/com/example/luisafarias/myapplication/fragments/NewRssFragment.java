@@ -96,8 +96,6 @@ public class NewRssFragment extends Fragment {
 										.findViewById(R.id.coordinator),"Url invalida",
 										Snackbar.LENGTH_LONG).show();
 							}
-						} catch (JSONException e) {
-							Log.e(NewRssFragment.class.getName(), e.getMessage());
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -108,37 +106,37 @@ public class NewRssFragment extends Fragment {
 		return _view;
 	}
 
-	public void updateRss(final Rss rss) throws JSONException, IOException {/**excluir esse metodo futuramente*/
-		//aqui tbm o channel deve ser setado
-		//feed.setTitle(_nome.getText().toString());
-		getRemoteChannel(rss, new CallBackChannel() {
-			@Override
-			public void onSuccess(Channel channel) throws JSONException {
+//	public void updateRss(final Rss rss) throws JSONException, IOException {/**excluir esse metodo futuramente*/
+//		//aqui tbm o channel deve ser setado
+//		//feed.setTitle(_nome.getText().toString());
+//		getRemoteChannel(rss, new CallBackChannel() {
+//			@Override
+//			public void onSuccess(Channel channel) throws JSONException {
+//
+//				rss.setUrl(_urlEditText.getText().toString());
+//				RssRepositorio.getInstance()
+//						.updateRss(rss, _authorization, new RssRepositorio.CallbackRss() {
+//							@Override
+//							public void onSuccess(Rss rss) {
+//
+//							}
+//
+//							@Override
+//							public void onFailure(Exception e) {
+//								Log.e("NewFeedFrament", e.getMessage());
+//							}
+//						});
+//			}
+//
+//			@Override
+//			public void onFailure(Throwable t) {
+//				Log.e("NewFeedFrament", t.getMessage());
+//			}
+//		});
+//
+//	}
 
-				rss.setUrl(_urlEditText.getText().toString());
-				RssRepositorio.getInstance()
-						.updateRss(rss, _authorization, new RssRepositorio.CallbackRss() {
-							@Override
-							public void onSuccess(Rss rss) {
-
-							}
-
-							@Override
-							public void onFailure(Exception e) {
-								Log.e("NewFeedFrament", e.getMessage());
-							}
-						});
-			}
-
-			@Override
-			public void onFailure(Throwable t) {
-				Log.e("NewFeedFrament", t.getMessage());
-			}
-		});
-
-	}
-
-	public void saveNewRss(final Rss rss) throws JSONException, IOException {
+	public void saveNewRss(final Rss rss) throws IOException {
 		getRemoteChannel(rss, new CallBackChannel() {
 			@Override
 			public void onSuccess(Channel channel) throws JSONException {
@@ -146,26 +144,55 @@ public class NewRssFragment extends Fragment {
 				rss.setChannel(channel);
 				Log.d("NewRssFragment", "deu certo");
 				RssRepositorio.getInstance()
-						.addRss(rss, _authorization, new RssRepositorio.CallbackRss() {
+						.addRss(rss, _authorization, new com.wedeploy.android.Callback() {
 							@Override
-							public void onSuccess(Rss rss) {
-								Log.d(NewRssFragment.class.getName(), "salvo com sucesso");
+							public void onSuccess(com.wedeploy.android.transport.Response response) {
+								Log.d("NewRssFragment", "Salvo com sucesso");
 							}
+
 							@Override
 							public void onFailure(Exception e) {
-
-								Log.e(NewRssFragment.class.getName(), e.getMessage());
+								Log.e("NewRssFragment", e.getMessage());
 							}
 						});
 			}
 
 			@Override
 			public void onFailure(Throwable t) {
-				Log.e("NewRssFrament", t.getMessage());
+
 			}
 		});
-
 	}
+
+/***metodo anterior deixar de referencia por enquanto***/
+//	public void saveNewRss(final Rss rss) throws JSONException, IOException {
+//		getRemoteChannel(rss, new CallBackChannel() {
+//			@Override
+//			public void onSuccess(Channel channel) throws JSONException {
+//				String title = channel.getTitle();
+//				rss.setChannel(channel);
+//				Log.d("NewRssFragment", "deu certo");
+//				RssRepositorio.getInstance()
+//						.addRss(rss, _authorization, new RssRepositorio.CallbackRss() {
+//							@Override
+//							public void onSuccess(Rss rss) {
+//								Log.d(NewRssFragment.class.getName(), "salvo com sucesso");
+//							}
+//							@Override
+//							public void onFailure(Exception e) {
+//
+//								Log.e(NewRssFragment.class.getName(), e.getMessage());
+//							}
+//						});
+//			}
+//
+//			@Override
+//			public void onFailure(Throwable t) {
+//				Log.e("NewRssFrament", t.getMessage());
+//			}
+//		});
+//
+//	}
 
 	public void getRemoteChannel(
 			Rss rss, final CallBackChannel callBackChannel) throws IOException {

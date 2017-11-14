@@ -2,6 +2,7 @@ package com.example.luisafarias.myapplication.interfaces;
 
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssRepositorio;
+import com.wedeploy.android.Callback;
 import com.wedeploy.android.auth.Authorization;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +15,13 @@ import org.json.JSONException;
 public interface IRepositorio<T> {
 
 	public abstract void addRss(Rss rss, Authorization authorization,
-								 RssRepositorio.CallbackRss callbackRss) throws JSONException;
+								 Callback callbackR) throws JSONException;
 
 	public abstract void updateRss(Rss rss, Authorization authorization,
-									RssRepositorio.CallbackRss callbackRss) throws JSONException;
+									Callback callback) throws JSONException;
 
 	public abstract void removeRss(Rss rss, Authorization authorization,
-									RssRepositorio.CallbackRss callbackRss);
+									Callback callback);
 
 	public abstract T getRss(Rss rss, Authorization authorization);
 
