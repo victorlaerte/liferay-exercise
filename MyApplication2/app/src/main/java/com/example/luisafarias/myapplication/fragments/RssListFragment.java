@@ -57,7 +57,7 @@ public class RssListFragment extends Fragment {
         _swipeRLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                reloadFeeds();
+                refresh();
             }
         });
         _swipeRLayout.setColorSchemeColors(android.R.color.holo_blue_light,android.R.color.holo_orange_light);
@@ -98,9 +98,9 @@ public class RssListFragment extends Fragment {
     }
 
     private Authorization _authorization;
-    private SwipeRefreshLayout _swipeRLayout;
     private RssListRecyclerViewAdapter _recycleViewAdapter;
     private RecyclerView _recycleView;
+    private SwipeRefreshLayout _swipeRLayout;
     private String _token;
     private View _view;
 }
