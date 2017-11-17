@@ -1,7 +1,11 @@
 package com.example.luisafarias.myapplication.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,18 +32,20 @@ public class RssListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             _token = getArguments().getString(Constants.TOKEN_KEY);
-           // _rss = getArguments().getParcelable(Constants.RSS);
+            // _rss = getArguments().getParcelable(Constants.RSS);
             if (_token != null) {
                 _authorization = new TokenAuthorization(_token);
             }
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         List<Rss> rssList = new ArrayList();
 
         _view = inflater.inflate(R.layout.fragment_rss_list, container, false);
+        _swipeRLayout = _view.findViewById(R.id.swiperefresh);
         _recycleView = _view.findViewById(R.id.recyclerView);
         _recycleViewAdapter =
                 new RssListRecyclerViewAdapter(_view.getContext(), rssList,
@@ -48,17 +54,27 @@ public class RssListFragment extends Fragment {
         _recycleView.setLayoutManager(lm);
         _recycleView.setAdapter(_recycleViewAdapter);
         reloadFeeds();
-        return _view;
+        _swipeRLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reloadFeeds();
+            }
+        });
+        _swipeRLayout.setColorSchemeColors(android.R.color.holo_blue_light,android.R.color.holo_orange_light);
+        return _view;//nao funciona ainda as cores
     }
 
 
     public void reloadFeeds() {
+
         RssRepositorio.getInstance()
                 .rssListAll(_authorization, new RssRepositorio.CallbackRssList() {
                     @Override
                     public void onSuccess(
                             List<Rss> feedList) {
                         _recycleViewAdapter.updateAnswers(feedList);
+
+                        _swipeRLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -67,10 +83,22 @@ public class RssListFragment extends Fragment {
                         Log.e(MainActivity.class.getName(), e.getMessage());
                     }
                 });
+
+    }
+
+    public void refresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                reloadFeeds();
+                _swipeRLayout.setRefreshing(false);
+
+            }
+        }, 5000);
     }
 
     private Authorization _authorization;
-    //private Rss _rss;
+    private SwipeRefreshLayout _swipeRLayout;
     private RssListRecyclerViewAdapter _recycleViewAdapter;
     private RecyclerView _recycleView;
     private String _token;
