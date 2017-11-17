@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         User userViewModel = ViewModelProviders.of(this).get(User.class);
         _editTextLogin = findViewById(R.id.emailogin);
         _editTextPassword = findViewById(R.id.senhalogin);
-        if (userViewModel.getEmail() != null && userViewModel.getPassWord() != null){
+        if (userViewModel.getEmail() != null || userViewModel.getPassWord() != null){
             _editTextLogin.setText(userViewModel.getEmail());
             _editTextPassword.setText(userViewModel.getPassWord());
         }

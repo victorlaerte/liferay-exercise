@@ -1,5 +1,6 @@
 package com.example.luisafarias.myapplication.activities;
 
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebSettings;
@@ -18,13 +19,26 @@ public class NewsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_news);
 
-        WebView wv = findViewById(R.id.webView);
+        _wv = findViewById(R.id.webView);
 
-        WebSettings ws = wv.getSettings();
+        WebSettings ws = _wv.getSettings();
         ws.setJavaScriptEnabled(true);
         ws.setSupportZoom(false);
-        wv.loadUrl(_link);
+        _wv.loadUrl(_link);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        _wv.restoreState(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        _wv.saveState(outState);
     }
 
     private String _link;
+    private WebView _wv;
 }

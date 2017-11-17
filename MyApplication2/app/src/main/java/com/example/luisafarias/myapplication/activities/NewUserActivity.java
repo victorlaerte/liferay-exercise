@@ -1,5 +1,7 @@
 package com.example.luisafarias.myapplication.activities;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.luisafarias.myapplication.R;
+import com.example.luisafarias.myapplication.model.User;
 import com.example.luisafarias.myapplication.model.WeDeployActions;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
@@ -30,16 +33,25 @@ public class NewUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
 
+        User userViewModel = ViewModelProviders.of(this).get(User.class);
+        _editTextName = findViewById(R.id.box_name);
+        _editTextEmail = findViewById(R.id.box_email);
+        _editTextPassword = findViewById(R.id.box_password);
+
+        if (userViewModel.getName() != null || userViewModel.getEmail() != null ||
+                userViewModel.getPassWord() != null ){
+            _editTextName.setText(userViewModel.getName());
+            _editTextEmail.setText(userViewModel.getEmail());
+            _editTextPassword.setText(userViewModel.getPassWord());
+        }
+
         _constraintLayout = findViewById(R.id.layout_new_user);
     }
 
     public void createUser(final View view) throws WeDeployException {
-        EditText editTextName = findViewById(R.id.box_name);
-        final String name = editTextName.getText().toString();
-        EditText editTextEmail = findViewById(R.id.box_email);
-        final String email = editTextEmail.getText().toString();
-        EditText editTextPassword = findViewById(R.id.box_password);
-        final String password = editTextPassword.getText().toString();
+        final String name = _editTextName.getText().toString();
+        final String email = _editTextEmail.getText().toString();
+        final String password = _editTextPassword.getText().toString();
 
         WeDeployActions.getInstance().createNewUser(email, password,
                 name, new Callback() {
@@ -114,7 +126,7 @@ public class NewUserActivity extends AppCompatActivity {
 
 
     public void saveUser(String token, String userId) {
-        SharedPreferences sharedP = getSharedPreferences(Constants.USER, MODE_APPEND);
+        SharedPreferences sharedP = getSharedPreferences(Constants.USER, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedP.edit();
         editor.putString(Constants.TOKEN, token);
         editor.putString(Constants.USER_ID, userId);
@@ -140,5 +152,8 @@ public class NewUserActivity extends AppCompatActivity {
 
     }
 
+    private EditText _editTextName;
+    private EditText _editTextEmail;
+    private EditText _editTextPassword;
     private ConstraintLayout _constraintLayout;
 }
