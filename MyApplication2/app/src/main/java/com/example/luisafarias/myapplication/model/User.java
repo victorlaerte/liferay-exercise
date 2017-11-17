@@ -1,59 +1,40 @@
 package com.example.luisafarias.myapplication.model;
 
+import android.arch.lifecycle.ViewModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
  * @author Victor Oliveira
  */
-public class User implements Parcelable {
-
-	//TODO usar esta classe para armazenar informações do user
-	public User(String name, String userId) {
-
-	}
+public class User extends ViewModel{
 
 	public String getName() {
-		return this.name;
+		return this._name;
 	}
+
+	public String getEmail() { return this._email;}
 
 	public String getUserId() {
-		return this.userId;
+		return this._userId;
 	}
+
+	public String getPassWord(){ return this._passWord;}
 
 	public void setName(String name) {
-		this.name = name;
+		this._name = name;
 	}
+
+	public void setEmail(String email){ this._email = email; }
 
 	public void setUserId(String userId) {
-		this.userId = userId;
+		this._userId = userId;
 	}
 
-	protected User(Parcel in) {
-	}
+	public void setPassWord(String passWord) { this._passWord = passWord;}
 
-	public static final Creator<User> CREATOR = new Creator<User>() {
-		@Override
-		public User createFromParcel(Parcel in) {
-			return new User(in);
-		}
-
-		@Override
-		public User[] newArray(int size) {
-			return new User[size];
-		}
-	};
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel parcel, int i) {
-	}
-
-	private String name;
-	private String userId;
-	//private picture;
+	private String _email;
+	private String _name;
+	private String _userId;
+	private String _passWord;
 }

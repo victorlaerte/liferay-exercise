@@ -1,5 +1,10 @@
 package com.example.luisafarias.myapplication.activities;
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleActivity;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.luisafarias.myapplication.R;
+import com.example.luisafarias.myapplication.model.User;
 import com.example.luisafarias.myapplication.model.WeDeployActions;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
@@ -37,13 +43,19 @@ public class LoginActivity extends AppCompatActivity {
             openMainActivity(token, userID);
         }
         setContentView(R.layout.activity_login);
+
+        User userViewModel = ViewModelProviders.of(this).get(User.class);
+        _editTextLogin = findViewById(R.id.emailogin);
+        _editTextPassword = findViewById(R.id.senhalogin);
+        if (userViewModel.getEmail() != null && userViewModel.getPassWord() != null){
+            _editTextLogin.setText(userViewModel.getEmail());
+            _editTextPassword.setText(userViewModel.getPassWord());
+        }
     }
 
     public void loginButton(View view) throws JSONException, WeDeployException {
-        EditText editTextLogin = findViewById(R.id.emailogin);
-        String emailLogin = editTextLogin.getText().toString();
-        EditText editTextSenha = findViewById(R.id.senhalogin);
-        String passwordLogin = editTextSenha.getText().toString();
+        String emailLogin = _editTextLogin.getText().toString();
+        String passwordLogin = _editTextPassword.getText().toString();
         login(emailLogin, passwordLogin, view);
     }
 
@@ -111,5 +123,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    EditText _editTextLogin;
+    EditText _editTextPassword;
     private SharedPreferences _sharedPref;
 }
