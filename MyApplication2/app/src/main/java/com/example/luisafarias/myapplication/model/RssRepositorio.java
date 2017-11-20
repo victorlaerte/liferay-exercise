@@ -220,10 +220,6 @@ public class RssRepositorio {
 	}
 
 
-	public List<Rss> rssList() {
-		return null;
-	}
-
 	public void rssListAll(Authorization authorization,/**nesse caso em especial eu acho melhor deicar o callback extra pq eu uso esse metodo no RssListFragment onde preciso **/
 		final CallbackRssList callbackRssList) {
 		_weDeploy.data(Constants.DATA_URL)
@@ -279,6 +275,7 @@ public void getRemoteChannel(Rss rss, final CallBackChannel callBackChannel){
 					callBackChannel.onSuccess(channel);
 				} catch (JSONException e) {
 					e.printStackTrace();
+					Log.d("RssRepositorio", e.getMessage());
 				}
 			}
 		}
