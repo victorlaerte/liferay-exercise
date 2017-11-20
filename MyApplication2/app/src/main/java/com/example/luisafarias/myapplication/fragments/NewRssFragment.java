@@ -81,6 +81,10 @@ public class NewRssFragment extends Fragment {
 							}
 						} catch (IOException e) {
 							e.printStackTrace();
+							Log.d("NewRssFragment",e.getMessage());
+							Snackbar.make(v.getRootView()
+											.findViewById(R.id.coordinator),e.getMessage(),
+									Snackbar.LENGTH_LONG).show();
 						}
 
 				}
@@ -104,6 +108,9 @@ public class NewRssFragment extends Fragment {
 					@Override
 					public void onFailure(Exception e) {
 						Log.e("NewRssFragment", e.getMessage());
+						Snackbar.make(_view.getRootView()
+										.findViewById(R.id.coordinator),e.getMessage(),
+								Snackbar.LENGTH_LONG).show();
 					}
 				});
 			}
@@ -111,6 +118,9 @@ public class NewRssFragment extends Fragment {
 			@Override
 			public void onFailure(Throwable t) {
 				Log.e("NewRssFragment", t.getMessage());
+				Snackbar.make(_view.getRootView()
+								.findViewById(R.id.coordinator),t.getMessage(),
+						Snackbar.LENGTH_LONG).show();
 			}
 		});
 

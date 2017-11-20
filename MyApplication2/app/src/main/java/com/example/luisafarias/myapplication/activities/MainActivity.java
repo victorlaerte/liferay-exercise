@@ -11,10 +11,12 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.RssListFragment;
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 			RssListFragment rssListFragment = new RssListFragment();
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
-			ft.add(R.id.frame_layout_fragment, rssListFragment, "test");
+			ft.add(R.id.frame_layout_fragment, rssListFragment, Constants.GET_RSS_LIST_FRAGMENT);
 			ft.commit();
 
 			Bundle data = getIntent().getBundleExtra(Constants.TOKEN_USER_ID);
@@ -70,6 +72,23 @@ public class MainActivity extends AppCompatActivity {
 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_rss, menu);
+
+		MenuItem myActionMenuItem = menu.findItem(R.id.search);
+		final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				return false;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				FragmentManager fm = getFragmentManager();
+				RssListFragment fld = (RssListFragment) fm.findFragmentByTag(Constants.GET_RSS_LIST_FRAGMENT);
+
+				return false;
+			}
+		});
 		return true;
 	}
 
@@ -81,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
 		if (id == R.id.logout) {
 			logout(intent);
 		}
-
 		return super.onOptionsItemSelected(item);
 	}
 

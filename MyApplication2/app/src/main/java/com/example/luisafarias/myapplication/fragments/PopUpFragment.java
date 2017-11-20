@@ -68,7 +68,7 @@ public class PopUpFragment extends DialogFragment {
     @Override
     public void onPause() {
         FragmentManager fm = (getActivity()).getFragmentManager();
-        RssListFragment fld = (RssListFragment) fm.findFragmentByTag("test");
+        RssListFragment fld = (RssListFragment) fm.findFragmentByTag(Constants.GET_RSS_LIST_FRAGMENT);
         fld.reloadFeeds();
         Log.d("PopUpFragment", "OnPause");
         super.onPause();

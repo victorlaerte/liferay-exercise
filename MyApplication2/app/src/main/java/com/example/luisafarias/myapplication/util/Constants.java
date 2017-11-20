@@ -25,4 +25,6 @@ public class Constants {
 	public final static String INVALID_URL = "url inválida";
 
 	public final static String ID = "id";
+
+	public final static String GET_RSS_LIST_FRAGMENT = "fragmentRssList";
 }

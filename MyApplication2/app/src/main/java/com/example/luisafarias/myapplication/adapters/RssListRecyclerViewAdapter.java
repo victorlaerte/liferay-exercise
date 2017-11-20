@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.ItemListActivity;
@@ -23,11 +25,12 @@ import java.util.List;
  */
 
 public class RssListRecyclerViewAdapter
-	extends RecyclerView.Adapter<RssListRecyclerViewAdapter.CustomViewHolder> {
+	extends RecyclerView.Adapter<RssListRecyclerViewAdapter.CustomViewHolder> implements Filterable {
 
 	private List<Rss> _rssList;
 	private Context _context;
 	private String _token;
+
 
 	public RssListRecyclerViewAdapter(Context context, List<Rss> rssList,
 		String token) {
@@ -93,6 +96,15 @@ public class RssListRecyclerViewAdapter
 	public void updateAnswers(List<Rss> rsss) {
 		this._rssList = rsss;
 		notifyDataSetChanged();
+	}
+
+	@Override
+	public Filter getFilter() {
+//		if (valueFilter == null) {
+//			valueFilter = new ValueFilter();
+//		}
+//		return valueFilter;
+		return null;
 	}
 
 	class CustomViewHolder extends RecyclerView.ViewHolder
