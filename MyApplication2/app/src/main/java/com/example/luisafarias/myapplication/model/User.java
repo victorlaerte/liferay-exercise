@@ -9,6 +9,8 @@ import android.os.Parcelable;
  */
 public class User extends ViewModel{
 
+	public User(){}
+
 	public String getName() {
 		return this._name;
 	}

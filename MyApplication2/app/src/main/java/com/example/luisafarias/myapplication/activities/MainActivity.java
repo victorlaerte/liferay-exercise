@@ -42,26 +42,28 @@ public class MainActivity extends AppCompatActivity {
 		Toolbar myToolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(myToolbar);
 
-		RssListFragment rssListFragment = new RssListFragment();
-		FragmentManager fm = getFragmentManager();
-		FragmentTransaction ft = fm.beginTransaction();
-		ft.add(R.id.frame_layout_fragment, rssListFragment, "test");
-		ft.commit();
+		if (savedInstanceState == null){
 
-		Bundle data = getIntent().getBundleExtra(Constants.TOKEN_USER_ID);
-		_token = data.getString(Constants.TOKEN_KEY);
-		_userId = data.getString(Constants.USER_ID);
+			RssListFragment rssListFragment = new RssListFragment();
+			FragmentManager fm = getFragmentManager();
+			FragmentTransaction ft = fm.beginTransaction();
+			ft.add(R.id.frame_layout_fragment, rssListFragment, "test");
+			ft.commit();
 
-		if (_userId != null) Log.d("mainReceveUserID", _userId);
+			Bundle data = getIntent().getBundleExtra(Constants.TOKEN_USER_ID);
+			_token = data.getString(Constants.TOKEN_KEY);
+			_userId = data.getString(Constants.USER_ID);
 
-		Bundle bundle = new Bundle();
-		bundle.putString(Constants.TOKEN_KEY, _token);
-		rssListFragment.setArguments(bundle);
+			if (_userId != null) Log.d("mainReceveUserID", _userId);
 
-		if (_token == null) {
-			throw new IllegalArgumentException();
+			Bundle bundle = new Bundle();
+			bundle.putString(Constants.TOKEN_KEY, _token);
+			rssListFragment.setArguments(bundle);
+
+			if (_token == null) {
+				throw new IllegalArgumentException();
+			}
 		}
-
 		_authorization = new TokenAuthorization(_token);
 
 	}

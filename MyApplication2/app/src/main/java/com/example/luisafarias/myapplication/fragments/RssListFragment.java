@@ -1,10 +1,14 @@
 package com.example.luisafarias.myapplication.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Fragment;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +21,7 @@ import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.adapters.RssListRecyclerViewAdapter;
 import com.example.luisafarias.myapplication.model.Rss;
+import com.example.luisafarias.myapplication.model.RssListViewModel;
 import com.example.luisafarias.myapplication.model.RssRepositorio;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
@@ -45,6 +50,8 @@ public class RssListFragment extends Fragment {
         List<Rss> rssList = new ArrayList();
 
         _view = inflater.inflate(R.layout.fragment_rss_list, container, false);
+        RssListViewModel rssListViewModel = ViewModelProviders.of((FragmentActivity) getActivity()).
+                get(RssListViewModel.class);//por algum motivo n está funcionando os outros, depois ver o porque
         _swipeRLayout = _view.findViewById(R.id.swiperefresh);
         _recycleView = _view.findViewById(R.id.recyclerView);
         _recycleViewAdapter =
@@ -53,6 +60,7 @@ public class RssListFragment extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
         _recycleView.setLayoutManager(lm);
         _recycleView.setAdapter(_recycleViewAdapter);
+
         reloadFeeds();
         _swipeRLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
