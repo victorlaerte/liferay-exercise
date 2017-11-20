@@ -43,6 +43,10 @@ public class NewUserActivity extends AppCompatActivity {
             _editTextName.setText(userViewModel.getName());
             _editTextEmail.setText(userViewModel.getEmail());
             _editTextPassword.setText(userViewModel.getPassWord());
+        }else {
+            userViewModel.setName(_editTextName.getText().toString());
+            userViewModel.setEmail(_editTextEmail.getText().toString());
+            userViewModel.setPassWord(_editTextPassword.getText().toString());
         }
 
         _constraintLayout = findViewById(R.id.layout_new_user);

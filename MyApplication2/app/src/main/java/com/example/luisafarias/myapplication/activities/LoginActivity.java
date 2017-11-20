@@ -50,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
         if (userViewModel.getEmail() != null || userViewModel.getPassWord() != null){
             _editTextLogin.setText(userViewModel.getEmail());
             _editTextPassword.setText(userViewModel.getPassWord());
+        }else {
+            userViewModel.setEmail(_editTextLogin.getText().toString());
+            userViewModel.setPassWord(_editTextPassword.getText().toString());
         }
     }
 
