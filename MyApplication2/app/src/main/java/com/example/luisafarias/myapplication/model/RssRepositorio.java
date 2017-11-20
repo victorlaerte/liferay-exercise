@@ -3,6 +3,7 @@ package com.example.luisafarias.myapplication.model;
 import android.util.Log;
 import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.interfaces.IRepositorio;
+import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
@@ -13,6 +14,9 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import io.reactivex.internal.observers.CallbackCompletableObserver;
+import retrofit2.Call;
 
 /**
  * Created by luisafarias on 26/09/17.
@@ -261,6 +265,36 @@ public class RssRepositorio {
 					callbackRssList.onFailure(e);
 				}
 			});
+	}
+
+public void getRemoteChannel(Rss rss, final CallBackChannel callBackChannel){
+	WeRetrofitService wrs = RetrofitClient.getInstance(rss.getURLHost())
+			.create(WeRetrofitService.class);
+	wrs.getItems(rss.getURLEndPoint()).enqueue(new retrofit2.Callback<Rss>() {
+		@Override
+		public void onResponse(Call<Rss> call, retrofit2.Response<Rss> response) {
+			if (response.isSuccessful()) {
+				Channel channel = response.body().getChannel();
+				try {
+					callBackChannel.onSuccess(channel);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		@Override
+		public void onFailure(Call<Rss> call, Throwable t) {
+			Log.e("RssRepositorio", t.getMessage());
+			callBackChannel.onFailure(t);
+		}
+	});
+}
+
+
+	public interface CallBackChannel{
+		void onSuccess(Channel channel) throws JSONException;
+		void onFailure(Throwable t);
 	}
 
 	public interface CallbackRssList {

@@ -137,31 +137,56 @@ public class NewRssFragment extends Fragment {
 //	}
 
 	public void saveNewRss(final Rss rss) throws IOException {
-		getRemoteChannel(rss, new CallBackChannel() {
+		RssRepositorio.getInstance().getRemoteChannel(rss, new RssRepositorio.CallBackChannel() {
 			@Override
 			public void onSuccess(Channel channel) throws JSONException {
 				String title = channel.getTitle();
 				rss.setChannel(channel);
-				Log.d("NewRssFragment", "deu certo");
-				RssRepositorio.getInstance()
-						.addRss(rss, _authorization, new com.wedeploy.android.Callback() {
-							@Override
-							public void onSuccess(com.wedeploy.android.transport.Response response) {
-								Log.d("NewRssFragment", "Salvo com sucesso");
-							}
+				RssRepositorio.getInstance().addRss(rss, _authorization, new com.wedeploy.android.Callback() {
+					@Override
+					public void onSuccess(com.wedeploy.android.transport.Response response) {
+						Log.d("NewRssFragment", "Salvo com sucesso");
+					}
 
-							@Override
-							public void onFailure(Exception e) {
-								Log.e("NewRssFragment", e.getMessage());
-							}
-						});
+					@Override
+					public void onFailure(Exception e) {
+						Log.e("NewRssFragment", e.getMessage());
+					}
+				});
 			}
 
 			@Override
 			public void onFailure(Throwable t) {
-
+				Log.e("NewRssFragment", t.getMessage());
 			}
 		});
+
+
+//		getRemoteChannel(rss, new CallBackChannel() {
+//			@Override
+//			public void onSuccess(Channel channel) throws JSONException {
+//				String title = channel.getTitle();
+//				rss.setChannel(channel);
+//				Log.d("NewRssFragment", "deu certo");
+//				RssRepositorio.getInstance()
+//						.addRss(rss, _authorization, new com.wedeploy.android.Callback() {
+//							@Override
+//							public void onSuccess(com.wedeploy.android.transport.Response response) {
+//								Log.d("NewRssFragment", "Salvo com sucesso");
+//							}
+//
+//							@Override
+//							public void onFailure(Exception e) {
+//								Log.e("NewRssFragment", e.getMessage());
+//							}
+//						});
+//			}
+//
+//			@Override
+//			public void onFailure(Throwable t) {
+//
+//			}
+//		});
 	}
 
 /***metodo anterior deixar de referencia por enquanto***/
@@ -194,36 +219,38 @@ public class NewRssFragment extends Fragment {
 //
 //	}
 
-	public void getRemoteChannel(
-			Rss rss, final CallBackChannel callBackChannel) throws IOException {
-		WeRetrofitService wrs = RetrofitClient.getInstance(rss.getURLHost())
-			.create(WeRetrofitService.class);
-		wrs.getItems(rss.getURLEndPoint()).enqueue(new Callback<Rss>() {
-			@Override
-			public void onResponse(Call<Rss> call, Response<Rss> response) {
-				if (response.isSuccessful()) {
-					_channel = response.body().getChannel();
-					try {
-						callBackChannel.onSuccess(_channel);
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
-				}
-			}
+/****testando***/
+//	public void getRemoteChannel(
+//			Rss rss, final CallBackChannel callBackChannel) throws IOException {
+//		WeRetrofitService wrs = RetrofitClient.getInstance(rss.getURLHost())
+//			.create(WeRetrofitService.class);
+//		wrs.getItems(rss.getURLEndPoint()).enqueue(new Callback<Rss>() {
+//			@Override
+//			public void onResponse(Call<Rss> call, Response<Rss> response) {
+//				if (response.isSuccessful()) {
+//					_channel = response.body().getChannel();
+//					try {
+//						callBackChannel.onSuccess(_channel);
+//					} catch (JSONException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			}
+//
+//			@Override
+//			public void onFailure(Call<Rss> call, Throwable t) {
+//
+//				Log.e("NewRssFragment", t.getMessage());
+//				callBackChannel.onFailure(t);
+//			}
+//		});
+//	}
 
-			@Override
-			public void onFailure(Call<Rss> call, Throwable t) {
 
-				Log.e("NewRssFragment", t.getMessage());
-				callBackChannel.onFailure(t);
-			}
-		});
-	}
-
-	public interface CallBackChannel{
-		void onSuccess(Channel channel) throws JSONException;
-		void onFailure(Throwable t);
-	}
+//	public interface CallBackChannel{
+//		void onSuccess(Channel channel) throws JSONException;
+//		void onFailure(Throwable t);
+//	}
 
 	private Authorization _authorization;
 	private Channel _channel;
