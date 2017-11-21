@@ -1,14 +1,11 @@
 package com.example.luisafarias.myapplication.model;
 
-import android.util.Log;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.WeDeploy;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.transport.Response;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by luisafarias on 10/10/17.
@@ -29,126 +26,49 @@ public class WeDeployActions {
 		return _uniqueInstance;
 	}
 
-	public void login(final String email, String password, Callback callback){
+	public void login(final String email, String password, Callback callback) {
 		_weDeploy.auth(Constants.AUTH_URL)
-				.signIn(email,password)
-		.execute(callback);
-//		_weDeploy.auth(Constants.AUTH_URL)
-//				.signIn(email,password)
-//				.execute(new Callback() {
-//					@Override
-//					public void onSuccess(Response response) {
-//						Log.d("WeDeployActions", email);
-//						try {
-//							JSONObject jsonObject = new JSONObject(response.getBody());
-//							final String token = jsonObject.getString(Constants.ACCESS_TOKEN);
-//							Authorization au = new TokenAuthorization(token);
-//							getCurrentUser(au, new CallbackUserID() {
-//								@Override
-//								public void onSuccess(String userID) {
-//
-//									callbackLogin.onSuccess(token,userID);
-//								}
-//
-//								@Override
-//								public void onFailure(Exception e) {
-//									callbackLogin.onFailure(e);
-//
-//								}
-//							});
-//						} catch (JSONException e) {
-//							e.printStackTrace();
-//						}
-//
-//					}
-//
-//					@Override
-//					public void onFailure(Exception e) {
-//						Log.e("WeDeployActions", e.getMessage());
-//					}
-//				});
+			.signIn(email, password)
+			.execute(callback);
 	}
 
-	public void getCurrentUser(Authorization authorization,
-		Callback callback) {
+	public void getCurrentUser(Authorization authorization, Callback callback) {
 
 		_weDeploy.auth(Constants.AUTH_URL)
-				.authorization(authorization)
-				.getCurrentUser()
-				.execute(callback);
-
-//		_weDeploy.auth(Constants.AUTH_URL)
-//			.authorization(authorization)
-//			.getCurrentUser()
-//			.execute(new Callback() {
-//				@Override
-//				public void onSuccess(Response response) {
-//					try {
-//						JSONObject jsonObject =
-//							new JSONObject(response.getBody());
-//						_userID = jsonObject.getString("id");
-//
-//						callbackUserID.onSuccess(_userID);
-//					} catch (JSONException e) {
-//						callbackUserID.onFailure(e);
-//						e.printStackTrace();
-//						Log.e(WeDeployActions.class.getName(), e.getMessage());
-//					}
-//				}
-//
-//				@Override
-//				public void onFailure(Exception e) {
-//					callbackUserID.onFailure(e);
-//					Log.e(WeDeployActions.class.getName(), e.getMessage());
-//				}
-//			});
+			.authorization(authorization)
+			.getCurrentUser()
+			.execute(callback);
 	}
 
-	public void createNewUser(final String email, final String password, String name,
-							  final Callback callback){
+	public void createNewUser(final String email, final String password,
+		String name, final Callback callback) {
 		_weDeploy.auth(Constants.AUTH_URL)
-				.createUser(email,password,name)
-				.execute(callback);
+			.createUser(email, password, name)
+			.execute(callback);
 	}
 
-	public void logoutUser(String token, final CallbackLogoutUser callbackLogoutUser){
+	public void logoutUser(String token,
+		final CallbackLogoutUser callbackLogoutUser) {
 		Authorization authorization = new TokenAuthorization(token);
 		_weDeploy.auth(Constants.AUTH_URL)
-				.authorization(authorization)
-				.signOut()
-		.execute(new Callback() {
-			@Override
-			public void onSuccess(Response response) {
-				callbackLogoutUser.onSuccess();
-			}
+			.authorization(authorization)
+			.signOut()
+			.execute(new Callback() {
+				@Override
+				public void onSuccess(Response response) {
+					callbackLogoutUser.onSuccess();
+				}
 
-			@Override
-			public void onFailure(Exception e) {
-				callbackLogoutUser.onFailure(e);
-
-			}
-		});
-	}
-
-	public interface CallbackUserID {
-		void onSuccess(String userID);
-
-		void onFailure(Exception e);
-	}
-
-	public interface CallbackLogin {
-		void onSuccess(String token, String userID);
-
-		void onFailure(Exception e);
-	}
-
-	public interface CallbackNewUser {
-		void onSuccess(String token, String userId);
-		void onFailure(Exception e);
+				@Override
+				public void onFailure(Exception e) {
+					callbackLogoutUser.onFailure(e);
+				}
+			});
 	}
 
 	public interface CallbackLogoutUser {
 		void onSuccess();
+
 		void onFailure(Exception e);
 	}
 

@@ -5,13 +5,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.support.v4.app.Fragment;
 
-import com.example.luisafarias.myapplication.model.Rss;
-import com.example.luisafarias.myapplication.model.RssRepositorio;
-import com.wedeploy.android.auth.Authorization;
-import com.wedeploy.android.auth.TokenAuthorization;
-
-import java.util.List;
-
 /**
  * Created by luisafarias on 06/11/17.
  */

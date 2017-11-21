@@ -25,12 +25,12 @@ import java.util.List;
  */
 
 public class RssListRecyclerViewAdapter
-	extends RecyclerView.Adapter<RssListRecyclerViewAdapter.CustomViewHolder> implements Filterable {
+	extends RecyclerView.Adapter<RssListRecyclerViewAdapter.CustomViewHolder>
+	implements Filterable {
 
 	private List<Rss> _rssList;
 	private Context _context;
 	private String _token;
-
 
 	public RssListRecyclerViewAdapter(Context context, List<Rss> rssList,
 		String token) {
@@ -100,10 +100,10 @@ public class RssListRecyclerViewAdapter
 
 	@Override
 	public Filter getFilter() {
-//		if (valueFilter == null) {
-//			valueFilter = new ValueFilter();
-//		}
-//		return valueFilter;
+		//		if (valueFilter == null) {
+		//			valueFilter = new ValueFilter();
+		//		}
+		//		return valueFilter;
 		return null;
 	}
 
@@ -123,6 +123,7 @@ public class RssListRecyclerViewAdapter
 
 		@Override
 		public void onClick(View v) {
+
 			itemClickListener.onClick(v, getAdapterPosition(), false);
 		}
 

@@ -30,10 +30,6 @@ dependencies {
         exclude group: 'stax', module: 'stax'
     }
 
-
-
-
-
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.wedeploy:com.wedeploy.android:0.1.0'

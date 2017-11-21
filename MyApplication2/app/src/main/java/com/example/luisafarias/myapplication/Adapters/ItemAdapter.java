@@ -14,7 +14,6 @@ import com.example.luisafarias.myapplication.activities.NewsActivity;
 import com.example.luisafarias.myapplication.interfaces.ItemClickListener;
 import com.example.luisafarias.myapplication.model.Item;
 import com.example.luisafarias.myapplication.util.Constants;
-
 import java.util.List;
 
 /**
@@ -32,10 +31,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 	public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext())
 			.inflate(R.layout.item_body, parent, false);
+
 		return new ItemHolder(view);
-		//        final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-		//        final View v = layoutInflater.inflate(R.layout.item_body,parent,false);
-		//        return new ItemHolder(v);
 	}
 
 	@Override
@@ -67,14 +64,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 			public void onClick(View view, int position, boolean isLongClick) {
 				Intent intent = new Intent(_context, NewsActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putString(Constants.LINK,item.getLink());
-				intent.putExtra(Constants.LINK,bundle);
+				bundle.putString(Constants.LINK, item.getLink());
+				intent.putExtra(Constants.LINK, bundle);
 				_context.startActivity(intent);
 			}
 		});
 	}
 
-	public class ItemHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
+	public class ItemHolder extends RecyclerView.ViewHolder
+		implements View.OnClickListener {
 		protected TextView titleTextField;
 		protected TextView descriptionTextField;
 		private ItemClickListener itemClickListener;
@@ -92,16 +90,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 		}
 
 		@Override
-		public void onClick(View v) { itemClickListener.onClick(v, getAdapterPosition(),false);
-
+		public void onClick(View v) {
+			itemClickListener.onClick(v, getAdapterPosition(), false);
 		}
 
-		public void setItemClickListener(ItemClickListener itemClickListener){
+		public void setItemClickListener(ItemClickListener itemClickListener) {
 			this.itemClickListener = itemClickListener;
 		}
 	}
 
 	private List<Item> _feedItems;
 	private Context _context;
-	//private LayoutInflater _layoutInflater;
 }

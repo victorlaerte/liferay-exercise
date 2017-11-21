@@ -1,7 +1,6 @@
 package com.example.luisafarias.myapplication.interfaces;
 
 import com.example.luisafarias.myapplication.model.Rss;
-import com.example.luisafarias.myapplication.model.RssRepositorio;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.auth.Authorization;
 import java.util.ArrayList;

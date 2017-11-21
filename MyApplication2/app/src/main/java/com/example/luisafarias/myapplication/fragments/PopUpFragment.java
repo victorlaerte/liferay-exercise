@@ -6,14 +6,11 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
-import com.example.luisafarias.myapplication.activities.LoginActivity;
-import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.model.Rss;
-import com.example.luisafarias.myapplication.model.RssRepositorio;
+import com.example.luisafarias.myapplication.model.RssRepository;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.auth.Authorization;
@@ -40,7 +37,7 @@ public class PopUpFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
 
                         if (_rss != null && _authorization != null) {
-                            RssRepositorio.getInstance().removeRss(_rss, _authorization, new Callback() {
+                            RssRepository.getInstance().removeRss(_rss, _authorization, new Callback() {
                                 @Override
                                 public void onSuccess(Response response) {
                                     Log.d("PopUpFragment", "excluido com sucesso");
