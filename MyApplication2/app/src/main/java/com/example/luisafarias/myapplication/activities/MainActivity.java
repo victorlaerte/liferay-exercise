@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_rss, menu);
-
-		MenuItem myActionMenuItem = menu.findItem(R.id.search);
+//		getMenuInflater().inflate(R.menu.menu_rss, menu);
+//
+//		MenuItem myActionMenuItem = menu.findItem(R.id.search);
 		//TODO: Erro de cast
 		//final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
 		//searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
