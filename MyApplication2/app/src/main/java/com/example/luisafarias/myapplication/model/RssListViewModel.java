@@ -15,5 +15,13 @@ public class RssListViewModel extends ViewModel {
     public RssListViewModel(){
     }
 
+    public List<Rss> getRssList() {
+        return _rssList;
+    }
+
+    public void setRssList(List<Rss> _rssList) {
+        this._rssList = _rssList;
+    }
+
     private List<Rss> _rssList;
 }

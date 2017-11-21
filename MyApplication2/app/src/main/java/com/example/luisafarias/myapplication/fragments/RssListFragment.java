@@ -52,20 +52,31 @@ public class RssListFragment extends Fragment {
 		List<Rss> rssList = new ArrayList();
 
 		_view = inflater.inflate(R.layout.fragment_rss_list, container, false);
-		RssListViewModel rssListViewModel =
-			ViewModelProviders.of((FragmentActivity) getActivity()).
+
+		RssListViewModel rssListViewModel = ViewModelProviders.
+				of((FragmentActivity) getActivity()).
 				get(RssListViewModel.class);//depois ver se é necessario
+		if (rssListViewModel.getRssList() != null){
 
-		_searchView = _view.findViewById(R.id.search);
-
-		_swipeRLayout = _view.findViewById(R.id.swiperefresh);
-
+		}else {
 		_recycleView = _view.findViewById(R.id.recyclerView);
 		_recycleViewAdapter =
 			new RssListRecyclerViewAdapter(_view.getContext(), rssList, _token);
 		LinearLayoutManager lm = new LinearLayoutManager(getActivity());
 		_recycleView.setLayoutManager(lm);
 		_recycleView.setAdapter(_recycleViewAdapter);
+		}
+
+		_searchView = _view.findViewById(R.id.search);
+
+		_swipeRLayout = _view.findViewById(R.id.swiperefresh);
+
+//		_recycleView = _view.findViewById(R.id.recyclerView);
+//		_recycleViewAdapter =
+//			new RssListRecyclerViewAdapter(_view.getContext(), rssList, _token);
+//		LinearLayoutManager lm = new LinearLayoutManager(getActivity());
+//		_recycleView.setLayoutManager(lm);
+//		_recycleView.setAdapter(_recycleViewAdapter);
 
 		reloadFeeds();
 
@@ -136,6 +147,11 @@ public class RssListFragment extends Fragment {
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	public List<Rss> getRssList(){
+		List<Rss> list = RssRepository.getInstance().getAllRss(new TokenAuthorization(_token));
+		return list;
 	}
 
 //	public  void onPrepareOptionsMenu(Menu menu){
