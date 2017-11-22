@@ -23,5 +23,13 @@ public class RssListViewModel extends ViewModel {
         this._rssList = _rssList;
     }
 
+    public void deleteRss(Rss rss){
+        this._rssList.remove(rss);
+    }
+
+    public void addRss(Rss rss){
+        this._rssList.add(rss);
+    }
+
     private List<Rss> _rssList;
 }

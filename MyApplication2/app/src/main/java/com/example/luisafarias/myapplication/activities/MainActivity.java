@@ -34,6 +34,17 @@ public class MainActivity extends AppCompatActivity {
 		Toolbar myToolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(myToolbar);
 
+		Bundle data = getIntent().getBundleExtra(Constants.TOKEN_USER_ID);
+		_token = data.getString(Constants.TOKEN_KEY);
+		_userId = data.getString(Constants.USER_ID);
+		_authorization = new TokenAuthorization(_token);
+
+		if (_token == null) {
+			throw new IllegalArgumentException();
+		}
+
+		if (_userId != null) Log.d("mainReceivedUserID", _userId);
+
 		if (savedInstanceState == null) {
 
 			RssListFragment rssListFragment = new RssListFragment();
@@ -43,21 +54,10 @@ public class MainActivity extends AppCompatActivity {
 				Constants.GET_RSS_LIST_FRAGMENT);
 			ft.commit();
 
-			Bundle data = getIntent().getBundleExtra(Constants.TOKEN_USER_ID);
-			_token = data.getString(Constants.TOKEN_KEY);
-			_userId = data.getString(Constants.USER_ID);
-
-			if (_userId != null) Log.d("mainReceivedUserID", _userId);
-
 			Bundle bundle = new Bundle();
 			bundle.putString(Constants.TOKEN_KEY, _token);
 			rssListFragment.setArguments(bundle);
-
-			if (_token == null) {
-				throw new IllegalArgumentException();
-			}
 		}
-		_authorization = new TokenAuthorization(_token);
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {

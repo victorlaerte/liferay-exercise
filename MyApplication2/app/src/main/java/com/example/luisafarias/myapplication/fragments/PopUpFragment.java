@@ -3,6 +3,7 @@ package com.example.luisafarias.myapplication.fragments;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
 import com.example.luisafarias.myapplication.model.Rss;
+import com.example.luisafarias.myapplication.model.RssListViewModel;
 import com.example.luisafarias.myapplication.model.RssRepository;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
@@ -27,9 +29,15 @@ public class PopUpFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         this._rss = getArguments().getParcelable(Constants.RSS);
+
         String nome = _rss.getChannel().getTitle();
         String token = getArguments().getString(Constants.TOKEN);
         _authorization = new TokenAuthorization(token);
+
+        final RssListViewModel _rssListViewModel= ViewModelProviders.
+                of(getActivity()).get(RssListViewModel.class);
+        Log.d("PopUpFragment", _rssListViewModel.getRssList().toString());
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Deseja excluir " + nome)
                 .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
@@ -40,6 +48,8 @@ public class PopUpFragment extends DialogFragment {
                             RssRepository.getInstance().removeRss(_rss, _authorization, new Callback() {
                                 @Override
                                 public void onSuccess(Response response) {
+
+                                    _rssListViewModel.deleteRss(_rss);
                                     Log.d("PopUpFragment", "excluido com sucesso");
                                 }
 
@@ -71,6 +81,7 @@ public class PopUpFragment extends DialogFragment {
         super.onPause();
     }
 
+    private RssListViewModel _rssListViewModel;
     private Authorization _authorization;
     private Rss _rss;
 }

@@ -1,12 +1,14 @@
 package com.example.luisafarias.myapplication.fragments;
 
 import android.app.Fragment;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.Channel;
 import com.example.luisafarias.myapplication.model.Rss;
+import com.example.luisafarias.myapplication.model.RssListViewModel;
 import com.example.luisafarias.myapplication.model.RssRepository;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
@@ -45,6 +48,8 @@ public class NewRssFragment extends Fragment {
 		_view = inflater.inflate(R.layout.fragment_new_rss, container, false);
 		_urlEditText = _view.findViewById(R.id.newUrlFeed);
 
+		_rssListViewModel = ViewModelProviders.of((FragmentActivity) getActivity()).get(RssListViewModel.class);
+
 		final String copied = getClipboardString();
 
 		if (URLUtil.isValidUrl(copied)) {
@@ -66,13 +71,13 @@ public class NewRssFragment extends Fragment {
 						saveNewRss(rss);
 					} else {
 						Snackbar.make(
-							v.getRootView().findViewById(R.id.coordinator),
+							v.getRootView().findViewById(R.id.frag_new_rss),
 							"Url invalida", Snackbar.LENGTH_LONG).show();
 					}
 				} catch (IOException e) {
 					Log.d(TAG, e.getMessage());
 					Snackbar.make(
-						v.getRootView().findViewById(R.id.coordinator),
+						v.getRootView().findViewById(R.id.frag_new_rss),
 						e.getMessage(), Snackbar.LENGTH_LONG).show();
 				}
 			}
@@ -99,13 +104,15 @@ public class NewRssFragment extends Fragment {
 					rss.setChannel(channel);
 					RssRepository.getInstance()
 						.addRss(rss, _authorization, getWedeployErrorHandler());
+					_rssListViewModel.addRss(rss);
+
 				}
 
 				@Override
 				public void onFailure(Throwable t) {
 					Log.e(TAG, t.getMessage());
 					Snackbar.make(
-						_view.getRootView().findViewById(R.id.coordinator),
+						_view.getRootView().findViewById(R.id.frag_new_rss),
 						t.getMessage(), Snackbar.LENGTH_LONG).show();
 				}
 			});
@@ -122,7 +129,7 @@ public class NewRssFragment extends Fragment {
 			public void onFailure(Exception e) {
 				Log.e(TAG, e.getMessage());
 				Snackbar.make(
-					_view.getRootView().findViewById(R.id.coordinator),
+					_view.getRootView().findViewById(R.id.frag_new_rss),
 					e.getMessage(), Snackbar.LENGTH_LONG).show();
 			}
 		};
@@ -131,6 +138,7 @@ public class NewRssFragment extends Fragment {
 	final private static String TAG = NewRssFragment.class.getName();
 
 	private Authorization _authorization;
+	private RssListViewModel _rssListViewModel;
 	private String _token;
 	private String _userId;
 	private View _view;
