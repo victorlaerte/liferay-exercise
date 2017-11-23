@@ -12,12 +12,14 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.ItemListActivity;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.interfaces.ItemClickListener;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.util.Constants;
+
 import java.util.List;
 
 /**
@@ -25,117 +27,117 @@ import java.util.List;
  */
 
 public class RssListRecyclerViewAdapter
-	extends RecyclerView.Adapter<RssListRecyclerViewAdapter.CustomViewHolder>
-	implements Filterable {
+        extends RecyclerView.Adapter<RssListRecyclerViewAdapter.CustomViewHolder>
+        implements Filterable {
 
-	private List<Rss> _rssList;
-	private Context _context;
-	private String _token;
+    private List<Rss> _rssList;
+    private Context _context;
+    private String _token;
 
-	public RssListRecyclerViewAdapter(Context context, List<Rss> rssList,
-		String token) {
-		this._context = context;
-		setRssList(rssList);
-		setToken(token);
-	}
+    public RssListRecyclerViewAdapter(Context context, List<Rss> rssList,
+                                      String token) {
+        this._context = context;
+        setRssList(rssList);
+        setToken(token);
+    }
 
-	public void setRssList(List<Rss> rssList) {
-		this._rssList = rssList;
-	}
+    public void setRssList(List<Rss> rssList) {
+        this._rssList = rssList;
+    }
 
-	public void setToken(String token) {
-		this._token = token;
-	}
+    public void setToken(String token) {
+        this._token = token;
+    }
 
-	@Override
-	public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(_context)
-			.inflate(R.layout.rss_body, null);//dar uma olhada aqui depois
-		CustomViewHolder viewHolder = new CustomViewHolder(view);
-		return viewHolder;
-	}
+    @Override
+    public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(_context)
+                .inflate(R.layout.rss_body, null);//dar uma olhada aqui depois
+        CustomViewHolder viewHolder = new CustomViewHolder(view);
+        return viewHolder;
+    }
 
-	@Override
-	public void onBindViewHolder(CustomViewHolder holder, int position) {
-		final Rss rss = _rssList.get(position);
-		holder.name.setText(rss.getChannel().getTitle());
-		holder.id.setText(rss.getId());
+    @Override
+    public void onBindViewHolder(CustomViewHolder holder, int position) {
+        final Rss rss = _rssList.get(position);
+        holder.name.setText(rss.getChannel().getTitle());
+        holder.id.setText(rss.getId());
 
-		holder.setItemClickListener(new ItemClickListener() {
-			@Override
-			public void onClick(View view, int position, boolean isLongClick) {
-				if (isLongClick) {
-					Bundle bundle = new Bundle();
-					bundle.putParcelable(Constants.RSS, rss);
-					bundle.putString(Constants.TOKEN, _token);
-					PopUpFragment popUpFragment = new PopUpFragment();
-					popUpFragment.setArguments(bundle);
-					popUpFragment.show(
-						((FragmentActivity) _context).getSupportFragmentManager(),
-						"idPopupFragment");
+        holder.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position, boolean isLongClick) {
+                if (isLongClick) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Constants.RSS, rss);
+                    bundle.putString(Constants.TOKEN, _token);
+                    PopUpFragment popUpFragment = new PopUpFragment();
+                    popUpFragment.setArguments(bundle);
+                    popUpFragment.show(
+                            ((FragmentActivity) _context).getSupportFragmentManager(),
+                            "idPopupFragment");
 
-					Log.d("click longo", _rssList.get(position).getUrl());
-				} else {
-					Log.d("click curto", _rssList.get(position).getUrl());
-					Intent intent =
-						new Intent(_context, ItemListActivity.class);
-					Bundle bundle = new Bundle();
-					bundle.putParcelable(Constants.RSS, rss);
-					intent.putExtra(Constants.RSS, bundle);
-					_context.startActivity(intent);
-				}
-			}
-		});
-	}
+                    Log.d("click longo", _rssList.get(position).getUrl());
+                } else {
+                    Log.d("click curto", _rssList.get(position).getUrl());
+                    Intent intent =
+                            new Intent(_context, ItemListActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Constants.RSS, rss);
+                    intent.putExtra(Constants.RSS, bundle);
+                    _context.startActivity(intent);
+                }
+            }
+        });
+    }
 
-	@Override
-	public int getItemCount() {
-		return _rssList.size();
-	}
+    @Override
+    public int getItemCount() {
+        return _rssList.size();
+    }
 
-	public void updateAnswers(List<Rss> rsss) {
-		this._rssList = rsss;
-		notifyDataSetChanged();
-	}
+    public void updateAnswers(List<Rss> rsss) {
+        this._rssList = rsss;
+        notifyDataSetChanged();
+    }
 
-	@Override
-	public Filter getFilter() {
-		//		if (valueFilter == null) {
-		//			valueFilter = new ValueFilter();
-		//		}
-		//		return valueFilter;
-		return null;
-	}
+    @Override
+    public Filter getFilter() {
+        //		if (valueFilter == null) {
+        //			valueFilter = new ValueFilter();
+        //		}
+        //		return valueFilter;
+        return null;
+    }
 
-	class CustomViewHolder extends RecyclerView.ViewHolder
-		implements View.OnClickListener, View.OnLongClickListener {
-		private ItemClickListener itemClickListener;
-		protected TextView name;
-		protected TextView id;
+    class CustomViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener {
+        private ItemClickListener itemClickListener;
+        protected TextView name;
+        protected TextView id;
 
-		public CustomViewHolder(View view) {
-			super(view);
-			view.setOnClickListener(this);
-			view.setOnLongClickListener(this);
-			this.name = view.findViewById(R.id.nome_url_recebida);
-			this.id = view.findViewById(R.id.idUrlTest);
-		}
+        public CustomViewHolder(View view) {
+            super(view);
+            view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
+            this.name = view.findViewById(R.id.nome_url_recebida);
+            this.id = view.findViewById(R.id.idUrlTest);
+        }
 
-		@Override
-		public void onClick(View v) {
+        @Override
+        public void onClick(View v) {
 
-			itemClickListener.onClick(v, getAdapterPosition(), false);
-		}
+            itemClickListener.onClick(v, getAdapterPosition(), false);
+        }
 
-		@Override
-		public boolean onLongClick(View v) {
-			itemClickListener.onClick(v, getAdapterPosition(), true);
-			return true;
-		}
+        @Override
+        public boolean onLongClick(View v) {
+            itemClickListener.onClick(v, getAdapterPosition(), true);
+            return true;
+        }
 
-		public void setItemClickListener(ItemClickListener itemClickListener) {
+        public void setItemClickListener(ItemClickListener itemClickListener) {
 
-			this.itemClickListener = itemClickListener;
-		}
-	}
+            this.itemClickListener = itemClickListener;
+        }
+    }
 }

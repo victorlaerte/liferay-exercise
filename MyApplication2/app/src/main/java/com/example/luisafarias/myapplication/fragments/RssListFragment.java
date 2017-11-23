@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.adapters.RssListRecyclerViewAdapter;
@@ -28,143 +29,135 @@ import com.example.luisafarias.myapplication.model.RssRepository;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class RssListFragment extends Fragment {
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (getArguments() != null) {
-			_token = getArguments().getString(Constants.TOKEN_KEY);
-			// _rss = getArguments().getParcelable(Constants.RSS);
-			if (_token != null) {
-				_authorization = new TokenAuthorization(_token);
-			}
-		}
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            _token = getArguments().getString(Constants.TOKEN_KEY);
+            // _rss = getArguments().getParcelable(Constants.RSS);
+            if (_token != null) {
+                _authorization = new TokenAuthorization(_token);
+            }
+        }
+    }
 
-	@SuppressLint("ResourceAsColor")
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-		Bundle savedInstanceState) {
-		setHasOptionsMenu(true);
-		List<Rss> rssList = new ArrayList();
+    @SuppressLint("ResourceAsColor")
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        List<Rss> rssList = new ArrayList();
 
-		_view = inflater.inflate(R.layout.fragment_rss_list, container, false);
+        _view = inflater.inflate(R.layout.fragment_rss_list, container, false);
 
-		_rssListViewModel = ViewModelProviders.//nao tenho certeza ainda que esteja funcionando da forma que queria
-				of((FragmentActivity) getActivity()).
-				get(RssListViewModel.class);
-		if (_rssListViewModel.getRssList() != null ){
+        _rssListViewModel = ViewModelProviders.//nao tenho certeza ainda que esteja funcionando da forma que queria
+                of((FragmentActivity) getActivity()).
+                get(RssListViewModel.class);
+        if (_rssListViewModel.getRssList() != null) {
 
-			_recycleView = _view.findViewById(R.id.recyclerView);
-			_recycleViewAdapter =
-					new RssListRecyclerViewAdapter(_view.getContext(),
-							_rssListViewModel.getRssList(), _token);
-			LinearLayoutManager lm = new LinearLayoutManager(getActivity());
-			_recycleView.setLayoutManager(lm);
-			_recycleView.setAdapter(_recycleViewAdapter);
-			Log.d("RssFragment", "_rssListViewModel n é nulo");
+            _recycleView = _view.findViewById(R.id.recyclerView);
+            _recycleViewAdapter =
+                    new RssListRecyclerViewAdapter(_view.getContext(),
+                            _rssListViewModel.getRssList(), _token);
+            LinearLayoutManager lm = new LinearLayoutManager(getActivity());
+            _recycleView.setLayoutManager(lm);
+            _recycleView.setAdapter(_recycleViewAdapter);
+            Log.d("RssFragment", "_rssListViewModel n é nulo");
 
-		}else {
-		_recycleView = _view.findViewById(R.id.recyclerView);
-		_recycleViewAdapter =
-			new RssListRecyclerViewAdapter(_view.getContext(), rssList, _token);
-		LinearLayoutManager lm = new LinearLayoutManager(getActivity());
-		_recycleView.setLayoutManager(lm);
-		_recycleView.setAdapter(_recycleViewAdapter);
-			reloadFeeds();
+        } else {
+            _recycleView = _view.findViewById(R.id.recyclerView);
+            _recycleViewAdapter =
+                    new RssListRecyclerViewAdapter(_view.getContext(), rssList, _token);
+            LinearLayoutManager lm = new LinearLayoutManager(getActivity());
+            _recycleView.setLayoutManager(lm);
+            _recycleView.setAdapter(_recycleViewAdapter);
+            reloadFeeds();
 
-		}
+        }
 
-		_searchView = _view.findViewById(R.id.search);
+        _searchView = _view.findViewById(R.id.search);
 
-		_swipeRLayout = _view.findViewById(R.id.swiperefresh);
+        _swipeRLayout = _view.findViewById(R.id.swiperefresh);
 
-//		_recycleView = _view.findViewById(R.id.recyclerView);
-//		_recycleViewAdapter =
-//			new RssListRecyclerViewAdapter(_view.getContext(), rssList, _token);
-//		LinearLayoutManager lm = new LinearLayoutManager(getActivity());
-//		_recycleView.setLayoutManager(lm);
-//		_recycleView.setAdapter(_recycleViewAdapter);
+        _swipeRLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        reloadFeeds();
+                    }
+                });
+        _swipeRLayout.setColorSchemeColors(android.R.color.holo_blue_light,
+                android.R.color.holo_orange_light);//nao funciona ainda as cores
 
+        ((MainActivity) getActivity()).showButton();
 
+        return _view;
+    }
 
-		_swipeRLayout.setOnRefreshListener(
-			new SwipeRefreshLayout.OnRefreshListener() {
-				@Override
-				public void onRefresh() {
-					reloadFeeds();
-				}
-			});
-		_swipeRLayout.setColorSchemeColors(android.R.color.holo_blue_light,
-			android.R.color.holo_orange_light);//nao funciona ainda as cores
+    public void reloadFeeds() {
 
-		((MainActivity)getActivity()).showButton();
+        RssRepository.getInstance()
+                .rssListAll(_authorization, new RssRepository.CallbackRssList() {
+                    @Override
+                    public void onSuccess(List<Rss> feedList) {
+                        _rssListViewModel.setRssList(feedList);
+                        _recycleViewAdapter.updateAnswers(_rssListViewModel.getRssList());
 
-		return _view;
-	}
+                        _swipeRLayout.setRefreshing(false);
+                    }
 
-	public void reloadFeeds() {
+                    @Override
+                    public void onFailure(Exception e) {
+                        _swipeRLayout.setRefreshing(false);
 
-		RssRepository.getInstance()
-			.rssListAll(_authorization, new RssRepository.CallbackRssList() {
-				@Override
-				public void onSuccess(List<Rss> feedList) {
-					_rssListViewModel.setRssList(feedList);
-					_recycleViewAdapter.updateAnswers(_rssListViewModel.getRssList());
+                        Log.e(MainActivity.class.getName(), e.getMessage());
+                    }
+                });
+    }
 
-					_swipeRLayout.setRefreshing(false);
-				}
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_rss, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
-				@Override
-				public void onFailure(Exception e) {
-					_swipeRLayout.setRefreshing(false);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.search:
+                SearchView searchView = (SearchView) item.getActionView();
+                searchView.setQueryHint("Buscar");
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
 
-					Log.e(MainActivity.class.getName(), e.getMessage());
-				}
-			});
-	}
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_rss,menu);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		switch (id) {
-			case R.id.search:
-				SearchView searchView = (SearchView) item.getActionView();
-				searchView.setQueryHint("Buscar");
-				searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-					@Override
-					public boolean onQueryTextSubmit(String query) {
-						return false;
-					}
-
-					@Override
-					public boolean onQueryTextChange(String newText) {
-						Log.d("RssListFragment", newText);
-						//						_recycleView = _view.findViewById(R.id.recyclerView);
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        Log.d("RssListFragment", newText);
+                        //						_recycleView = _view.findViewById(R.id.recyclerView);
 //						RssListRecyclerViewAdapter rssLRViewAdapter = new RssListRecyclerViewAdapter(getContext(),,_token);
-						return false;
-					}
-				});
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+                        return false;
+                    }
+                });
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-	private Authorization _authorization;
-	private RssListRecyclerViewAdapter _recycleViewAdapter;
-	private RecyclerView _recycleView;
-	RssListViewModel _rssListViewModel;
-	private SearchView _searchView;
-	private SwipeRefreshLayout _swipeRLayout;
-	private String _token;
-	private View _view;
+    private Authorization _authorization;
+    private RssListRecyclerViewAdapter _recycleViewAdapter;
+    private RecyclerView _recycleView;
+    RssListViewModel _rssListViewModel;
+    private SearchView _searchView;
+    private SwipeRefreshLayout _swipeRLayout;
+    private String _token;
+    private View _view;
 }
