@@ -56,7 +56,7 @@ public class RssListFragment extends Fragment {
 		_rssListViewModel = ViewModelProviders.//nao tenho certeza ainda que esteja funcionando da forma que queria
 				of((FragmentActivity) getActivity()).
 				get(RssListViewModel.class);
-		if (_rssListViewModel.getRssList() != null){
+		if (_rssListViewModel.getRssList() != null ){
 
 			_recycleView = _view.findViewById(R.id.recyclerView);
 			_recycleViewAdapter =

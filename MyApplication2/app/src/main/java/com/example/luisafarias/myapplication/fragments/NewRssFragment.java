@@ -103,8 +103,25 @@ public class NewRssFragment extends Fragment {
 				public void onSuccess(Channel channel) throws JSONException {
 					rss.setChannel(channel);
 					RssRepository.getInstance()
-						.addRss(rss, _authorization, getWedeployErrorHandler());
-					_rssListViewModel.addRss(rss);
+						.addRss(rss, _authorization, new Callback() {
+							@Override
+							public void onSuccess(Response response) {
+								_rssListViewModel.addRss(rss);
+								Log.d(TAG, "Salvo com sucesso");
+								Snackbar.make(
+										_view.getRootView().findViewById(R.id.frag_new_rss),
+										"Salvo com sucesso", Snackbar.LENGTH_LONG).show();
+							}
+
+							@Override
+							public void onFailure(Exception e) {
+								Log.e(TAG, e.getMessage());
+								Snackbar.make(
+										_view.getRootView().findViewById(R.id.frag_new_rss),
+										e.getMessage(), Snackbar.LENGTH_LONG).show();
+							}
+						});
+
 
 				}
 

@@ -36,7 +36,7 @@ public class RssRepository {
 		return _uniqueInstance;
 	}
 
-	public void addRss(Rss rss, Authorization authorization,
+	public void addRss(final Rss rss, Authorization authorization,
 		final Callback callback) throws JSONException {
 		String userId = rss.getUserId();
 		String url = rss.getUrl();
@@ -60,7 +60,7 @@ public class RssRepository {
 							JSONObject jsonBody =
 								new JSONObject(response.getBody());
 
-							Rss rss = new Rss();
+//							Rss rss = new Rss();
 							rss.setUrl(jsonBody.getString("url"));
 							rss.setId(jsonBody.getString("id"));
 							Channel channel = new Channel();
