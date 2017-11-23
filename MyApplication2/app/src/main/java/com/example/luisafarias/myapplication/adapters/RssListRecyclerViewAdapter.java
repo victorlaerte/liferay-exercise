@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -53,39 +54,46 @@ public class RssListRecyclerViewAdapter
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(_context)
                 .inflate(R.layout.rss_body, null);//dar uma olhada aqui depois
+
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(CustomViewHolder holder, int position) {
+    public void onBindViewHolder(CustomViewHolder holder, final int position) {
         final Rss rss = _rssList.get(position);
         holder.name.setText(rss.getChannel().getTitle());
         holder.id.setText(rss.getId());
 
-        holder.setItemClickListener(new ItemClickListener() {
+        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view, int position, boolean isLongClick) {
-                if (isLongClick) {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(Constants.RSS, rss);
-                    bundle.putString(Constants.TOKEN, _token);
-                    PopUpFragment popUpFragment = new PopUpFragment();
-                    popUpFragment.setArguments(bundle);
-                    popUpFragment.show(
-                            ((FragmentActivity) _context).getSupportFragmentManager(),
-                            "idPopupFragment");
+            public boolean onLongClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.RSS, rss);
+                bundle.putString(Constants.TOKEN, _token);
+                PopUpFragment popUpFragment = new PopUpFragment();
+                popUpFragment.setArguments(bundle);
+                popUpFragment.show(
+                        ((FragmentActivity) _context).getSupportFragmentManager(),
+                        "idPopupFragment");
 
-                    Log.d("click longo", _rssList.get(position).getUrl());
-                } else {
-                    Log.d("click curto", _rssList.get(position).getUrl());
-                    Intent intent =
-                            new Intent(_context, ItemListActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(Constants.RSS, rss);
-                    intent.putExtra(Constants.RSS, bundle);
-                    _context.startActivity(intent);
-                }
+                Log.d("click longo", _rssList.get(position).getUrl());
+
+                return false;
+            }
+        });
+
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("click curto", _rssList.get(position).getUrl());
+                Intent intent =
+                        new Intent(_context, ItemListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.RSS, rss);
+                intent.putExtra(Constants.RSS, bundle);
+                _context.startActivity(intent);
+
             }
         });
     }
@@ -109,35 +117,16 @@ public class RssListRecyclerViewAdapter
         return null;
     }
 
-    class CustomViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener, View.OnLongClickListener {
-        private ItemClickListener itemClickListener;
+    class CustomViewHolder extends RecyclerView.ViewHolder {
         protected TextView name;
         protected TextView id;
+        protected View view;
 
         public CustomViewHolder(View view) {
             super(view);
-            view.setOnClickListener(this);
-            view.setOnLongClickListener(this);
+            this.view = view;
             this.name = view.findViewById(R.id.nome_url_recebida);
             this.id = view.findViewById(R.id.idUrlTest);
-        }
-
-        @Override
-        public void onClick(View v) {
-
-            itemClickListener.onClick(v, getAdapterPosition(), false);
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            itemClickListener.onClick(v, getAdapterPosition(), true);
-            return true;
-        }
-
-        public void setItemClickListener(ItemClickListener itemClickListener) {
-
-            this.itemClickListener = itemClickListener;
         }
     }
 }
