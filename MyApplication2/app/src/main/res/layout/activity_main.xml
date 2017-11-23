@@ -28,7 +28,7 @@
         android:src="@drawable/add_plus"
         app:backgroundTint="@color/accent"
         app:elevation="4dp"
-        app:fabSize="mini" />
+        app:fabSize="normal" />
 
     <LinearLayout
         android:id="@+id/linearLayout"

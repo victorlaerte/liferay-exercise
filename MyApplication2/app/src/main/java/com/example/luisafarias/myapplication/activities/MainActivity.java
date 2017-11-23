@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -58,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
 			bundle.putString(Constants.TOKEN_KEY, _token);
 			rssListFragment.setArguments(bundle);
 		}
+
+		_fAButton = findViewById(R.id.addRssFrag);
+
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	public void goAddNewRss(View view) {
+
 		Bundle bundle = new Bundle();
 		bundle.putString(Constants.TOKEN, _token);
 		bundle.putString(Constants.USER_ID, _userId);
@@ -154,8 +159,20 @@ public class MainActivity extends AppCompatActivity {
 		startActivity(intent);
 	}
 
+	public void hideButton(){
+
+		_fAButton.hide();
+	}
+
+	public void showButton(){
+		if (_fAButton.getVisibility() != View.VISIBLE){
+			_fAButton.show();
+		}
+	}
+
 	private Authorization _authorization;
 	CoordinatorLayout _constraintLayout;
+	FloatingActionButton _fAButton;
 	private String _userId;
 	private String _token;
 }

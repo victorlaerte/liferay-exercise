@@ -7,6 +7,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.luisafarias.myapplication.R;
+import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.model.Channel;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssListViewModel;
@@ -82,6 +84,7 @@ public class NewRssFragment extends Fragment {
 				}
 			}
 		});
+		((MainActivity)getActivity()).hideButton();
 
 		return _view;
 	}

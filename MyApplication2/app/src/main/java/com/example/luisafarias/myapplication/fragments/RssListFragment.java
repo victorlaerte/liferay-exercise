@@ -101,6 +101,8 @@ public class RssListFragment extends Fragment {
 		_swipeRLayout.setColorSchemeColors(android.R.color.holo_blue_light,
 			android.R.color.holo_orange_light);//nao funciona ainda as cores
 
+		((MainActivity)getActivity()).showButton();
+
 		return _view;
 	}
 
@@ -156,23 +158,6 @@ public class RssListFragment extends Fragment {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-//	public  void onPrepareOptionsMenu(Menu menu){
-//		SearchManager searchManager = (SearchManager) getActivity().
-//				getSystemService(Context.SEARCH_SERVICE);
-		//SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-//		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//			@Override
-//			public boolean onQueryTextSubmit(String query) {
-//				return false;
-//			}
-//
-//			@Override
-//			public boolean onQueryTextChange(String newText) {
-//				return false;
-//			}
-//		});
-//	}
 
 	private Authorization _authorization;
 	private RssListRecyclerViewAdapter _recycleViewAdapter;
