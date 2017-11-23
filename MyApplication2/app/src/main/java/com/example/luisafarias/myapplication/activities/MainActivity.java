@@ -65,28 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-//		getMenuInflater().inflate(R.menu.menu_rss, menu);
-//
-//		MenuItem myActionMenuItem = menu.findItem(R.id.search);
-        //TODO: Erro de cast
-        //final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
-        //searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-        //	@Override
-        //	public boolean onQueryTextSubmit(String query) {
-        //		return false;
-        //	}
-        //
-        //	@Override
-        //	public boolean onQueryTextChange(String newText) {
-        //		FragmentManager fm = getFragmentManager();
-        //		RssListFragment fld = (RssListFragment) fm.findFragmentByTag(Constants.GET_RSS_LIST_FRAGMENT);
-        //
-        //		return false;
-        //	}
-        //});
-        return true;
-    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
