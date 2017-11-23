@@ -1,5 +1,6 @@
 package com.example.luisafarias.myapplication.adapters;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,9 +60,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 		final Item item = _feedItems.get(position);
 		holder.titleTextField.setText(item.getTitle());
 
-		holder.setItemClickListener(new ItemClickListener() {
+		holder.view.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View view, int position, boolean isLongClick) {
+			public void onClick(View v) {
 				Intent intent = new Intent(_context, NewsActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putString(Constants.LINK, item.getLink());
@@ -71,31 +72,22 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 		});
 	}
 
-	public class ItemHolder extends RecyclerView.ViewHolder
-		implements View.OnClickListener {
+	public class ItemHolder extends RecyclerView.ViewHolder {
 		protected TextView titleTextField;
 		protected TextView descriptionTextField;
-		private ItemClickListener itemClickListener;
 
 		private ImageView imageView;
 		private TextView publicationDateTextField;
+		protected View view;
 
 		public ItemHolder(View itemView) {
 			super(itemView);
+			view = itemView;
 			titleTextField = itemView.findViewById(R.id.title);
 			imageView = itemView.findViewById(R.id.image);
 			descriptionTextField = itemView.findViewById(R.id.description);
 			publicationDateTextField = itemView.findViewById(R.id.pubdate);
-			itemView.setOnClickListener(this);
-		}
 
-		@Override
-		public void onClick(View v) {
-			itemClickListener.onClick(v, getAdapterPosition(), false);
-		}
-
-		public void setItemClickListener(ItemClickListener itemClickListener) {
-			this.itemClickListener = itemClickListener;
 		}
 	}
 
