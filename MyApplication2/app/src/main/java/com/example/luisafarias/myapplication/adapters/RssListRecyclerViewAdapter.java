@@ -21,6 +21,7 @@ import com.example.luisafarias.myapplication.interfaces.ItemClickListener;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.util.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +33,7 @@ public class RssListRecyclerViewAdapter
         implements Filterable {
 
     private List<Rss> _rssList;
+    private List<Rss> _rssListAux;
     private Context _context;
     private String _token;
 
@@ -44,6 +46,9 @@ public class RssListRecyclerViewAdapter
 
     public void setRssList(List<Rss> rssList) {
         this._rssList = rssList;
+    }
+
+    public void setRssListAux(List<Rss> rssListAux){ this._rssListAux = rssListAux;
     }
 
     public void setToken(String token) {
@@ -103,18 +108,56 @@ public class RssListRecyclerViewAdapter
         return _rssList.size();
     }
 
-    public void updateAnswers(List<Rss> rsss) {
-        this._rssList = rsss;
+    public void updateAnswers(List<Rss> rss) {
+        this._rssList = rss;
         notifyDataSetChanged();
     }
 
     @Override
     public Filter getFilter() {
-        //		if (valueFilter == null) {
-        //			valueFilter = new ValueFilter();
-        //		}
-        //		return valueFilter;
-        return null;
+        Filter filter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                FilterResults filterResults = new FilterResults();
+
+                if (constraint == null || constraint.length() == 0) {
+                    filterResults.values = _rssListAux;
+                    filterResults.count = _rssListAux.size();
+                } else {
+
+                    List<Rss> rssListAux = new ArrayList();
+
+                    for (Rss r : _rssList) {
+                        if (r.getChannel().getTitle().toUpperCase().
+                                contains(constraint.toString().toUpperCase())) {
+
+                            Log.d("RssListAdapter","update");
+                            rssListAux.add(r);
+                        }
+                    }
+
+                    filterResults.values = rssListAux;
+                    filterResults.count = rssListAux.size();
+                }
+                return filterResults;
+            }
+
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                if (results.count == 0){
+                    Log.d("RssListRecycleV", "null");
+                    //notifyDataSetInvalidated();
+                } else {
+                    Log.d("RssListRecycleV", "not null");
+
+                }
+
+                updateAnswers((List<Rss>) results.values);
+            }
+        };
+        return filter;
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {

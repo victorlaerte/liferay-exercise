@@ -55,7 +55,7 @@ public class RssListFragment extends Fragment {
 
         _view = inflater.inflate(R.layout.fragment_rss_list, container, false);
 
-        _rssListViewModel = ViewModelProviders.//nao tenho certeza ainda que esteja funcionando da forma que queria
+        _rssListViewModel = ViewModelProviders.
                 of((FragmentActivity) getActivity()).
                 get(RssListViewModel.class);
         if (_rssListViewModel.getRssList() != null) {
@@ -67,6 +67,7 @@ public class RssListFragment extends Fragment {
             LinearLayoutManager lm = new LinearLayoutManager(getActivity());
             _recycleView.setLayoutManager(lm);
             _recycleView.setAdapter(_recycleViewAdapter);
+            _recycleViewAdapter.setRssListAux(_rssListViewModel.getRssList());
             Log.d("RssFragment", "_rssListViewModel n é nulo");
 
         } else {
@@ -106,6 +107,7 @@ public class RssListFragment extends Fragment {
                     @Override
                     public void onSuccess(List<Rss> feedList) {
                         _rssListViewModel.setRssList(feedList);
+                        _recycleViewAdapter.setRssListAux(feedList);
                         _recycleViewAdapter.updateAnswers(_rssListViewModel.getRssList());
 
                         _swipeRLayout.setRefreshing(false);
@@ -142,13 +144,17 @@ public class RssListFragment extends Fragment {
                     @Override
                     public boolean onQueryTextChange(String newText) {
                         Log.d("RssListFragment", newText);
+                        _recycleViewAdapter.getFilter().filter(newText);
                         //						_recycleView = _view.findViewById(R.id.recyclerView);
 //						RssListRecyclerViewAdapter rssLRViewAdapter = new RssListRecyclerViewAdapter(getContext(),,_token);
                         return false;
                     }
                 });
+
                 return true;
+
         }
+
         return super.onOptionsItemSelected(item);
     }
 
