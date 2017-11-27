@@ -3,6 +3,7 @@ package com.example.luisafarias.myapplication.model;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import java.util.List;
 
@@ -31,5 +32,14 @@ public class RssListViewModel extends ViewModel {
         this._rssList.add(rss);
     }
 
+    public String getSearchText() {
+        return _searchText;
+    }
+
+    public void setSearchText(String _searchText) {
+        this._searchText = _searchText;
+    }
+    
     private List<Rss> _rssList;
+    private String _searchText = "";
 }

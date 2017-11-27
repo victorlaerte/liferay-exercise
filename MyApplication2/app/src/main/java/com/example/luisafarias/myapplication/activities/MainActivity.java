@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public boolean onOptionsItemSelected(MenuItem item) {
 
         final Intent intent = new Intent(this, LoginActivity.class);

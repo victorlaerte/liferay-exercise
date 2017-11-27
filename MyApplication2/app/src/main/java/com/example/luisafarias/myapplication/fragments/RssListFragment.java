@@ -40,7 +40,6 @@ public class RssListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             _token = getArguments().getString(Constants.TOKEN_KEY);
-            // _rss = getArguments().getParcelable(Constants.RSS);
             if (_token != null) {
                 _authorization = new TokenAuthorization(_token);
             }
@@ -124,20 +123,43 @@ public class RssListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_rss, menu);
         super.onCreateOptionsMenu(menu, inflater);
-        MenuItem  menuItem= menu.findItem(R.id.search);
-        _searchView = (SearchView) menuItem.getActionView();
+        _menuItem= menu.findItem(R.id.search);
+        _searchView = (SearchView) _menuItem.getActionView();
+        _searchView.setQueryHint("Buscar");
+
         if (!_rssListViewModel.getSearchText().isEmpty()){
-            menuItem.expandActionView();
-            _searchView.setQuery(_rssListViewModel.getSearchText(), false);
+            _menuItem.expandActionView();
+            _searchView.setQuery(_rssListViewModel.getSearchText(), true);//entender o booleano
+            _recycleViewAdapter.getFilter().filter(_rssListViewModel.getSearchText());
+
+            _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    Log.d("onCreateOptionsMenu", newText);
+                    _recycleViewAdapter.getFilter().filter(newText);
+                    _rssListViewModel.setSearchText(newText);
+
+                    return false;
+                }
+            });
+        } else {
+            _menuItem.collapseActionView();
         }
     }
 
+
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
+        Log.d("RssListFragment", "onOptionsItemSelected");
+
         int id = item.getItemId();
         switch (id) {
             case R.id.search:
-                _searchView.setQueryHint("Buscar");
                 _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
@@ -149,10 +171,7 @@ public class RssListFragment extends Fragment {
                             Log.d("RssListFragment", newText);
                             _recycleViewAdapter.getFilter().filter(newText);
                             _rssListViewModel.setSearchText(newText);
-                            _rssListViewModel.setMenuItem(item);
 
-                        //						_recycleView = _view.findViewById(R.id.recyclerView);
-//						RssListRecyclerViewAdapter rssLRViewAdapter = new RssListRecyclerViewAdapter(getContext(),,_token);
                         return false;
                     }
                 });
@@ -164,19 +183,10 @@ public class RssListFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putString("savedQuery",_searchView.getQuery().toString() );
-//    }
-//
-//    @Override
-//    public void onViewStateRestored(Bundle savedInstanceState) {
-//        super.onViewStateRestored(savedInstanceState);
-//        _searchView.setQuery(savedInstanceState.getString("savedQuery"),false);
-//    }
+
 
     private Authorization _authorization;
+    private MenuItem _menuItem;
     private RssListRecyclerViewAdapter _recycleViewAdapter;
     private RecyclerView _recycleView;
     RssListViewModel _rssListViewModel;
