@@ -41,9 +41,10 @@ public class MainActivity extends AppCompatActivity {
         _userId = data.getString(Constants.USER_ID);
         _authorization = new TokenAuthorization(_token);
 
-        if (_token == null) {
+        if (data == null) {
             throw new IllegalArgumentException();
         }
+
 
         if (_userId != null) Log.d("mainReceivedUserID", _userId);
 
