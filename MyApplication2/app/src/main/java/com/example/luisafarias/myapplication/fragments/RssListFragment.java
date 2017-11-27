@@ -81,8 +81,6 @@ public class RssListFragment extends Fragment {
 
         }
 
-        _searchView = _view.findViewById(R.id.search);
-
         _swipeRLayout = _view.findViewById(R.id.swiperefresh);
 
         _swipeRLayout.setOnRefreshListener(
@@ -126,16 +124,21 @@ public class RssListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_rss, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        MenuItem  menuItem= menu.findItem(R.id.search);
+        _searchView = (SearchView) menuItem.getActionView();
+        if (!_rssListViewModel.getSearchText().isEmpty()){
+            menuItem.expandActionView();
+            _searchView.setQuery(_rssListViewModel.getSearchText(), false);
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case R.id.search:
-                SearchView searchView = (SearchView) item.getActionView();
-                searchView.setQueryHint("Buscar");
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                _searchView.setQueryHint("Buscar");
+                _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
                         return false;
@@ -143,8 +146,11 @@ public class RssListFragment extends Fragment {
 
                     @Override
                     public boolean onQueryTextChange(String newText) {
-                        Log.d("RssListFragment", newText);
-                        _recycleViewAdapter.getFilter().filter(newText);
+                            Log.d("RssListFragment", newText);
+                            _recycleViewAdapter.getFilter().filter(newText);
+                            _rssListViewModel.setSearchText(newText);
+                            _rssListViewModel.setMenuItem(item);
+
                         //						_recycleView = _view.findViewById(R.id.recyclerView);
 //						RssListRecyclerViewAdapter rssLRViewAdapter = new RssListRecyclerViewAdapter(getContext(),,_token);
                         return false;
@@ -157,6 +163,18 @@ public class RssListFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
+
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putString("savedQuery",_searchView.getQuery().toString() );
+//    }
+//
+//    @Override
+//    public void onViewStateRestored(Bundle savedInstanceState) {
+//        super.onViewStateRestored(savedInstanceState);
+//        _searchView.setQuery(savedInstanceState.getString("savedQuery"),false);
+//    }
 
     private Authorization _authorization;
     private RssListRecyclerViewAdapter _recycleViewAdapter;
