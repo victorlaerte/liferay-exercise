@@ -9,15 +9,15 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class RetrofitClient {
 
-	private static Retrofit instance = null;
+    private static Retrofit instance = null;
 
-	public static Retrofit getInstance(String baseUrl) {
-		if (instance == null) {
-			instance = new Retrofit.Builder().baseUrl(baseUrl)
-				.addConverterFactory(SimpleXmlConverterFactory.create())
-				.build();
-		}
+    public static Retrofit getInstance(String baseUrl) {
+        if (instance == null) {
+            instance = new Retrofit.Builder().baseUrl(baseUrl)
+                    .addConverterFactory(SimpleXmlConverterFactory.create())
+                    .build();
+        }
 
-		return instance;
-	}
+        return instance;
+    }
 }
