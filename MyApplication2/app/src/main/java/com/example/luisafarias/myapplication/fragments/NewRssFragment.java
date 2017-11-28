@@ -68,28 +68,32 @@ public class NewRssFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String url = _urlEditText.getText().toString();
-                Rss rss = new Rss(url, _userId, null);
-                Log.d(TAG, url);
-                try {
-                    if (URLUtil.isValidUrl(url)) {
-                        saveNewRss(rss);
-                    } else {
-                        Snackbar.make(
-                                v.getRootView().findViewById(R.id.frag_new_rss),
-                                "Url invalida", Snackbar.LENGTH_LONG).show();
-                    }
-                } catch (IOException e) {
-                    Log.d(TAG, e.getMessage());
-                    Snackbar.make(
-                            v.getRootView().findViewById(R.id.frag_new_rss),
-                            e.getMessage(), Snackbar.LENGTH_LONG).show();
-                }
+                newRss(v);
             }
         });
         ((MainActivity) getActivity()).hideButton();
 
         return _view;
+    }
+
+    private void newRss(View v) {
+        String url = _urlEditText.getText().toString();
+        Rss rss = new Rss(url, _userId, null);
+        Log.d(TAG, url);
+        try {
+            if (URLUtil.isValidUrl(url)) {
+                saveNewRss(rss);
+            } else {
+                Snackbar.make(
+                        v.getRootView().findViewById(R.id.frag_new_rss),
+                        "Url invalida", Snackbar.LENGTH_LONG).show();
+            }
+        } catch (IOException e) {
+            Log.d(TAG, e.getMessage());
+            Snackbar.make(
+                    v.getRootView().findViewById(R.id.frag_new_rss),
+                    e.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @NonNull
