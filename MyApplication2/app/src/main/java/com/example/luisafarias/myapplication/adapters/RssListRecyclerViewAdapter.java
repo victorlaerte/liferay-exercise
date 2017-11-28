@@ -105,7 +105,7 @@ public class RssListRecyclerViewAdapter
         return _rssList.size();
     }
 
-    private void updateAnswers(List<Rss> rss) {
+    public void updateAnswers(List<Rss> rss) {
         this._rssList = rss;
         notifyDataSetChanged();
     }
