@@ -13,7 +13,7 @@ import java.util.List;
 
 public class RssListViewModel extends ViewModel {
 
-    public RssListViewModel(){
+    public RssListViewModel() {
     }
 
     public List<Rss> getRssList() {
@@ -24,11 +24,11 @@ public class RssListViewModel extends ViewModel {
         this._rssList = _rssList;
     }
 
-    public void deleteRss(Rss rss){
+    public void deleteRss(Rss rss) {
         this._rssList.remove(rss);
     }
 
-    public void addRss(Rss rss){
+    public void addRss(Rss rss) {
         this._rssList.add(rss);
     }
 
@@ -39,7 +39,7 @@ public class RssListViewModel extends ViewModel {
     public void setSearchText(String _searchText) {
         this._searchText = _searchText;
     }
-    
+
     private List<Rss> _rssList;
     private String _searchText = "";
 }
