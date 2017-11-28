@@ -52,7 +52,7 @@ public class ItemListActivity extends AppCompatActivity {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        refresh();
+                        loadAnswers();
                     }
                 });
     }
@@ -78,10 +78,6 @@ public class ItemListActivity extends AppCompatActivity {
                         "error loading from API", Snackbar.LENGTH_LONG).show();
             }
         });
-    }
-
-    public void refresh() {
-        loadAnswers();
     }
 
     private Rss _rss;
