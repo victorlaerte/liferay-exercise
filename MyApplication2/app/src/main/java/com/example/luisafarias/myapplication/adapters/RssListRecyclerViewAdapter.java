@@ -32,11 +32,6 @@ public class RssListRecyclerViewAdapter
         extends RecyclerView.Adapter<RssListRecyclerViewAdapter.CustomViewHolder>
         implements Filterable {
 
-    private List<Rss> _rssList;
-    private List<Rss> _rssListAux;
-    private Context _context;
-    private Filter _filter;
-    private String _token;
 
     public RssListRecyclerViewAdapter(Context context, List<Rss> rssList,
                                       String token) {
@@ -49,7 +44,8 @@ public class RssListRecyclerViewAdapter
         this._rssList = rssList;
     }
 
-    public void setRssListAux(List<Rss> rssListAux){ this._rssListAux = rssListAux;
+    public void setRssListAux(List<Rss> rssListAux) {
+        this._rssListAux = rssListAux;
     }
 
     public void setToken(String token) {
@@ -109,14 +105,14 @@ public class RssListRecyclerViewAdapter
         return _rssList.size();
     }
 
-    public void updateAnswers(List<Rss> rss) {
+    private void updateAnswers(List<Rss> rss) {
         this._rssList = rss;
         notifyDataSetChanged();
     }
 
     @Override
     public Filter getFilter() {
-        if (_filter == null){
+        if (_filter == null) {
             _filter = new Filter() {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
@@ -134,7 +130,7 @@ public class RssListRecyclerViewAdapter
                             if (r.getChannel().getTitle().toUpperCase().
                                     contains(constraint.toString().toUpperCase())) {
 
-                                Log.d("RssListAdapter","update");
+                                Log.d("RssListAdapter", "update");
                                 rssListAux.add(r);
                             }
                         }
@@ -148,9 +144,8 @@ public class RssListRecyclerViewAdapter
 
                 @Override
                 protected void publishResults(CharSequence constraint, FilterResults results) {
-                    if (results.count == 0){
+                    if (results.count == 0) {
                         Log.d("RssListRecycleV", "null");
-                        //notifyDataSetInvalidated();
                     } else {
                         Log.d("RssListRecycleV", "not null");
 
@@ -176,4 +171,10 @@ public class RssListRecyclerViewAdapter
             this.id = view.findViewById(R.id.idUrlTest);
         }
     }
+
+    private List<Rss> _rssList;
+    private List<Rss> _rssListAux;
+    private Context _context;
+    private Filter _filter;
+    private String _token;
 }
