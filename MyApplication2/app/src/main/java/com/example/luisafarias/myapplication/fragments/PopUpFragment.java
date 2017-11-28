@@ -7,9 +7,11 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
+import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssListViewModel;
 import com.example.luisafarias.myapplication.model.RssRepository;
@@ -34,32 +36,18 @@ public class PopUpFragment extends DialogFragment {
         String token = getArguments().getString(Constants.TOKEN);
         _authorization = new TokenAuthorization(token);
 
-        final RssListViewModel _rssListViewModel= ViewModelProviders.
+        _rssListViewModel = ViewModelProviders.
                 of(getActivity()).get(RssListViewModel.class);
         Log.d("PopUpFragment", _rssListViewModel.getRssList().toString());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
         builder.setMessage("Deseja excluir " + nome)
                 .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if (_rss != null && _authorization != null) {
-                            RssRepository.getInstance().removeRss(_rss, _authorization, new Callback() {
-                                @Override
-                                public void onSuccess(Response response) {
-
-                                    _rssListViewModel.deleteRss(_rss);
-                                    Log.d("PopUpFragment", "excluido com sucesso");
-                                }
-
-                                @Override
-                                public void onFailure(Exception e) {
-                                    Log.e("PopUpFragment", e.getMessage());
-                                }
-                            });
-
-                        }
+                        deleteRss(_rssListViewModel);
 
                     }
                 })
@@ -72,16 +60,37 @@ public class PopUpFragment extends DialogFragment {
         return builder.create();
     }
 
+    private void deleteRss(final RssListViewModel rssListViewModel) {
+        if (_rss != null && _authorization != null) {
+            RssRepository.getInstance().removeRss(_rss, _authorization, new Callback() {
+                @Override
+                public void onSuccess(Response response) {
+
+                    rssListViewModel.deleteRss(_rss);
+                    Log.d("PopUpFragment", "excluido com sucesso");
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    Log.e("PopUpFragment", e.getMessage());
+                }
+            });
+
+        }
+    }
+
     @Override
     public void onPause() {
         FragmentManager fm = (getActivity()).getFragmentManager();
-        RssListFragment fld = (RssListFragment) fm.findFragmentByTag(Constants.GET_RSS_LIST_FRAGMENT);
+        RssListFragment fld = (RssListFragment) fm.findFragmentByTag(
+                Constants.GET_RSS_LIST_FRAGMENT);
         fld.reloadFeeds();
         Log.d("PopUpFragment", "OnPause");
         super.onPause();
     }
 
-    private RssListViewModel _rssListViewModel;
     private Authorization _authorization;
     private Rss _rss;
+    private RssListViewModel _rssListViewModel;
+
 }
