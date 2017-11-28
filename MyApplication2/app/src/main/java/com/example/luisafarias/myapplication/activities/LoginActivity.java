@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,16 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		_sharedPref = getSharedPreferences(Constants.USER, MODE_PRIVATE);
-
-		if (_sharedPref.contains(Constants.TOKEN) && _sharedPref.contains(
-			Constants.USER_ID)) {
-			String token = _sharedPref.getString(Constants.TOKEN, "");
-			String userID = _sharedPref.getString(Constants.USER_ID, "");
-
-			Log.d("LoginActivity", token + " " + userID);
-
-			openMainActivity(token, userID);
-		}
+		ifLoggedInMainActivity();
 		setContentView(R.layout.activity_login);
 
 		User userViewModel = ViewModelProviders.of(this).get(User.class);
@@ -53,20 +45,32 @@ public class LoginActivity extends AppCompatActivity {
 		}
 	}
 
-	public void loginButton(View view) throws JSONException, WeDeployException {
+	private void ifLoggedInMainActivity() {
+		if (_sharedPref.contains(Constants.TOKEN) && _sharedPref.contains(
+			Constants.USER_ID)) {
+			String token = _sharedPref.getString(Constants.TOKEN, "");
+			String userID = _sharedPref.getString(Constants.USER_ID, "");
+
+			Log.d("LoginActivity", token + " " + userID);
+
+			openMainActivity(token, userID);
+		}
+	}
+
+	protected void loginButton(View view) throws JSONException, WeDeployException {
 		String emailLogin = _editTextLogin.getText().toString();
 		String passwordLogin = _editTextPassword.getText().toString();
 		login(emailLogin, passwordLogin, view);
 	}
 
-	public void login(String emailLogin, String passwordLogin, final View view)
+	private void login(String emailLogin, String passwordLogin, final View view)
 		throws WeDeployException, JSONException {
 
 		WeDeployActions.getInstance()
 			.login(emailLogin, passwordLogin, getLoginCallback());
 	}
 
-	public void getCurrentUser(String token, String userID) {
+	private void getCurrentUser(String token, String userID) {
 		_sharedPref = getSharedPreferences(Constants.USER, MODE_PRIVATE);
 		SharedPreferences.Editor editor = _sharedPref.edit();
 		editor.putString(Constants.TOKEN, token);
@@ -74,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 		editor.apply();
 	}
 
-	public void openMainActivity(String token, String userId) {
+	private void openMainActivity(String token, String userId) {
 		Intent intent = new Intent(this, MainActivity.class);
 		Bundle extra = new Bundle();
 		extra.putString(Constants.TOKEN_KEY, token);
@@ -101,14 +105,17 @@ public class LoginActivity extends AppCompatActivity {
 
 					getCurrentUser(token, authorization);
 				} catch (JSONException e) {
-					//TODO: falta tratamento de erro
-					e.printStackTrace();
+					Snackbar.make(findViewById(R.id.loginActivity),
+							"Nao foi possivel fazer login", Snackbar.LENGTH_LONG).show();
+					Log.e("LoginActivity", e.getMessage());
 				}
 			}
 
 			@Override
 			public void onFailure(Exception e) {
-				//TODO: falta tratamento de erro
+				Snackbar.make(findViewById(R.id.loginActivity),
+						"Nao foi possivel fazer login", Snackbar.LENGTH_LONG).show();
+				Log.e("LoginActivity", e.getMessage());
 			}
 		};
 	}
@@ -125,14 +132,17 @@ public class LoginActivity extends AppCompatActivity {
 						getCurrentUser(token, userId);
 						openMainActivity(token, userId);
 					} catch (JSONException e) {
-						//TODO: falta tratamento de erro
-						e.printStackTrace();
+						Snackbar.make(findViewById(R.id.loginActivity),
+								"Nao foi possivel acessar usuário", Snackbar.LENGTH_LONG).show();
+						Log.e("LoginActivity", e.getMessage());
 					}
 				}
 
 				@Override
 				public void onFailure(Exception e) {
-					//TODO: falta tratamento de erro
+					Snackbar.make(findViewById(R.id.loginActivity),
+							"Nao foi possivel acessar usuário", Snackbar.LENGTH_LONG).show();
+					Log.e("LoginActivity", e.getMessage());
 				}
 			});
 	}
