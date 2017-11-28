@@ -112,12 +112,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    protected void hideButton() {
+    public void hideButton() {
 
         fAButton.hide();
     }
 
-    protected void showButton() {
+    public void showButton() {
         if (fAButton.getVisibility() != View.VISIBLE) {
             fAButton.show();
         }
