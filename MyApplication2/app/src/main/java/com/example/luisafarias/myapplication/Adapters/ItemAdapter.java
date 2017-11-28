@@ -1,6 +1,5 @@
 package com.example.luisafarias.myapplication.adapters;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.NewsActivity;
-import com.example.luisafarias.myapplication.interfaces.ItemClickListener;
 import com.example.luisafarias.myapplication.model.Item;
 import com.example.luisafarias.myapplication.util.Constants;
 
