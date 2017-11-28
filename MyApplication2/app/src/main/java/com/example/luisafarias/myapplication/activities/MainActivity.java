@@ -11,14 +11,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.fragments.NewRssFragment;
 import com.example.luisafarias.myapplication.fragments.RssListFragment;
-import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.WeDeployActions;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
@@ -31,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        _constraintLayout = findViewById(R.id.container);
+        constraintLayout = findViewById(R.id.container);
 
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -41,13 +39,13 @@ public class MainActivity extends AppCompatActivity {
         _userId = data.getString(Constants.USER_ID);
         _authorization = new TokenAuthorization(_token);
 
-        if (data == null) {
-            throw new IllegalArgumentException();
-        }
+        startRssListFragment(savedInstanceState);
 
+        fAButton = findViewById(R.id.addRssFrag);
 
-        if (_userId != null) Log.d("mainReceivedUserID", _userId);
+    }
 
+    private void startRssListFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
 
             RssListFragment rssListFragment = new RssListFragment();
@@ -61,9 +59,6 @@ public class MainActivity extends AppCompatActivity {
             bundle.putString(Constants.TOKEN_KEY, _token);
             rssListFragment.setArguments(bundle);
         }
-
-        _fAButton = findViewById(R.id.addRssFrag);
-
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -117,20 +112,20 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    public void hideButton() {
+    protected void hideButton() {
 
-        _fAButton.hide();
+        fAButton.hide();
     }
 
-    public void showButton() {
-        if (_fAButton.getVisibility() != View.VISIBLE) {
-            _fAButton.show();
+    protected void showButton() {
+        if (fAButton.getVisibility() != View.VISIBLE) {
+            fAButton.show();
         }
     }
 
     private Authorization _authorization;
-    CoordinatorLayout _constraintLayout;
-    FloatingActionButton _fAButton;
+    protected CoordinatorLayout constraintLayout;
+    protected FloatingActionButton fAButton;
     private String _userId;
     private String _token;
 }
