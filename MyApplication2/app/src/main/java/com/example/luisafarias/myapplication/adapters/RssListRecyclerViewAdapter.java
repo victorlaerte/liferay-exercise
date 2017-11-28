@@ -35,6 +35,7 @@ public class RssListRecyclerViewAdapter
     private List<Rss> _rssList;
     private List<Rss> _rssListAux;
     private Context _context;
+    private Filter _filter;
     private String _token;
 
     public RssListRecyclerViewAdapter(Context context, List<Rss> rssList,
@@ -115,49 +116,52 @@ public class RssListRecyclerViewAdapter
 
     @Override
     public Filter getFilter() {
-        Filter filter = new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
+        if (_filter == null){
+            _filter = new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
 
-                FilterResults filterResults = new FilterResults();
+                    FilterResults filterResults = new FilterResults();
 
-                if (constraint == null || constraint.length() == 0) {
-                    filterResults.values = _rssListAux;
-                    filterResults.count = _rssListAux.size();
-                } else {
+                    if (constraint == null || constraint.length() == 0) {
+                        filterResults.values = _rssListAux;
+                        filterResults.count = _rssListAux.size();
+                    } else {
 
-                    List<Rss> rssListAux = new ArrayList();
+                        List<Rss> rssListAux = new ArrayList();
 
-                    for (Rss r : _rssList) {
-                        if (r.getChannel().getTitle().toUpperCase().
-                                contains(constraint.toString().toUpperCase())) {
+                        for (Rss r : _rssListAux) {
+                            if (r.getChannel().getTitle().toUpperCase().
+                                    contains(constraint.toString().toUpperCase())) {
 
-                            Log.d("RssListAdapter","update");
-                            rssListAux.add(r);
+                                Log.d("RssListAdapter","update");
+                                rssListAux.add(r);
+                            }
                         }
+
+                        filterResults.values = rssListAux;
+                        filterResults.count = rssListAux.size();
+                    }
+                    return filterResults;
+                }
+
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    if (results.count == 0){
+                        Log.d("RssListRecycleV", "null");
+                        //notifyDataSetInvalidated();
+                    } else {
+                        Log.d("RssListRecycleV", "not null");
+
                     }
 
-                    filterResults.values = rssListAux;
-                    filterResults.count = rssListAux.size();
+                    updateAnswers((List<Rss>) results.values);
                 }
-                return filterResults;
-            }
+            };
+        }
 
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                if (results.count == 0){
-                    Log.d("RssListRecycleV", "null");
-                    //notifyDataSetInvalidated();
-                } else {
-                    Log.d("RssListRecycleV", "not null");
-
-                }
-
-                updateAnswers((List<Rss>) results.values);
-            }
-        };
-        return filter;
+        return _filter;
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
