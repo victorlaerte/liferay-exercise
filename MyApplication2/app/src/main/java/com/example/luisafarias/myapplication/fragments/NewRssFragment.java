@@ -34,6 +34,8 @@ import java.io.IOException;
 
 import org.json.JSONException;
 
+import io.realm.Realm;
+
 public class NewRssFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,9 @@ public class NewRssFragment extends Fragment {
 
         Button save = _view.findViewById(R.id.save);
 
+        Realm.init(getActivity());
+        _realm = Realm.getDefaultInstance();
+
         /**NewFeed**/
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +82,7 @@ public class NewRssFragment extends Fragment {
     }
 
     private void newRss(View v) {
+        _realm.beginTransaction();
         String url = _urlEditText.getText().toString();
         Rss rss = new Rss(url, _userId, null);
         Log.d(TAG, url);
@@ -146,6 +152,7 @@ public class NewRssFragment extends Fragment {
     final private static String TAG = NewRssFragment.class.getName();
 
     private Authorization _authorization;
+    private Realm _realm;
     private RssListViewModel _rssListViewModel;
     private String _token;
     private String _userId;
