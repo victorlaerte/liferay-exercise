@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 26
@@ -46,6 +47,5 @@ dependencies {
     compile 'org.jsoup:jsoup:1.10.3'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'android.arch.lifecycle:extensions:1.0.0-rc1'
-    compile "io.realm:realm-gradle-plugin:4.2.0"
     testCompile 'junit:junit:4.12'
 }
