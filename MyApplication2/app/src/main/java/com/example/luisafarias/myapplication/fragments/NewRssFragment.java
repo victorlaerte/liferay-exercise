@@ -21,8 +21,10 @@ import android.widget.EditText;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.model.Channel;
+import com.example.luisafarias.myapplication.model.ChannelModel;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssListViewModel;
+import com.example.luisafarias.myapplication.model.RssModel;
 import com.example.luisafarias.myapplication.model.RssRepository;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
@@ -85,6 +87,7 @@ public class NewRssFragment extends Fragment {
         _realm.beginTransaction();
         String url = _urlEditText.getText().toString();
         Rss rss = new Rss(url, _userId, null);
+
         Log.d(TAG, url);
         try {
             if (URLUtil.isValidUrl(url)) {
@@ -123,6 +126,7 @@ public class NewRssFragment extends Fragment {
                                     @Override
                                     public void onSuccess(Response response) {
                                         _rssListViewModel.addRss(rss);
+                                        createRssModel(rss);
                                         Log.d(TAG, "Salvo com sucesso");
                                         Snackbar.make(
                                                 _view.getRootView().findViewById(R.id.frag_new_rss),
@@ -147,6 +151,16 @@ public class NewRssFragment extends Fragment {
                                 t.getMessage(), Snackbar.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    private void createRssModel(Rss rss) {
+        RssModel rssModel = _realm.createObject(RssModel.class);
+        rssModel.setUrl(rss.getUrl());
+        rssModel.setUserId(rss.getUserId());
+        ChannelModel channelModel = _realm.
+                createObject(ChannelModel.class);
+        channelModel.setTitle(rss.getChannel().getTitle());
+        rssModel.setChannelModel(channelModel);
     }
 
     final private static String TAG = NewRssFragment.class.getName();
