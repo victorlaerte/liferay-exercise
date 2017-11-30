@@ -7,7 +7,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -21,7 +20,6 @@ import android.widget.EditText;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.model.Channel;
-import com.example.luisafarias.myapplication.model.ChannelModel;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssListViewModel;
 import com.example.luisafarias.myapplication.model.RssModel;
@@ -67,9 +65,6 @@ public class NewRssFragment extends Fragment {
 
         Button save = _view.findViewById(R.id.save);
 
-        Realm.init(getActivity());
-        _realm = Realm.getDefaultInstance();
-
         /**NewFeed**/
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +79,7 @@ public class NewRssFragment extends Fragment {
     }
 
     private void newRss(View v) {
-        _realm.beginTransaction();
+       // _realm.beginTransaction();
         String url = _urlEditText.getText().toString();
         Rss rss = new Rss(url, _userId, null);
 
@@ -154,13 +149,7 @@ public class NewRssFragment extends Fragment {
     }
 
     private void createRssModel(Rss rss) {
-        RssModel rssModel = _realm.createObject(RssModel.class);
-        rssModel.setUrl(rss.getUrl());
-        rssModel.setUserId(rss.getUserId());
-        ChannelModel channelModel = _realm.
-                createObject(ChannelModel.class);
-        channelModel.setTitle(rss.getChannel().getTitle());
-        rssModel.setChannelModel(channelModel);
+
     }
 
     final private static String TAG = NewRssFragment.class.getName();

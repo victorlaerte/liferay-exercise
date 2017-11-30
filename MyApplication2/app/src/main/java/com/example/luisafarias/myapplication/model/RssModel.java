@@ -1,5 +1,8 @@
 package com.example.luisafarias.myapplication.model;
 
+import java.util.List;
+
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -13,7 +16,9 @@ public class RssModel extends RealmObject {
     @PrimaryKey
     private String _id;
 
-    private ChannelModel _channelModel;
+    private String _channelTitle;
+
+    private RealmList<String> _itemListTitle;
 
     @Required
     private String _url;
@@ -25,10 +30,6 @@ public class RssModel extends RealmObject {
         return _id;
     }
 
-    public ChannelModel getChannelModel() {
-        return _channelModel;
-    }
-
     public String getUrl() {
         return _url;
     }
@@ -37,12 +38,16 @@ public class RssModel extends RealmObject {
         return _userId;
     }
 
-    public void setId(String _id) {
-        this._id = _id;
+    public String getChannelTitle() {
+        return _channelTitle;
     }
 
-    public void setChannelModel(ChannelModel _channelModel) {
-        this._channelModel = _channelModel;
+    public RealmList<String> getItemListTitle() {
+        return _itemListTitle;
+    }
+
+    public void setId(String _id) {
+        this._id = _id;
     }
 
     public void setUrl(String _url) {
@@ -51,5 +56,13 @@ public class RssModel extends RealmObject {
 
     public void setUserId(String _userId) {
         this._userId = _userId;
+    }
+
+    public void setChannelTitle(String _channelTitle) {
+        this._channelTitle = _channelTitle;
+    }
+
+    public void setItemListTitle(RealmList<String> _itemListTitle) {
+        this._itemListTitle = _itemListTitle;
     }
 }
