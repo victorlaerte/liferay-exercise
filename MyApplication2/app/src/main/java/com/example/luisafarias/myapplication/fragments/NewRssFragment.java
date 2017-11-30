@@ -35,6 +35,7 @@ import java.io.IOException;
 import org.json.JSONException;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class NewRssFragment extends Fragment {
 
@@ -65,6 +66,10 @@ public class NewRssFragment extends Fragment {
 
         Button save = _view.findViewById(R.id.save);
 
+        _realm = Realm.getDefaultInstance();
+        _rssResults = _realm.where(RssModel.class).findAll();
+
+
         /**NewFeed**/
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +84,6 @@ public class NewRssFragment extends Fragment {
     }
 
     private void newRss(View v) {
-       // _realm.beginTransaction();
         String url = _urlEditText.getText().toString();
         Rss rss = new Rss(url, _userId, null);
 
@@ -121,7 +125,9 @@ public class NewRssFragment extends Fragment {
                                     @Override
                                     public void onSuccess(Response response) {
                                         _rssListViewModel.addRss(rss);
-                                        createRssModel(rss);
+
+                                        addRssRealm(rss);
+
                                         Log.d(TAG, "Salvo com sucesso");
                                         Snackbar.make(
                                                 _view.getRootView().findViewById(R.id.frag_new_rss),
@@ -148,6 +154,15 @@ public class NewRssFragment extends Fragment {
                 });
     }
 
+    private void addRssRealm(Rss rss) {
+        _realm.beginTransaction();
+        _rssModel = _realm.createObject(RssModel.class,rss.getId());
+        _rssModel.setUserId(rss.getUserId());
+        _rssModel.setUrl(rss.getUrl());
+        _rssModel.setChannelTitle(rss.getChannel().getTitle());
+        _realm.commitTransaction();
+    }
+
     private void createRssModel(Rss rss) {
 
     }
@@ -156,6 +171,8 @@ public class NewRssFragment extends Fragment {
 
     private Authorization _authorization;
     private Realm _realm;
+    private RealmResults<RssModel> _rssResults;
+    private RssModel _rssModel;
     private RssListViewModel _rssListViewModel;
     private String _token;
     private String _userId;
