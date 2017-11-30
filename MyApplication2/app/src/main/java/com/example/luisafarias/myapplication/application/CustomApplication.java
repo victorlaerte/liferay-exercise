@@ -14,7 +14,7 @@ public class CustomApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .name("realm-rss.realm")
                 .deleteRealmIfMigrationNeeded()
