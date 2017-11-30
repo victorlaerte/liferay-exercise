@@ -14,12 +14,16 @@ import android.util.Log;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssListViewModel;
+import com.example.luisafarias.myapplication.model.RssModel;
 import com.example.luisafarias.myapplication.model.RssRepository;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.Callback;
 import com.wedeploy.android.auth.Authorization;
 import com.wedeploy.android.auth.TokenAuthorization;
 import com.wedeploy.android.transport.Response;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by luisafarias on 10/10/17.
@@ -41,6 +45,8 @@ public class PopUpFragment extends DialogFragment {
         Log.d("PopUpFragment", _rssListViewModel.getRssList().toString());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        _realm = Realm.getDefaultInstance();
 
         builder.setMessage("Deseja excluir " + nome)
                 .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
@@ -67,6 +73,9 @@ public class PopUpFragment extends DialogFragment {
                 public void onSuccess(Response response) {
 
                     rssListViewModel.deleteRss(_rss);
+
+                    deleteRealmRss();
+
                     Log.d("PopUpFragment", "excluido com sucesso");
                 }
 
@@ -77,6 +86,17 @@ public class PopUpFragment extends DialogFragment {
             });
 
         }
+    }
+
+    private void deleteRealmRss() {
+        _realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                _rssResults = _realm.where(RssModel.class).
+                        equalTo("_id", _rss.getId()).findAll();
+                _rssResults.deleteAllFromRealm();
+            }
+        });
     }
 
     @Override
@@ -90,6 +110,8 @@ public class PopUpFragment extends DialogFragment {
     }
 
     private Authorization _authorization;
+    private Realm _realm;
+    private RealmResults<RssModel> _rssResults;
     private Rss _rss;
     private RssListViewModel _rssListViewModel;
 
