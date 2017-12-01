@@ -3,8 +3,10 @@ package com.example.luisafarias.myapplication.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle data = getIntent().getBundleExtra(Constants.TOKEN_USER_ID);
         _token = data.getString(Constants.TOKEN_KEY);
         _userId = data.getString(Constants.USER_ID);
+        _isOnline = data.getBoolean(Constants.IS_ONLINE);
         _authorization = new TokenAuthorization(_token);
 
         startRssListFragment(savedInstanceState);
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
             Bundle bundle = new Bundle();
             bundle.putString(Constants.TOKEN_KEY, _token);
+            bundle.putBoolean(Constants.IS_ONLINE, _isOnline);
             rssListFragment.setArguments(bundle);
         }
     }
@@ -126,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
     private Authorization _authorization;
     protected CoordinatorLayout constraintLayout;
     protected FloatingActionButton fAButton;
+    private Boolean _isOnline;
     private String _userId;
     private String _token;
 }
