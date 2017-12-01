@@ -15,11 +15,15 @@ import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
 import com.example.luisafarias.myapplication.model.Item;
 import com.example.luisafarias.myapplication.model.RetrofitClient;
 import com.example.luisafarias.myapplication.model.Rss;
+import com.example.luisafarias.myapplication.model.RssModel;
 import com.example.luisafarias.myapplication.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +35,8 @@ public class ItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_item_list);
+
+        _realm = Realm.getDefaultInstance();
 
         Bundle data = getIntent().getBundleExtra(Constants.RSS);
         _rss = data.getParcelable(Constants.RSS);
@@ -64,6 +70,7 @@ public class ItemListActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     _adapter.updateAnswers(
                             response.body().getChannel().getItem());
+                    addRssRealm(response.body(), _rss);
                     Log.d("ItemListActivity", "posts loaded from API");
                 }
 
@@ -80,6 +87,22 @@ public class ItemListActivity extends AppCompatActivity {
         });
     }
 
+    private void addRssRealm(Rss rss, Rss _rss) {
+        _rss.getUserId();
+        _realm.beginTransaction();
+        RealmList<String> realmStringList = new RealmList<>();
+        _rssModel = _realm.createObject(RssModel.class,_rss.getId());
+        _rssModel.setChannelTitle(rss.getChannel().getTitle());
+        for (Item a : rss.getChannel().getItem()){
+            realmStringList.add(a.getTitle());
+        }
+        _rssModel.setItemListTitle(realmStringList);
+        _realm.commitTransaction();
+    }
+
+    private Realm _realm;
+    private RealmResults<Rss> _results;
+    private RssModel _rssModel;
     private Rss _rss;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout _swipeRLayout;
