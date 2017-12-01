@@ -20,6 +20,7 @@ import android.widget.EditText;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.model.Channel;
+import com.example.luisafarias.myapplication.model.Item;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssListViewModel;
 import com.example.luisafarias.myapplication.model.RssModel;
@@ -56,6 +57,8 @@ public class NewRssFragment extends Fragment {
         // Inflate the layout for this fragment
         _view = inflater.inflate(R.layout.fragment_new_rss, container, false);
         _urlEditText = _view.findViewById(R.id.newUrlFeed);
+
+        _realm = Realm.getDefaultInstance();
 
         _rssListViewModel = ViewModelProviders.of((FragmentActivity) getActivity()).get(RssListViewModel.class);
 
@@ -127,8 +130,6 @@ public class NewRssFragment extends Fragment {
                                     public void onSuccess(Response response) {
                                         _rssListViewModel.addRss(rss);
 
-                                        addRssRealm(rss);
-
                                         Log.d(TAG, "Salvo com sucesso");
                                         Snackbar.make(
                                                 _view.getRootView().findViewById(R.id.frag_new_rss),
@@ -153,24 +154,6 @@ public class NewRssFragment extends Fragment {
                                 t.getMessage(), Snackbar.LENGTH_LONG).show();
                     }
                 });
-    }
-
-    private void addRssRealm(Rss rss) {
-        _realm.beginTransaction();
-        RealmList<String> realmStringList = new RealmList<>();
-        _rssModel = _realm.createObject(RssModel.class,rss.getId());
-        _rssModel.setUserId(rss.getUserId());
-        _rssModel.setUrl(rss.getUrl());
-        _rssModel.setChannelTitle(rss.getChannel().getTitle());
-        for (String a : rss.getChannel().titleItemList()){
-            realmStringList.add(a);
-        }
-        _rssModel.setItemListTitle(realmStringList);
-        _realm.commitTransaction();
-    }
-
-    private void createRssModel(Rss rss) {
-
     }
 
     final private static String TAG = NewRssFragment.class.getName();
