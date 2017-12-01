@@ -17,14 +17,14 @@ public class RssModel extends RealmObject {
     @PrimaryKey
     private String _id;
 
+    @Required
     private String _channelTitle;
 
+    @Required
     private RealmList<String> _itemListTitle;
 
-    @Required
     private String _url;
 
-    @Required
     private String _userId;
 
     public String getId() {
@@ -55,7 +55,7 @@ public class RssModel extends RealmObject {
         this._url = _url;
     }
 
-    @NonNull
+
     public void setUserId(String _userId) {
         this._userId = _userId;
     }
