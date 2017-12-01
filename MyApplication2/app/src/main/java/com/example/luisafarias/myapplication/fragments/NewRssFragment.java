@@ -35,6 +35,7 @@ import java.io.IOException;
 import org.json.JSONException;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class NewRssFragment extends Fragment {
@@ -156,10 +157,15 @@ public class NewRssFragment extends Fragment {
 
     private void addRssRealm(Rss rss) {
         _realm.beginTransaction();
+        RealmList<String> realmStringList = new RealmList<>();
         _rssModel = _realm.createObject(RssModel.class,rss.getId());
         _rssModel.setUserId(rss.getUserId());
         _rssModel.setUrl(rss.getUrl());
         _rssModel.setChannelTitle(rss.getChannel().getTitle());
+        for (String a : rss.getChannel().titleItemList()){
+            realmStringList.add(a);
+        }
+        _rssModel.setItemListTitle(realmStringList);
         _realm.commitTransaction();
     }
 
