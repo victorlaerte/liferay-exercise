@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.app.SearchManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
@@ -23,8 +25,10 @@ import android.view.ViewGroup;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.adapters.RssListRecyclerViewAdapter;
+import com.example.luisafarias.myapplication.model.Channel;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssListViewModel;
+import com.example.luisafarias.myapplication.model.RssModel;
 import com.example.luisafarias.myapplication.model.RssRepository;
 import com.example.luisafarias.myapplication.util.Constants;
 import com.wedeploy.android.auth.Authorization;
@@ -33,6 +37,9 @@ import com.wedeploy.android.auth.TokenAuthorization;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 public class RssListFragment extends Fragment {
 
     @Override
@@ -40,6 +47,7 @@ public class RssListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             _token = getArguments().getString(Constants.TOKEN_KEY);
+            _isOnline = getArguments().getBoolean(Constants.IS_ONLINE);
             if (_token != null) {
                 _authorization = new TokenAuthorization(_token);
             }
@@ -53,6 +61,9 @@ public class RssListFragment extends Fragment {
         List<Rss> rssList = new ArrayList();
 
         _view = inflater.inflate(R.layout.fragment_rss_list, container, false);
+
+        _realm = Realm.getDefaultInstance();
+        _rssResults = _realm.where(RssModel.class).findAll();
 
         _rssListViewModel = ViewModelProviders.
                 of((FragmentActivity) getActivity()).
@@ -102,24 +113,33 @@ public class RssListFragment extends Fragment {
 
     public void reloadFeeds() {
 
-        RssRepository.getInstance()
-                .rssListAll(_authorization, new RssRepository.CallbackRssList() {
-                    @Override
-                    public void onSuccess(List<Rss> feedList) {
-                        _rssListViewModel.setRssList(feedList);
-                        _recycleViewAdapter.setRssListAux(feedList);
-                        _recycleViewAdapter.updateAnswers(_rssListViewModel.getRssList());
+        if (_isOnline){
+            RssRepository.getInstance()
+                    .rssListAll(_authorization, new RssRepository.CallbackRssList() {
+                        @Override
+                        public void onSuccess(List<Rss> feedList) {
+                            _rssListViewModel.setRssList(feedList);
+                            _recycleViewAdapter.setRssListAux(feedList);
+                            _recycleViewAdapter.updateAnswers(_rssListViewModel.getRssList());
 
-                        _swipeRLayout.setRefreshing(false);
-                    }
+                            _swipeRLayout.setRefreshing(false);
+                        }
 
-                    @Override
-                    public void onFailure(Exception e) {
-                        _swipeRLayout.setRefreshing(false);
+                        @Override
+                        public void onFailure(Exception e) {
+                            _swipeRLayout.setRefreshing(false);
 
-                        Log.e(MainActivity.class.getName(), e.getMessage());
-                    }
-                });
+                            Log.e(MainActivity.class.getName(), e.getMessage());
+                        }
+                    });
+        }else {
+            _rssResults = _realm.where(RssModel.class).findAll();
+            _rssListViewModel.setRssList(rssModelToRss(_rssResults));
+            _recycleViewAdapter.setRssListAux(rssModelToRss(_rssResults));
+            _recycleViewAdapter.updateAnswers(_rssListViewModel.getRssList());
+
+        }
+
     }
 
     @Override
@@ -186,9 +206,27 @@ public class RssListFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private List<Rss> rssModelToRss(List<RssModel> rssModelList){
+        List<Rss> rssList = new ArrayList();
+        Rss rss = new Rss();
+        Channel channel = new Channel();
+        rss.setChannel(channel);
+        for(RssModel a : rssModelList){
+            rss.setId(a.getId());
+            rss.setUrl(a.getUrl());
+            rss.getChannel().setTitle(a.getChannelTitle());
+            rssList.add(rss);
+
+        }
+        return rssList;
+    }
+
 
     private Authorization _authorization;
+    private Boolean _isOnline;
     private MenuItem _menuItem;
+    private Realm _realm;
+    private RealmResults<RssModel> _rssResults;
     private RssListRecyclerViewAdapter _recycleViewAdapter;
     private RecyclerView _recycleView;
     RssListViewModel _rssListViewModel;
