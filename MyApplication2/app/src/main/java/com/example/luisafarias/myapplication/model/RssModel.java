@@ -2,6 +2,7 @@ package com.example.luisafarias.myapplication.model;
 
 import java.util.List;
 
+import io.reactivex.annotations.NonNull;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -54,6 +55,7 @@ public class RssModel extends RealmObject {
         this._url = _url;
     }
 
+    @NonNull
     public void setUserId(String _userId) {
         this._userId = _userId;
     }
