@@ -3,6 +3,7 @@ package com.example.luisafarias.myapplication.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.simpleframework.xml.Element;
@@ -132,6 +133,15 @@ public class Channel implements Parcelable {
 
     public void setCopyright(String copyright) {
         this.copyright = copyright;
+    }
+
+    public List<String> titleItemList(){
+        List<String> itemTitleList = new ArrayList();
+        for (Item a : item){
+            itemTitleList.add(a.getTitle());
+        }
+
+        return itemTitleList;
     }
 
     @Override
