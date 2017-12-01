@@ -135,15 +135,6 @@ public class Channel implements Parcelable {
         this.copyright = copyright;
     }
 
-    public List<String> titleItemList(){
-        List<String> itemTitleList = new ArrayList();
-        for (Item a : item){
-            itemTitleList.add(a.getTitle());
-        }
-
-        return itemTitleList;
-    }
-
     @Override
     public String toString() {
         return "ClassPojo [title = "
