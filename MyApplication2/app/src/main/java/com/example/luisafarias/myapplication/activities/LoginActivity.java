@@ -1,8 +1,10 @@
 package com.example.luisafarias.myapplication.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +30,15 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         _sharedPref = getSharedPreferences(Constants.USER, MODE_PRIVATE);
+
+        if (isOnline()){
+            Log.d("RssListFragment", "Estou online");
+        }else {
+            Log.d("RssListFragment","nao estou online");
+        }
+
         ifLoggedInMainActivity();
         setContentView(R.layout.activity_login);
 
@@ -55,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Log.d("LoginActivity", token + " " + userID);
 
-            openMainActivity(token, userID);
+            openMainActivity(token, userID, isOnline());
         }
     }
 
@@ -80,11 +90,12 @@ public class LoginActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void openMainActivity(String token, String userId) {
+    private void openMainActivity(String token, String userId, Boolean isOnline) {
         Intent intent = new Intent(this, MainActivity.class);
         Bundle extra = new Bundle();
         extra.putString(Constants.TOKEN_KEY, token);
         extra.putString(Constants.USER_ID, userId);
+        extra.putBoolean(Constants.IS_ONLINE,isOnline);
         intent.putExtra(Constants.TOKEN_USER_ID, extra);
         finish();
         startActivity(intent);
@@ -132,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject json = new JSONObject(response.getBody());
                             String userId = json.getString(Constants.ID);
                             getCurrentUser(token, userId);
-                            openMainActivity(token, userId);
+                            openMainActivity(token, userId, isOnline());
                         } catch (JSONException e) {
                             Snackbar.make(findViewById(R.id.loginActivity),
                                     "Nao foi possivel acessar usuário",
@@ -149,6 +160,12 @@ public class LoginActivity extends AppCompatActivity {
                         Log.e("LoginActivity", e.getMessage());
                     }
                 });
+    }
+
+    private boolean isOnline(){
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return manager.getActiveNetworkInfo() != null;
     }
 
     EditText _editTextLogin;
