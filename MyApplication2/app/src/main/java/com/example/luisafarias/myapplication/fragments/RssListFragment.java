@@ -26,6 +26,7 @@ import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.adapters.RssListRecyclerViewAdapter;
 import com.example.luisafarias.myapplication.model.Channel;
+import com.example.luisafarias.myapplication.model.Item;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssListViewModel;
 import com.example.luisafarias.myapplication.model.RssModel;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class RssListFragment extends Fragment {
@@ -133,7 +135,6 @@ public class RssListFragment extends Fragment {
                         }
                     });
         }else {
-            _rssResults = _realm.where(RssModel.class).findAll();
             _rssListViewModel.setRssList(rssModelToRss(_rssResults));
             _recycleViewAdapter.setRssListAux(rssModelToRss(_rssResults));
             _recycleViewAdapter.updateAnswers(_rssListViewModel.getRssList());
@@ -208,19 +209,28 @@ public class RssListFragment extends Fragment {
 
     private List<Rss> rssModelToRss(List<RssModel> rssModelList){
         List<Rss> rssList = new ArrayList();
+        List<Item> itemList = new ArrayList<>();
+        Item item = new Item();
         Rss rss = new Rss();
         Channel channel = new Channel();
         rss.setChannel(channel);
+
         for(RssModel a : rssModelList){
             rss.setId(a.getId());
             rss.setUrl(a.getUrl());
             rss.getChannel().setTitle(a.getChannelTitle());
-            rssList.add(rss);
 
+            for (String b : a.getItemListTitle()){
+                item.setTitle(b);
+                itemList.add(item);
+            }
+
+            rss.getChannel().setItem(itemList);
+
+            rssList.add(rss);
         }
         return rssList;
     }
-
 
     private Authorization _authorization;
     private Boolean _isOnline;
