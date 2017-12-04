@@ -26,6 +26,7 @@ public class Rss implements Parcelable {
         _url = in.readString();
         _userId = in.readString();
         _id = in.readString();
+        _channel = (Channel) in.readValue(Channel.class.getClassLoader());
     }
 
     public static final Creator<Rss> CREATOR = new Creator<Rss>() {
@@ -106,6 +107,7 @@ public class Rss implements Parcelable {
         parcel.writeString(_url);
         parcel.writeString(_userId);
         parcel.writeString(_id);
+        parcel.writeValue(_channel);
     }
 
     @Override

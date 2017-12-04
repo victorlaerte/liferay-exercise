@@ -90,7 +90,6 @@ public class RssListRecyclerViewAdapter
                 Intent intent =
                         new Intent(_context, ItemListActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(Constants.CHANNEL, rss.getChannel());
                 bundle.putParcelable(Constants.RSS, rss);
                 intent.putExtra(Constants.RSS, bundle);
                 _context.startActivity(intent);

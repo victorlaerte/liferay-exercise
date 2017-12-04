@@ -41,7 +41,6 @@ public class ItemListActivity extends AppCompatActivity {
 
         Bundle data = getIntent().getBundleExtra(Constants.RSS);
         _rss = data.getParcelable(Constants.RSS);
-        Channel channel = data.getParcelable(Constants.CHANNEL);
         _realm = Realm.getDefaultInstance();
         _results = _realm.where(RssModel.class).
                 equalTo("_id", _rss.getId()).findAll();
@@ -70,7 +69,7 @@ public class ItemListActivity extends AppCompatActivity {
                         }
                     });
         }else {
-            _adapter.updateAnswers(channel.getItem());
+            _adapter.updateAnswers(_rss.getChannel().getItem());
         }
 
 
