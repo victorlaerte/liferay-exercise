@@ -33,10 +33,10 @@ public class LoginActivity extends AppCompatActivity {
 
         _sharedPref = getSharedPreferences(Constants.USER, MODE_PRIVATE);
 
-        if (isOnline()){
+        if (isOnline()) {
             Log.d("RssListFragment", "Estou online");
-        }else {
-            Log.d("RssListFragment","nao estou online");
+        } else {
+            Log.d("RssListFragment", "nao estou online");
         }
 
         ifLoggedInMainActivity();
@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         Bundle extra = new Bundle();
         extra.putString(Constants.TOKEN_KEY, token);
         extra.putString(Constants.USER_ID, userId);
-        extra.putBoolean(Constants.IS_ONLINE,isOnline);
+        extra.putBoolean(Constants.IS_ONLINE, isOnline);
         intent.putExtra(Constants.TOKEN_USER_ID, extra);
         finish();
         startActivity(intent);
@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private boolean isOnline(){
+    private boolean isOnline() {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         return manager.getActiveNetworkInfo() != null;
