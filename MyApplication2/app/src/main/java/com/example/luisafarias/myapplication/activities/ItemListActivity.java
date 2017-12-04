@@ -3,7 +3,6 @@ package com.example.luisafarias.myapplication.activities;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,6 @@ import android.util.Log;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.adapters.ItemAdapter;
 import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
-import com.example.luisafarias.myapplication.model.Channel;
 import com.example.luisafarias.myapplication.model.Item;
 import com.example.luisafarias.myapplication.model.RetrofitClient;
 import com.example.luisafarias.myapplication.model.Rss;
@@ -48,7 +46,7 @@ public class ItemListActivity extends AppCompatActivity {
         _swipeRLayout = findViewById(R.id.swiperefresh_item);
         recyclerView = findViewById(R.id.feed_news_list);
 
-        if (isOnline()){
+        if (isOnline()) {
             _rsfit = RetrofitClient.getInstance(_rss.getURLHost())
                     .create(WeRetrofitService.class);
         }
@@ -59,7 +57,7 @@ public class ItemListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutMgr);
         recyclerView.setAdapter(_adapter);
 
-        if (isOnline()){
+        if (isOnline()) {
             loadAnswers();
             _swipeRLayout.setOnRefreshListener(
                     new SwipeRefreshLayout.OnRefreshListener() {
@@ -68,7 +66,7 @@ public class ItemListActivity extends AppCompatActivity {
                             loadAnswers();
                         }
                     });
-        }else {
+        } else {
             _adapter.updateAnswers(_rss.getChannel().getItem());
         }
 
@@ -78,55 +76,42 @@ public class ItemListActivity extends AppCompatActivity {
     private void loadAnswers() {
 
 
-            _rsfit.getItems(_rss.getURLEndPoint()).enqueue(new Callback<Rss>() {
-                @Override
-                public void onResponse(Call<Rss> call, Response<Rss> response) {
-                    if (response.isSuccessful()) {
-                        _adapter.updateAnswers(
-                                response.body().getChannel().getItem());
-                        addRssRealm(response.body(), _rss);
-                        Log.d("ItemListActivity", "posts loaded from API");
-                    }
-
-                    _swipeRLayout.setRefreshing(false);
+        _rsfit.getItems(_rss.getURLEndPoint()).enqueue(new Callback<Rss>() {
+            @Override
+            public void onResponse(Call<Rss> call, Response<Rss> response) {
+                if (response.isSuccessful()) {
+                    _adapter.updateAnswers(
+                            response.body().getChannel().getItem());
+                    addRssRealm(response.body(), _rss);
+                    Log.d("ItemListActivity", "posts loaded from API");
                 }
 
-                @Override
-                public void onFailure(Call<Rss> call, Throwable t) {
-                    Log.e("ItemListActivity", t.getMessage());
-                    _swipeRLayout.setRefreshing(false);
-                    Snackbar.make(findViewById(R.id.swiperefresh_item),
-                            "error loading from API", Snackbar.LENGTH_LONG).show();
-                }
-            });
+                _swipeRLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(Call<Rss> call, Throwable t) {
+                Log.e("ItemListActivity", t.getMessage());
+                _swipeRLayout.setRefreshing(false);
+                Snackbar.make(findViewById(R.id.swiperefresh_item),
+                        "error loading from API", Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
-    private void addRssRealm(Rss rss, Rss _rss) {
+    private void addRssRealm(Rss rss, Rss rssId) {
         _realm.beginTransaction();
         RealmList<String> realmStringList = new RealmList<>();
-        _rssModel = _realm.createObject(RssModel.class,_rss.getId());
+        _rssModel = _realm.createObject(RssModel.class, rssId.getId());
         _rssModel.setChannelTitle(rss.getChannel().getTitle());
-        for (Item item : rss.getChannel().getItem()){
+        for (Item item : rss.getChannel().getItem()) {
             realmStringList.add(item.getTitle());
         }
         _rssModel.setItemListTitle(realmStringList);
         _realm.commitTransaction();
     }
 
-    private List<Item> realmListToItemList(RssModel rssModel){
-        _realm.beginTransaction();
-        List<Item> itemList = new ArrayList<>();
-        Item item = new Item();
-        for(String a : rssModel.getItemListTitle()){
-            item.setTitle(a);
-            itemList.add(item);
-        }
-        _realm.commitTransaction();
-
-        return itemList;
-    }
-
-    private boolean isOnline(){
+    private boolean isOnline() {
         ConnectivityManager manager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
 
