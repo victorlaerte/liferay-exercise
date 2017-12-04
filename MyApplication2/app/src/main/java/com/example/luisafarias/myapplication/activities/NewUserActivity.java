@@ -65,16 +65,18 @@ public class NewUserActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Response response) {
                         Snackbar.make(_constraintLayout,
-                                "Usuario criado com sucesso", Snackbar.LENGTH_LONG)
+                                String.valueOf(R.string.usuario_criado_com_sucesso),
+                                Snackbar.LENGTH_LONG)
                                 .show();
                         login(email, password);
                     }
 
                     @Override
                     public void onFailure(Exception e) {
-                        Log.e("NewUserActivity", e.getMessage());
+                        Log.e(_className, e.getMessage());
                         Snackbar.make(_constraintLayout,
-                                "Nao foi possivel criar usuario", Snackbar.LENGTH_LONG)
+                                String.valueOf(R.string.nao_foi_possivel_criar_usuario),
+                                Snackbar.LENGTH_LONG)
                                 .show();
                     }
                 });
@@ -90,9 +92,9 @@ public class NewUserActivity extends AppCompatActivity {
                             jsonObject.getString(Constants.ACCESS_TOKEN);
                     currentUser(token);
                 } catch (JSONException e) {
-                    Log.e("NewUserActivity", e.getMessage());
+                    Log.e(_className, e.getMessage());
                     Snackbar.make(_constraintLayout,
-                            "Nao foi possivel fazer login", Snackbar.LENGTH_LONG)
+                            String.valueOf(R.string.nao_foi_possivel_login), Snackbar.LENGTH_LONG)
                             .show();
                 }
             }
@@ -100,7 +102,7 @@ public class NewUserActivity extends AppCompatActivity {
             @Override
             public void onFailure(Exception e) {
                 Snackbar.make(_constraintLayout,
-                        "Nao foi possivel fazer login", Snackbar.LENGTH_LONG)
+                        String.valueOf(R.string.nao_foi_possivel_login), Snackbar.LENGTH_LONG)
                         .show();
             }
         });
@@ -125,9 +127,9 @@ public class NewUserActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Exception e) {
-                        Log.e("NewUserActivity", e.getMessage());
+                        Log.e(_className, e.getMessage());
                         Snackbar.make(_constraintLayout,
-                                "Nao foi possivel acessar usuario",
+                                String.valueOf(R.string.nao_foi_possivel_acessar_usuario),
                                 Snackbar.LENGTH_LONG).show();
                     }
                 });
@@ -152,6 +154,7 @@ public class NewUserActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private String _className = "NewUSerActivity";
     private EditText _editTextName;
     private EditText _editTextEmail;
     private EditText _editTextPassword;
