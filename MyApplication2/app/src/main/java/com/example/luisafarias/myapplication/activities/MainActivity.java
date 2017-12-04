@@ -86,14 +86,14 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.clear();
                         editor.apply();
-                        Log.d(MainActivity.class.getName(), "saiu");
+                        Log.d(_className, String.valueOf(R.string.usuario_fez_logout_com_sucesso));
                         finish();
                         startActivity(intent);
                     }
 
                     @Override
                     public void onFailure(Exception e) {
-                        Log.e("MainActivity", e.getMessage());
+                        Log.e(_className, e.getMessage());
                     }
                 });
     }
@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Authorization _authorization;
+    private String _className = "MainActivity";
     protected CoordinatorLayout constraintLayout;
     protected FloatingActionButton fAButton;
     private Boolean _isOnline;
