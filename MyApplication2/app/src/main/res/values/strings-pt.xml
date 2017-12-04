@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="itens_atualizados">itens atualizados.</string>
+    <string name="erro_itens_atualizados">erro ao tentar atualizar itens.</string>
+</resources>

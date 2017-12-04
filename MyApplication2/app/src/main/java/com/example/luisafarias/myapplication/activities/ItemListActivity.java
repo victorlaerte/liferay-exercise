@@ -83,7 +83,7 @@ public class ItemListActivity extends AppCompatActivity {
                     _adapter.updateAnswers(
                             response.body().getChannel().getItem());
                     addRssRealm(response.body(), _rss);
-                    Log.d("ItemListActivity", "posts loaded from API");
+                    Log.d(_className, String.valueOf(R.string.itens_atualizados));
                 }
 
                 _swipeRLayout.setRefreshing(false);
@@ -91,10 +91,10 @@ public class ItemListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Rss> call, Throwable t) {
-                Log.e("ItemListActivity", t.getMessage());
+                Log.e(_className, t.getMessage());
                 _swipeRLayout.setRefreshing(false);
                 Snackbar.make(findViewById(R.id.swiperefresh_item),
-                        "error loading from API", Snackbar.LENGTH_LONG).show();
+                        String.valueOf(R.string.erro_itens_atualizados), Snackbar.LENGTH_LONG).show();
             }
         });
     }
@@ -127,4 +127,5 @@ public class ItemListActivity extends AppCompatActivity {
     private List<Item> _itemList;
     private ItemAdapter _adapter = null;
     private WeRetrofitService _rsfit;
+    private String _className = "ItemListActivity";
 }
