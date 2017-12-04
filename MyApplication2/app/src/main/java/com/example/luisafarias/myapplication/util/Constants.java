@@ -32,4 +32,6 @@ public class Constants {
 	public final static String ID_POPUP = "idPopupFragment";
 
 	public final static String REALM_DB = "realm-rss-item.realm";
+
+	public final static String _ID = "_id";
 }

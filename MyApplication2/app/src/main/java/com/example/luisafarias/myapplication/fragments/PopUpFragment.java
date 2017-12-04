@@ -42,14 +42,14 @@ public class PopUpFragment extends DialogFragment {
 
         _rssListViewModel = ViewModelProviders.
                 of(getActivity()).get(RssListViewModel.class);
-        Log.d("PopUpFragment", _rssListViewModel.getRssList().toString());
+        Log.d(CLASS_NAME, _rssListViewModel.getRssList().toString());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         _realm = Realm.getDefaultInstance();
 
-        builder.setMessage("Deseja excluir " + nome)
-                .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.deseja_excluir + nome + "?")
+                .setPositiveButton(R.string.excluir, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -57,7 +57,7 @@ public class PopUpFragment extends DialogFragment {
 
                     }
                 })
-                .setNegativeButton("Cancelar",
+                .setNegativeButton(R.string.cancelar,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -76,12 +76,12 @@ public class PopUpFragment extends DialogFragment {
 
                     deleteRealmRss();
 
-                    Log.d("PopUpFragment", "excluido com sucesso");
+                    Log.d(CLASS_NAME, String.valueOf(R.string.excluido_com_sucesso));
                 }
 
                 @Override
                 public void onFailure(Exception e) {
-                    Log.e("PopUpFragment", e.getMessage());
+                    Log.e(CLASS_NAME, e.getMessage());
                 }
             });
 
@@ -93,7 +93,7 @@ public class PopUpFragment extends DialogFragment {
             @Override
             public void execute(Realm realm) {
                 _rssResults = _realm.where(RssModel.class).
-                        equalTo("_id", _rss.getId()).findAll();
+                        equalTo(Constants._ID, _rss.getId()).findAll();
                 _rssResults.deleteAllFromRealm();
             }
         });
@@ -105,10 +105,10 @@ public class PopUpFragment extends DialogFragment {
         RssListFragment fld = (RssListFragment) fm.findFragmentByTag(
                 Constants.GET_RSS_LIST_FRAGMENT);
         fld.reloadFeeds();
-        Log.d("PopUpFragment", "OnPause");
         super.onPause();
     }
 
+    final private String CLASS_NAME = "PopUpFragment";
     private Authorization _authorization;
     private Realm _realm;
     private RealmResults<RssModel> _rssResults;

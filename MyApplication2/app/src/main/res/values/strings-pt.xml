@@ -9,4 +9,8 @@
     <string name="nao_foi_possivel_criar_usuario">Nao foi possivel criar usuário.</string>
     <string name="url_invalida">Url invalida!</string>
     <string name="salvo_com_sucesso">Salvo com sucesso!</string>
+    <string name="deseja_excluir">Deseja excluir</string>
+    <string name="excluir">Excluir</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="excluido_com_sucesso">Excluido com sucesso!</string>
 </resources>
