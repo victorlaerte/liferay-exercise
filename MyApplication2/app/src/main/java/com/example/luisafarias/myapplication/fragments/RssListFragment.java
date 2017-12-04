@@ -66,21 +66,25 @@ public class RssListFragment extends Fragment {
 
         _realm = Realm.getDefaultInstance();
         _rssResults = _realm.where(RssModel.class).findAll();
+        List<Rss> list = rssModelToRss(_rssResults);
+        String a = list.toString();
 
         _rssListViewModel = ViewModelProviders.
                 of((FragmentActivity) getActivity()).
                 get(RssListViewModel.class);
-        if (_rssListViewModel.getRssList() != null) {
 
-            settingRecycleView(_rssListViewModel.getRssList());
-            _recycleViewAdapter.setRssListAux(_rssListViewModel.getRssList());
-            Log.d("RssFragment", "_rssListViewModel n é nulo");
+            if (_rssListViewModel.getRssList() != null) {
 
-        } else {
-            settingRecycleView(rssList);
-            reloadFeeds();
+                settingRecycleView(_rssListViewModel.getRssList());
+                _recycleViewAdapter.setRssListAux(_rssListViewModel.getRssList());
+                Log.d("RssFragment", "_rssListViewModel n é nulo");
 
-        }
+            } else {
+                settingRecycleView(rssList);
+                reloadFeeds();
+
+            }
+
 
         settingSwipeRLayout();
 
@@ -116,6 +120,7 @@ public class RssListFragment extends Fragment {
     public void reloadFeeds() {
 
         if (_isOnline){
+
             RssRepository.getInstance()
                     .rssListAll(_authorization, new RssRepository.CallbackRssList() {
                         @Override
@@ -134,12 +139,15 @@ public class RssListFragment extends Fragment {
                             Log.e(MainActivity.class.getName(), e.getMessage());
                         }
                     });
-        }else {
-            _rssListViewModel.setRssList(rssModelToRss(_rssResults));
-            _recycleViewAdapter.setRssListAux(rssModelToRss(_rssResults));
-            _recycleViewAdapter.updateAnswers(_rssListViewModel.getRssList());
 
+        }else {
+            List<Rss> listRealm = rssModelToRss(_rssResults);
+            _rssListViewModel.setRssList(listRealm);
+            _recycleViewAdapter.setRssListAux(listRealm);
+            _recycleViewAdapter.updateAnswers(_rssListViewModel.getRssList());
         }
+
+
 
     }
 
@@ -210,17 +218,16 @@ public class RssListFragment extends Fragment {
     private List<Rss> rssModelToRss(List<RssModel> rssModelList){
         List<Rss> rssList = new ArrayList();
         List<Item> itemList = new ArrayList<>();
-        Item item = new Item();
-        Rss rss = new Rss();
-        Channel channel = new Channel();
-        rss.setChannel(channel);
 
         for(RssModel a : rssModelList){
+            Rss rss = new Rss();
+            Channel channel = new Channel();
+            rss.setChannel(channel);
             rss.setId(a.getId());
-            rss.setUrl(a.getUrl());
             rss.getChannel().setTitle(a.getChannelTitle());
 
             for (String b : a.getItemListTitle()){
+                Item item = new Item();
                 item.setTitle(b);
                 itemList.add(item);
             }
