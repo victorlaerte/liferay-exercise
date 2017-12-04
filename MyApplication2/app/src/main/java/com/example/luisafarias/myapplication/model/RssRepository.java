@@ -2,6 +2,7 @@ package com.example.luisafarias.myapplication.model;
 
 import android.util.Log;
 
+import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
 import com.example.luisafarias.myapplication.util.Constants;
@@ -48,28 +49,28 @@ public class RssRepository {
 
         if (rss != null) {
 
-            JSONObject feedJsonObject = new JSONObject().put("userId", userId)
-                    .put("url", url)
-                    .put("channelTitle", channelTitle);
+            JSONObject feedJsonObject = new JSONObject().put(Constants.USER_ID, userId)
+                    .put(Constants.URL, url)
+                    .put(Constants.CHANNEL_TITLE, channelTitle);
 
             _weDeploy.data(Constants.DATA_URL)
                     .authorization(authorization)
-                    .create("Feeds", feedJsonObject)
+                    .create(Constants.FEEDS, feedJsonObject)
                     .execute(new Callback() {
                         @Override
                         public void onSuccess(Response response) {
-                            Log.d("repositorio", "salvo com sucesso");
+                            Log.d(CLASS_NAME, String.valueOf(R.string.salvo_com_sucesso));
 
                             try {
                                 JSONObject jsonBody =
                                         new JSONObject(response.getBody());
 
 //							Rss rss = new Rss();
-                                rss.setUrl(jsonBody.getString("url"));
-                                rss.setId(jsonBody.getString("id"));
+                                rss.setUrl(jsonBody.getString(Constants.URL));
+                                rss.setId(jsonBody.getString(Constants.ID));
                                 Channel channel = new Channel();
                                 channel.setTitle(
-                                        jsonBody.getString("channelTitle"));
+                                        jsonBody.getString(Constants.CHANNEL_TITLE));
                                 rss.setChannel(channel);
                             } catch (Exception e) {
                                 callback.onFailure(e);
@@ -96,11 +97,12 @@ public class RssRepository {
 
             _weDeploy.data(Constants.DATA_URL)
                     .authorization(authorization)
-                    .delete("Feeds/" + id)
+                    .delete(Constants.FEEDS + "/" + id)
                     .execute(new Callback() {
                         @Override
                         public void onSuccess(Response response) {
-                            Log.d(RssRepository.class.getName(), "removeu");
+                            Log.d(RssRepository.class.getName(), String.valueOf(
+                                    R.string.excluido_com_sucesso));
                             rssList.remove(rss);
                             callback.onSuccess(response);
                         }
@@ -123,7 +125,7 @@ public class RssRepository {
 
         _weDeploy.data(Constants.DATA_URL)
                 .authorization(authorization)
-                .get("Rss")
+                .get(Constants.RSS_RSS)
                 .execute(new Callback() {
                     public void onSuccess(Response response) {
 
@@ -132,18 +134,16 @@ public class RssRepository {
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonBody = (JSONObject) jsonArray.get(i);
-                                String url = jsonBody.getString("url");
-                                String userId = jsonBody.getString("userId");
-                                String id = jsonBody.getString("id");
+                                String url = jsonBody.getString(Constants.URL);
+                                String userId = jsonBody.getString(Constants.USER_ID);
+                                String id = jsonBody.getString(Constants.ID);
                                 String channelTitle =
-                                        jsonBody.getString("channelTitle");
-                                Log.d("tittleChannel", channelTitle);
+                                        jsonBody.getString(Constants.CHANNEL_TITLE);
                                 Channel channel = new Channel();
                                 channel.setTitle(channelTitle);
                                 rss = new Rss(url, userId, null);
                                 rss.setId(id);
                                 rssList.add(rss);
-                                //String jsonBodyString = jsonBody.toString();
                             }
                         } catch (JSONException e) {
                             Log.e(RssRepository.class.getName(), e.getMessage());
@@ -163,30 +163,25 @@ public class RssRepository {
                            final CallbackRssList callbackRssList) {
         _weDeploy.data(Constants.DATA_URL)
                 .authorization(authorization)
-                .get("Feeds")
+                .get(Constants.FEEDS)
                 .execute(new Callback() {
                     @Override
                     public void onSuccess(Response response) {
-                        //ArrayList<String> listaNomes = new ArrayList<String>();
                         try {
                             JSONArray jsonArray = new JSONArray(response.getBody());
 
-                            List<Rss> listaRss = new ArrayList<Rss>();
+                            List<Rss> listaRss = new ArrayList();
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonBody = (JSONObject) jsonArray.get(i);
                                 Rss rss = new Rss();
-                                //feed.setTitle(jsonBody.getString("name"));
-                                rss.setUrl(jsonBody.getString("url"));
-                                //String a = feed.getUrl();
-                                rss.setId(jsonBody.getString("id"));
-                                //jsonBody.getString("channelTitle");
-                                //Log.d("repositorio",a);
+                                rss.setUrl(jsonBody.getString(Constants.URL));
+                                rss.setId(jsonBody.getString(Constants.ID));
                                 Channel temporaryChannel = new Channel();
                                 temporaryChannel.setTitle(
-                                        jsonBody.getString("channelTitle"));
+                                        jsonBody.getString(Constants.CHANNEL_TITLE));
                                 rss.setChannel(temporaryChannel);
-                                Log.d("RssRepository", rss.getUrl());
+                                Log.d(CLASS_NAME, rss.getUrl());
                                 listaRss.add(rss);
                             }
 
@@ -220,14 +215,14 @@ public class RssRepository {
                                 callbackChannel.onSuccess(channel);
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                Log.d("RssRepository", e.getMessage());
+                                Log.d(CLASS_NAME, e.getMessage());
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Rss> call, Throwable t) {
-                        Log.e("RssRepository", t.getMessage());
+                        Log.e(CLASS_NAME, t.getMessage());
                         callbackChannel.onFailure(t);
                     }
                 });
@@ -244,4 +239,6 @@ public class RssRepository {
 
         void onFailure(Exception e);
     }
+
+    final private String CLASS_NAME = "RssRepository";
 }

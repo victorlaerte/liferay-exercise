@@ -14,7 +14,7 @@ public class Constants {
 	public final static String TOKEN = "token";
 
 	public final static String TOKEN_KEY = "tokenKey";
-	public final static String USER_ID = "userID";
+	public final static String USER_ID = "userId";
 	public final static String TOKEN_USER_ID = "tokenUserId";
 
 	public final static String USER = "user";
@@ -34,4 +34,12 @@ public class Constants {
 	public final static String REALM_DB = "realm-rss-item.realm";
 
 	public final static String _ID = "_id";
+
+	public final static String URL = "url";
+
+	public final static String CHANNEL_TITLE = "channelTitle";
+
+	public final static String FEEDS = "Feeds";
+
+	public final static String RSS_RSS = "Rss";
 }
