@@ -58,7 +58,8 @@ public class NewRssFragment extends Fragment {
         _view = inflater.inflate(R.layout.fragment_new_rss, container, false);
         _urlEditText = _view.findViewById(R.id.newUrlFeed);
 
-        _rssListViewModel = ViewModelProviders.of((FragmentActivity) getActivity()).get(RssListViewModel.class);
+        _rssListViewModel = ViewModelProviders.of((FragmentActivity) getActivity()).
+                get(RssListViewModel.class);
 
         final String copied = getClipboardString();
 
@@ -85,17 +86,17 @@ public class NewRssFragment extends Fragment {
         String url = _urlEditText.getText().toString();
         Rss rss = new Rss(url, _userId, null);
 
-        Log.d(TAG, url);
+        Log.d(_className, url);
         try {
             if (URLUtil.isValidUrl(url)) {
                 saveNewRss(rss);
             } else {
                 Snackbar.make(
                         v.getRootView().findViewById(R.id.frag_new_rss),
-                        "Url invalida", Snackbar.LENGTH_LONG).show();
+                        String.valueOf(R.string.url_invalida), Snackbar.LENGTH_LONG).show();
             }
         } catch (IOException e) {
-            Log.d(TAG, e.getMessage());
+            Log.d(_className, e.getMessage());
             Snackbar.make(
                     v.getRootView().findViewById(R.id.frag_new_rss),
                     e.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -124,15 +125,15 @@ public class NewRssFragment extends Fragment {
                                     public void onSuccess(Response response) {
                                         _rssListViewModel.addRss(rss);
 
-                                        Log.d(TAG, "Salvo com sucesso");
+                                        Log.d(_className, String.valueOf(R.string.salvo_com_sucesso));
                                         Snackbar.make(
                                                 _view.getRootView().findViewById(R.id.frag_new_rss),
-                                                "Salvo com sucesso", Snackbar.LENGTH_LONG).show();
+                                                String.valueOf(R.string.salvo_com_sucesso), Snackbar.LENGTH_LONG).show();
                                     }
 
                                     @Override
                                     public void onFailure(Exception e) {
-                                        Log.e(TAG, e.getMessage());
+                                        Log.e(_className, e.getMessage());
                                         Snackbar.make(
                                                 _view.getRootView().findViewById(R.id.frag_new_rss),
                                                 e.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -142,7 +143,7 @@ public class NewRssFragment extends Fragment {
 
                     @Override
                     public void onFailure(Throwable t) {
-                        Log.e(TAG, t.getMessage());
+                        Log.e(_className, t.getMessage());
                         Snackbar.make(
                                 _view.getRootView().findViewById(R.id.frag_new_rss),
                                 t.getMessage(), Snackbar.LENGTH_LONG).show();
@@ -150,7 +151,7 @@ public class NewRssFragment extends Fragment {
                 });
     }
 
-    final private static String TAG = NewRssFragment.class.getName();
+    final private String _className = NewRssFragment.class.getName();
 
     private Authorization _authorization;
     private RssListViewModel _rssListViewModel;

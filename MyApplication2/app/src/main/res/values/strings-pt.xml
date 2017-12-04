@@ -7,4 +7,6 @@
     <string name="usuario_fez_logout_com_sucesso">Usuário fez logout com sucesso.</string>
     <string name="usuario_criado_com_sucesso">Usuário criado com sucesso!</string>
     <string name="nao_foi_possivel_criar_usuario">Nao foi possivel criar usuário.</string>
+    <string name="url_invalida">Url invalida!</string>
+    <string name="salvo_com_sucesso">Salvo com sucesso!</string>
 </resources>
