@@ -22,7 +22,6 @@ public class Constants {
 	public final static String NEW_OR_EDIT = "newOrEdit";
 
 	public final static String LINK = "link";
-	public final static String INVALID_URL = "url inválida";
 
 	public final static String ID = "id";
 
@@ -30,7 +29,7 @@ public class Constants {
 
 	public final static String IS_ONLINE = "isOnline";
 
-	public final static String CHANNEL = "channel";
-
 	public final static String ID_POPUP = "idPopupFragment";
+
+	public final static String REALM_DB = "realm-rss-item.realm";
 }
