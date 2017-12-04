@@ -13,4 +13,5 @@
     <string name="excluir">Excluir</string>
     <string name="cancelar">Cancelar</string>
     <string name="excluido_com_sucesso">Excluido com sucesso!</string>
+    <string name="buscar">Buscar</string>
 </resources>

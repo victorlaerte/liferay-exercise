@@ -77,7 +77,6 @@ public class RssListFragment extends Fragment {
 
                 settingRecycleView(_rssListViewModel.getRssList());
                 _recycleViewAdapter.setRssListAux(_rssListViewModel.getRssList());
-                Log.d("RssFragment", "_rssListViewModel n é nulo");
 
             } else {
                 settingRecycleView(rssList);
@@ -157,7 +156,7 @@ public class RssListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         _menuItem = menu.findItem(R.id.search);
         _searchView = (SearchView) _menuItem.getActionView();
-        _searchView.setQueryHint("Buscar");
+        _searchView.setQueryHint(String.valueOf(R.string.buscar));
 
         if (!_rssListViewModel.getSearchText().isEmpty()) {
             _menuItem.expandActionView();
@@ -173,7 +172,6 @@ public class RssListFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        Log.d("RssListFragment", "onOptionsItemSelected");
 
         int id = item.getItemId();
         switch (id) {
@@ -196,7 +194,6 @@ public class RssListFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d("OptionsMenu", newText);
                 _recycleViewAdapter.getFilter().filter(newText);
                 _rssListViewModel.setSearchText(newText);
 
