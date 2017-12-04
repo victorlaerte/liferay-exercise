@@ -29,4 +29,8 @@ public class Constants {
 	public final static String GET_RSS_LIST_FRAGMENT = "fragmentRssList";
 
 	public final static String IS_ONLINE = "isOnline";
+
+	public final static String CHANNEL = "channel";
+
+	public final static String ID_POPUP = "idPopupFragment";
 }

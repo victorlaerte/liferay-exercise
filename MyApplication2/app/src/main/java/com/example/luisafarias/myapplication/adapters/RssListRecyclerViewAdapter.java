@@ -75,10 +75,7 @@ public class RssListRecyclerViewAdapter
                 popUpFragment.setArguments(bundle);
                 popUpFragment.show(
                         ((FragmentActivity) _context).getSupportFragmentManager(),
-                        "idPopupFragment");
-
-                Log.d("click longo", _rssList.get(position).getChannel().getTitle());
-
+                        Constants.ID_POPUP);
                 return false;
             }
         });
@@ -86,7 +83,6 @@ public class RssListRecyclerViewAdapter
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("click curto", _rssList.get(position).getChannel().getTitle());
                 Intent intent =
                         new Intent(_context, ItemListActivity.class);
                 Bundle bundle = new Bundle();
@@ -127,8 +123,6 @@ public class RssListRecyclerViewAdapter
                         for (Rss r : _rssListAux) {
                             if (r.getChannel().getTitle().toUpperCase().
                                     contains(constraint.toString().toUpperCase())) {
-
-                                Log.d("RssListAdapter", "update");
                                 rssListAux.add(r);
                             }
                         }
@@ -142,12 +136,6 @@ public class RssListRecyclerViewAdapter
 
                 @Override
                 protected void publishResults(CharSequence constraint, FilterResults results) {
-                    if (results.count == 0) {
-                        Log.d("RssListRecycleV", "null");
-                    } else {
-                        Log.d("RssListRecycleV", "not null");
-
-                    }
 
                     updateAnswers((List<Rss>) results.values);
                 }
