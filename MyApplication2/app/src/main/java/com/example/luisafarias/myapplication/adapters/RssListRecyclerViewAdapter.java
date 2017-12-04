@@ -77,7 +77,7 @@ public class RssListRecyclerViewAdapter
                         ((FragmentActivity) _context).getSupportFragmentManager(),
                         "idPopupFragment");
 
-                Log.d("click longo", _rssList.get(position).getUrl());
+                Log.d("click longo", _rssList.get(position).getChannel().getTitle());
 
                 return false;
             }
@@ -86,10 +86,11 @@ public class RssListRecyclerViewAdapter
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("click curto", _rssList.get(position).getUrl());
+                Log.d("click curto", _rssList.get(position).getChannel().getTitle());
                 Intent intent =
                         new Intent(_context, ItemListActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.CHANNEL, rss.getChannel());
                 bundle.putParcelable(Constants.RSS, rss);
                 intent.putExtra(Constants.RSS, bundle);
                 _context.startActivity(intent);
