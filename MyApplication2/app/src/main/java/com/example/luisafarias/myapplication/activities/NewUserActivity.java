@@ -73,7 +73,7 @@ public class NewUserActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Exception e) {
-                        Log.e(_className, e.getMessage());
+                        Log.e(CLASS_NAME, e.getMessage());
                         Snackbar.make(_constraintLayout,
                                 String.valueOf(R.string.nao_foi_possivel_criar_usuario),
                                 Snackbar.LENGTH_LONG)
@@ -92,7 +92,7 @@ public class NewUserActivity extends AppCompatActivity {
                             jsonObject.getString(Constants.ACCESS_TOKEN);
                     currentUser(token);
                 } catch (JSONException e) {
-                    Log.e(_className, e.getMessage());
+                    Log.e(CLASS_NAME, e.getMessage());
                     Snackbar.make(_constraintLayout,
                             String.valueOf(R.string.nao_foi_possivel_login), Snackbar.LENGTH_LONG)
                             .show();
@@ -127,7 +127,7 @@ public class NewUserActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Exception e) {
-                        Log.e(_className, e.getMessage());
+                        Log.e(CLASS_NAME, e.getMessage());
                         Snackbar.make(_constraintLayout,
                                 String.valueOf(R.string.nao_foi_possivel_acessar_usuario),
                                 Snackbar.LENGTH_LONG).show();
@@ -154,7 +154,7 @@ public class NewUserActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private String _className = "NewUSerActivity";
+    private String CLASS_NAME = "NewUSerActivity";
     private EditText _editTextName;
     private EditText _editTextEmail;
     private EditText _editTextPassword;
