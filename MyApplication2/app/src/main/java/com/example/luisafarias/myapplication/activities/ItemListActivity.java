@@ -41,7 +41,7 @@ public class ItemListActivity extends AppCompatActivity {
         _rss = data.getParcelable(Constants.RSS);
         _realm = Realm.getDefaultInstance();
         _results = _realm.where(RssModel.class).
-                equalTo("_id", _rss.getId()).findAll();
+                equalTo(Constants._ID, _rss.getId()).findAll();
 
         _swipeRLayout = findViewById(R.id.swiperefresh_item);
         recyclerView = findViewById(R.id.feed_news_list);
@@ -83,7 +83,7 @@ public class ItemListActivity extends AppCompatActivity {
                     _adapter.updateAnswers(
                             response.body().getChannel().getItem());
                     addRssRealm(response.body(), _rss);
-                    Log.d(_className, String.valueOf(R.string.itens_atualizados));
+                    Log.d(CLASS_NAME, String.valueOf(R.string.itens_atualizados));
                 }
 
                 _swipeRLayout.setRefreshing(false);
@@ -91,7 +91,7 @@ public class ItemListActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Rss> call, Throwable t) {
-                Log.e(_className, t.getMessage());
+                Log.e(CLASS_NAME, t.getMessage());
                 _swipeRLayout.setRefreshing(false);
                 Snackbar.make(findViewById(R.id.swiperefresh_item),
                         String.valueOf(R.string.erro_itens_atualizados), Snackbar.LENGTH_LONG).show();
@@ -127,5 +127,5 @@ public class ItemListActivity extends AppCompatActivity {
     private List<Item> _itemList;
     private ItemAdapter _adapter = null;
     private WeRetrofitService _rsfit;
-    private String _className = "ItemListActivity";
+    final private String CLASS_NAME = "ItemListActivity";
 }
