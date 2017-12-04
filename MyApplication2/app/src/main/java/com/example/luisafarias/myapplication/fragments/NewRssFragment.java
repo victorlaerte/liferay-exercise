@@ -58,8 +58,6 @@ public class NewRssFragment extends Fragment {
         _view = inflater.inflate(R.layout.fragment_new_rss, container, false);
         _urlEditText = _view.findViewById(R.id.newUrlFeed);
 
-        _realm = Realm.getDefaultInstance();
-
         _rssListViewModel = ViewModelProviders.of((FragmentActivity) getActivity()).get(RssListViewModel.class);
 
         final String copied = getClipboardString();
@@ -69,10 +67,6 @@ public class NewRssFragment extends Fragment {
         }
 
         Button save = _view.findViewById(R.id.save);
-
-        _realm = Realm.getDefaultInstance();
-        _rssResults = _realm.where(RssModel.class).findAll();
-
 
         /**NewFeed**/
         save.setOnClickListener(new View.OnClickListener() {
@@ -159,9 +153,6 @@ public class NewRssFragment extends Fragment {
     final private static String TAG = NewRssFragment.class.getName();
 
     private Authorization _authorization;
-    private Realm _realm;
-    private RealmResults<RssModel> _rssResults;
-    private RssModel _rssModel;
     private RssListViewModel _rssListViewModel;
     private String _token;
     private String _userId;
