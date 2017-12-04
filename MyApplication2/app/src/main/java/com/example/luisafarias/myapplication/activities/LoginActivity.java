@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             String token = _sharedPref.getString(Constants.TOKEN, "");
             String userID = _sharedPref.getString(Constants.USER_ID, "");
 
-            Log.d(_className, token + " " + userID);
+            Log.d(CLASS_NAME, token + " " + userID);
 
             openMainActivity(token, userID, isOnline());
         }
@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                     Snackbar.make(findViewById(R.id.loginActivity),
                             String.valueOf(R.string.nao_foi_possivel_login),
                             Snackbar.LENGTH_LONG).show();
-                    Log.e(_className, e.getMessage());
+                    Log.e(CLASS_NAME, e.getMessage());
                 }
             }
 
@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                 Snackbar.make(findViewById(R.id.loginActivity),
                         String.valueOf(R.string.nao_foi_possivel_login),
                         Snackbar.LENGTH_LONG).show();
-                Log.e(_className, e.getMessage());
+                Log.e(CLASS_NAME, e.getMessage());
             }
         };
     }
@@ -144,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                             Snackbar.make(findViewById(R.id.loginActivity),
                                     String.valueOf(R.string.nao_foi_possivel_acessar_usuario),
                                     Snackbar.LENGTH_LONG).show();
-                            Log.e(_className, e.getMessage());
+                            Log.e(CLASS_NAME, e.getMessage());
                         }
                     }
 
@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                         Snackbar.make(findViewById(R.id.loginActivity),
                                 String.valueOf(R.string.nao_foi_possivel_acessar_usuario),
                                 Snackbar.LENGTH_LONG).show();
-                        Log.e(_className, e.getMessage());
+                        Log.e(CLASS_NAME, e.getMessage());
                     }
                 });
     }
@@ -168,5 +168,5 @@ public class LoginActivity extends AppCompatActivity {
     EditText _editTextLogin;
     EditText _editTextPassword;
     private SharedPreferences _sharedPref;
-    private String _className = "RssListFragment";
+    final private String CLASS_NAME = "RssListFragment";
 }
