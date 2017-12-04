@@ -2,4 +2,6 @@
 <resources>
     <string name="itens_atualizados">itens atualizados.</string>
     <string name="erro_itens_atualizados">erro ao tentar atualizar itens.</string>
+    <string name="nao_foi_possivel_login">Nao foi possivel fazer login</string>
+    <string name="nao_foi_possivel_acessar_usuario">Nao foi possivel acessar usuário</string>
 </resources>

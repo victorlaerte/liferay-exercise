@@ -33,12 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
         _sharedPref = getSharedPreferences(Constants.USER, MODE_PRIVATE);
 
-        if (isOnline()) {
-            Log.d("RssListFragment", "Estou online");
-        } else {
-            Log.d("RssListFragment", "nao estou online");
-        }
-
         ifLoggedInMainActivity();
         setContentView(R.layout.activity_login);
 
@@ -63,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             String token = _sharedPref.getString(Constants.TOKEN, "");
             String userID = _sharedPref.getString(Constants.USER_ID, "");
 
-            Log.d("LoginActivity", token + " " + userID);
+            Log.d(_className, token + " " + userID);
 
             openMainActivity(token, userID, isOnline());
         }
@@ -119,16 +113,18 @@ public class LoginActivity extends AppCompatActivity {
                     getCurrentUser(token, authorization);
                 } catch (JSONException e) {
                     Snackbar.make(findViewById(R.id.loginActivity),
-                            "Nao foi possivel fazer login", Snackbar.LENGTH_LONG).show();
-                    Log.e("LoginActivity", e.getMessage());
+                            String.valueOf(R.string.nao_foi_possivel_login),
+                            Snackbar.LENGTH_LONG).show();
+                    Log.e(_className, e.getMessage());
                 }
             }
 
             @Override
             public void onFailure(Exception e) {
                 Snackbar.make(findViewById(R.id.loginActivity),
-                        "Nao foi possivel fazer login", Snackbar.LENGTH_LONG).show();
-                Log.e("LoginActivity", e.getMessage());
+                        String.valueOf(R.string.nao_foi_possivel_login),
+                        Snackbar.LENGTH_LONG).show();
+                Log.e(_className, e.getMessage());
             }
         };
     }
@@ -146,24 +142,25 @@ public class LoginActivity extends AppCompatActivity {
                             openMainActivity(token, userId, isOnline());
                         } catch (JSONException e) {
                             Snackbar.make(findViewById(R.id.loginActivity),
-                                    "Nao foi possivel acessar usuário",
+                                    String.valueOf(R.string.nao_foi_possivel_acessar_usuario),
                                     Snackbar.LENGTH_LONG).show();
-                            Log.e("LoginActivity", e.getMessage());
+                            Log.e(_className, e.getMessage());
                         }
                     }
 
                     @Override
                     public void onFailure(Exception e) {
                         Snackbar.make(findViewById(R.id.loginActivity),
-                                "Nao foi possivel acessar usuário",
+                                String.valueOf(R.string.nao_foi_possivel_acessar_usuario),
                                 Snackbar.LENGTH_LONG).show();
-                        Log.e("LoginActivity", e.getMessage());
+                        Log.e(_className, e.getMessage());
                     }
                 });
     }
 
     private boolean isOnline() {
-        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(
+                Context.CONNECTIVITY_SERVICE);
 
         return manager.getActiveNetworkInfo() != null;
     }
@@ -171,4 +168,5 @@ public class LoginActivity extends AppCompatActivity {
     EditText _editTextLogin;
     EditText _editTextPassword;
     private SharedPreferences _sharedPref;
+    private String _className = "RssListFragment";
 }
