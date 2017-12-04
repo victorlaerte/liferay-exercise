@@ -164,21 +164,7 @@ public class RssListFragment extends Fragment {
             _searchView.setQuery(_rssListViewModel.getSearchText(), true);//entender o booleano
             _recycleViewAdapter.getFilter().filter(_rssListViewModel.getSearchText());
 
-            _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    return true;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    Log.d("onCreateOptionsMenu", newText);
-                    _recycleViewAdapter.getFilter().filter(newText);
-                    _rssListViewModel.setSearchText(newText);
-
-                    return false;
-                }
-            });
+            query();
         } else {
             _menuItem.collapseActionView();
         }
@@ -192,27 +178,31 @@ public class RssListFragment extends Fragment {
         int id = item.getItemId();
         switch (id) {
             case R.id.search:
-                _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        Log.d("RssListFragment", newText);
-                        _recycleViewAdapter.getFilter().filter(newText);
-                        _rssListViewModel.setSearchText(newText);
-
-                        return false;
-                    }
-                });
+                query();
 
                 return true;
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void query() {
+        _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.d("OptionsMenu", newText);
+                _recycleViewAdapter.getFilter().filter(newText);
+                _rssListViewModel.setSearchText(newText);
+
+                return false;
+            }
+        });
     }
 
     private List<Rss> rssModelToRss(List<RssModel> rssModelList){
