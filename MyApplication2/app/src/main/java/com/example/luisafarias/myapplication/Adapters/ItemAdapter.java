@@ -58,16 +58,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 		final Item item = _feedItems.get(position);
 		holder.titleTextField.setText(item.getTitle());
 
-		holder.view.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(_context, NewsActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putString(Constants.LINK, item.getLink());
-				intent.putExtra(Constants.LINK, bundle);
-				_context.startActivity(intent);
-			}
-		});
+		holder.view.setOnClickListener(v -> {
+            Intent intent = new Intent(_context, NewsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.LINK, item.getLink());
+            intent.putExtra(Constants.LINK, bundle);
+            _context.startActivity(intent);
+        });
 	}
 
 	public class ItemHolder extends RecyclerView.ViewHolder {
