@@ -62,13 +62,7 @@ public class NewRssFragment extends Fragment {
 		Button save = _view.findViewById(R.id.save);
 
 		/**NewFeed**/
-		save.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-
-				newRss(view);
-			}
-		});
+		save.setOnClickListener(view -> newRss(view));
 		((MainActivity) getActivity()).hideButton();
 
 		return _view;
