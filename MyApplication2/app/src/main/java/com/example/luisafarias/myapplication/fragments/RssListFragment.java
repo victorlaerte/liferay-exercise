@@ -83,12 +83,7 @@ public class RssListFragment extends Fragment {
 		_swipeRLayout = _view.findViewById(R.id.swiperefresh);
 
 		_swipeRLayout.setOnRefreshListener(
-			new SwipeRefreshLayout.OnRefreshListener() {
-				@Override
-				public void onRefresh() {
-					reloadFeeds();
-				}
-			});
+				() -> reloadFeeds());
 		_swipeRLayout.setColorSchemeColors(android.R.color.holo_blue_light,
 			android.R.color.holo_orange_light);//nao funciona ainda as cores
 	}
