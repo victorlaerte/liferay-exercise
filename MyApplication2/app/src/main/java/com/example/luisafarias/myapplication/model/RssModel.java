@@ -55,7 +55,6 @@ public class RssModel extends RealmObject {
         this._url = _url;
     }
 
-
     public void setUserId(String _userId) {
         this._userId = _userId;
     }
