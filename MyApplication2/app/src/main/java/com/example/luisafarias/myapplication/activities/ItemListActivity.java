@@ -56,12 +56,7 @@ public class ItemListActivity extends AppCompatActivity {
 		if (AndroidUtil.isOnline(this)) {
 			loadAnswers();
 			_swipeRLayout.setOnRefreshListener(
-				new SwipeRefreshLayout.OnRefreshListener() {
-					@Override
-					public void onRefresh() {
-						loadAnswers();
-					}
-				});
+					() -> loadAnswers());
 		} else {
 			_adapter.updateAnswers(_rss.getChannel().getItem());
 		}
