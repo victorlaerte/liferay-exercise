@@ -27,8 +27,6 @@ public class Constants {
 
 	public final static String GET_RSS_LIST_FRAGMENT = "fragmentRssList";
 
-	public final static String IS_ONLINE = "isOnline";
-
 	public final static String ID_POPUP = "idPopupFragment";
 
 	public final static String REALM_DB = "realm-rss-item.realm";
