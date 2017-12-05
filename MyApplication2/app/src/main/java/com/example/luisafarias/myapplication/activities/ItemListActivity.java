@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.adapters.ItemAdapter;
+import com.example.luisafarias.myapplication.dao.RssDAO;
 import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
 import com.example.luisafarias.myapplication.model.Item;
 import com.example.luisafarias.myapplication.model.RetrofitClient;
@@ -35,9 +36,6 @@ public class ItemListActivity extends AppCompatActivity {
 
 		Bundle data = getIntent().getBundleExtra(Constants.RSS);
 		_rss = data.getParcelable(Constants.RSS);
-		_realm = Realm.getDefaultInstance();
-		_results = _realm.where(RssModel.class).
-			equalTo(Constants._ID, _rss.getId()).findAll();
 
 		_swipeRLayout = findViewById(R.id.swiperefresh_item);
 		recyclerView = findViewById(R.id.feed_news_list);
@@ -70,7 +68,7 @@ public class ItemListActivity extends AppCompatActivity {
 				if (response.isSuccessful()) {
 					_adapter.updateAnswers(
 						response.body().getChannel().getItem());
-					addRssRealm(response.body(), _rss);
+					RssDAO.getInstance().addRssRealm(response.body(), _rss);
 					Log.d(CLASS_NAME, getString(R.string.itens_atualizados));
 				}
 
@@ -88,21 +86,6 @@ public class ItemListActivity extends AppCompatActivity {
 		});
 	}
 
-	private void addRssRealm(Rss rss, Rss rssId) {
-		_realm.beginTransaction();
-		RealmList<String> realmStringList = new RealmList<>();
-		_rssModel = _realm.createObject(RssModel.class, rssId.getId());
-		_rssModel.setChannelTitle(rss.getChannel().getTitle());
-		for (Item item : rss.getChannel().getItem()) {
-			realmStringList.add(item.getTitle());
-		}
-		_rssModel.setItemListTitle(realmStringList);
-		_realm.commitTransaction();
-	}
-
-	private Realm _realm;
-	private RealmResults<RssModel> _results;
-	private RssModel _rssModel;
 	private Rss _rss;
 	private RecyclerView recyclerView;
 	private SwipeRefreshLayout _swipeRLayout;
