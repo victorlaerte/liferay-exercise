@@ -16,6 +16,8 @@ import com.example.luisafarias.myapplication.activities.ItemListActivity;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.util.Constants;
+
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,31 +63,25 @@ public class RssListRecyclerViewAdapter
 		holder.name.setText(rss.getChannel().getTitle());
 		holder.id.setText(rss.getId());
 
-		holder.view.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				Bundle bundle = new Bundle();
-				bundle.putParcelable(Constants.RSS, rss);
-				bundle.putString(Constants.TOKEN, _token);
-				PopUpFragment popUpFragment = new PopUpFragment();
-				popUpFragment.setArguments(bundle);
-				popUpFragment.show(
-					((FragmentActivity) _context).getSupportFragmentManager(),
-					Constants.ID_POPUP);
-				return false;
-			}
-		});
+		holder.view.setOnLongClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(Constants.RSS, rss);
+            bundle.putString(Constants.TOKEN, _token);
+            PopUpFragment popUpFragment = new PopUpFragment();
+            popUpFragment.setArguments(bundle);
+            popUpFragment.show(
+                ((FragmentActivity) _context).getSupportFragmentManager(),
+                Constants.ID_POPUP);
+            return false;
+        });
 
-		holder.view.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(_context, ItemListActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putParcelable(Constants.RSS, rss);
-				intent.putExtra(Constants.RSS, bundle);
-				_context.startActivity(intent);
-			}
-		});
+		holder.view.setOnClickListener(v -> {
+            Intent intent = new Intent(_context, ItemListActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(Constants.RSS, rss);
+            intent.putExtra(Constants.RSS, bundle);
+            _context.startActivity(intent);
+        });
 	}
 
 	@Override
@@ -115,10 +111,9 @@ public class RssListRecyclerViewAdapter
 
 						List<Rss> rssListAux = new ArrayList<>();
 
-						// TODO: Tentar tratar os casos com acento
 						for (Rss r : _rssListAux) {
-							if (r.getChannel().getTitle().toUpperCase().
-								contains(constraint.toString().toUpperCase())) {
+							if (removeAccent(r.getChannel().getTitle().toUpperCase()).
+								contains(removeAccent(constraint.toString().toUpperCase()))) {
 								rssListAux.add(r);
 							}
 						}
@@ -152,6 +147,14 @@ public class RssListRecyclerViewAdapter
 			this.name = view.findViewById(R.id.nome_url_recebida);
 			this.id = view.findViewById(R.id.idUrlTest);
 		}
+	}
+
+	private String removeAccent(String str){
+		if (str != null){
+			str = Normalizer.normalize(str, Normalizer.Form.NFD);
+			str = str.replaceAll("[^\\p{ASCII}]", "");
+		}
+		return str;
 	}
 
 	private List<Rss> _rssList;
