@@ -23,7 +23,7 @@ public class Item implements Parcelable {
     public Item() {
     }
 
-    ;//para desserializar precisa do construtor vazio public
+    //para desserializar precisa do construtor vazio public
 
     protected Item(Parcel in) {
         pubDate = in.readString();
