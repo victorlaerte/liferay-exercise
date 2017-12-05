@@ -71,7 +71,6 @@ public class WeDeployActions {
 
 		void onFailure(Exception e);
 	}
-
-	private String _userID;
+	
 	private WeDeploy _weDeploy = new WeDeploy.Builder().build();
 }
