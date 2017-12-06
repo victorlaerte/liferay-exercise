@@ -61,7 +61,7 @@ public class RssRepository {
 						try {
 							JSONObject jsonBody =
 								new JSONObject(response.getBody());
-							
+
 							rss.setUrl(jsonBody.getString(Constants.URL));
 							rss.setId(jsonBody.getString(Constants.ID));
 							Channel channel = new Channel();
@@ -178,6 +178,9 @@ public class RssRepository {
 							Channel temporaryChannel = new Channel();
 							temporaryChannel.setTitle(
 								jsonBody.getString(Constants.CHANNEL_TITLE));
+							Image temporaryImage = new Image();
+							temporaryImage.setUrl(jsonBody.getString(Constants.IMAGE_URL));
+							temporaryChannel.setImage(temporaryImage);
 							rss.setChannel(temporaryChannel);
 							Log.d(CLASS_NAME, rss.getUrl());
 							listaRss.add(rss);
