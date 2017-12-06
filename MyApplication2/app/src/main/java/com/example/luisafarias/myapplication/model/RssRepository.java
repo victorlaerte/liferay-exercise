@@ -61,13 +61,15 @@ public class RssRepository {
 						try {
 							JSONObject jsonBody =
 								new JSONObject(response.getBody());
-
-							//							Rss rss = new Rss();
+							
 							rss.setUrl(jsonBody.getString(Constants.URL));
 							rss.setId(jsonBody.getString(Constants.ID));
 							Channel channel = new Channel();
 							channel.setTitle(
 								jsonBody.getString(Constants.CHANNEL_TITLE));
+							Image image = new Image();
+							image.setUrl(jsonBody.getString(Constants.IMAGE_URL));
+							channel.setImage(image);
 							rss.setChannel(channel);
 						} catch (Exception e) {
 							callback.onFailure(e);
