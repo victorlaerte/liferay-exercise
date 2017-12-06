@@ -44,11 +44,13 @@ public class RssRepository {
 			String userId = rss.getUserId();
 			String url = rss.getUrl();
 			String channelTitle = rss.getChannel().getTitle();
+			String imageUrl = rss.getChannel().getImage().getUrl();
 
 			JSONObject feedJsonObject =
 				new JSONObject().put(Constants.USER_ID, userId)
 					.put(Constants.URL, url)
-					.put(Constants.CHANNEL_TITLE, channelTitle);
+					.put(Constants.CHANNEL_TITLE, channelTitle)
+					.put(Constants.IMAGE_URL, imageUrl);
 
 			_weDeploy.data(Constants.DATA_URL)
 				.authorization(authorization)
@@ -205,6 +207,8 @@ public class RssRepository {
 
 					if (response.isSuccessful()) {
 						Channel channel = response.body().getChannel();
+						Image image = response.body().getChannel().getImage();
+						channel.setImage(image);
 						try {
 							callbackChannel.onSuccess(channel);
 						} catch (JSONException e) {
