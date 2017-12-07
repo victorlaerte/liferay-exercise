@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.ItemListActivity;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
@@ -62,6 +66,10 @@ public class RssListRecyclerViewAdapter
 		final Rss rss = _rssList.get(position);
 		holder.name.setText(rss.getChannel().getTitle());
 		holder.id.setText(rss.getId());
+		String url = rss.getChannel().getImage().getUrl();
+		ImageView iv = holder.image;
+
+		Glide.with(holder.view.getContext()).load(url).into(iv);
 
 		holder.view.setOnLongClickListener(v -> {
             Bundle bundle = new Bundle();
@@ -78,7 +86,7 @@ public class RssListRecyclerViewAdapter
 		holder.view.setOnClickListener(v -> {
             Intent intent = new Intent(_context, ItemListActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putParcelable(Constants.RSS, rss);
+			bundle.putParcelable(Constants.RSS, rss);
             intent.putExtra(Constants.RSS, bundle);
             _context.startActivity(intent);
         });
@@ -139,6 +147,7 @@ public class RssListRecyclerViewAdapter
 	class CustomViewHolder extends RecyclerView.ViewHolder {
 		protected TextView name;
 		protected TextView id;
+		public ImageView image;
 		protected View view;
 
 		public CustomViewHolder(View view) {
@@ -146,6 +155,7 @@ public class RssListRecyclerViewAdapter
 			this.view = view;
 			this.name = view.findViewById(R.id.nome_url_recebida);
 			this.id = view.findViewById(R.id.idUrlTest);
+			this.image = view.findViewById(R.id.imageView2);
 		}
 	}
 
