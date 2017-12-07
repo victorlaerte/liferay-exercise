@@ -29,15 +29,23 @@ public class RssDAO {
     }
 
     public void addRssRealm(Rss rss, Rss rssId) {
-        _realm.beginTransaction();
-        RealmList<String> realmStringList = new RealmList<>();
-        RssModel rssModel = _realm.createObject(RssModel.class, rssId.getId());
-        rssModel.setChannelTitle(rss.getChannel().getTitle());
-        for (Item item : rss.getChannel().getItem()) {
-            realmStringList.add(item.getTitle());
-        }
-        rssModel.setItemListTitle(realmStringList);
-        _realm.commitTransaction();
+
+        _realm.executeTransaction(realm -> {
+
+            RealmResults<RssModel> rssResults = _realm.where(RssModel.class).equalTo(
+                    Constants._ID,rssId.getId()).findAll();
+            if (rssResults.isEmpty()){
+                RealmList<String> realmStringList = new RealmList<>();
+                RssModel rssModel = _realm.createObject(RssModel.class, rssId.getId());
+                rssModel.setChannelTitle(rss.getChannel().getTitle());
+                for (Item item : rss.getChannel().getItem()) {
+                    realmStringList.add(item.getTitle());
+                }
+                rssModel.setItemListTitle(realmStringList);
+            }
+
+        });
+
     }
 
     public void deleteRealmRss(Rss rss) {
@@ -50,5 +58,4 @@ public class RssDAO {
     }
 
     private Realm _realm;
-    private RssModel _rssModel;
 }
