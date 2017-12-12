@@ -19,6 +19,7 @@ import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.ItemListActivity;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.model.Rss;
+import com.example.luisafarias.myapplication.util.AndroidUtil;
 import com.example.luisafarias.myapplication.util.Constants;
 
 import java.text.Normalizer;
@@ -66,10 +67,12 @@ public class RssListRecyclerViewAdapter
 		final Rss rss = _rssList.get(position);
 		holder.name.setText(rss.getChannel().getTitle());
 		holder.id.setText(rss.getId());
-		String url = rss.getChannel().getImage().getUrl();
-		ImageView iv = holder.image;
+		if (AndroidUtil.isOnline(_context)){
+			String url = rss.getChannel().getImage().getUrl();
+			ImageView iv = holder.image;
 
-		Glide.with(holder.view.getContext()).load(url).into(iv);
+			Glide.with(holder.view.getContext()).load(url).into(iv);
+		}
 
 		holder.view.setOnLongClickListener(v -> {
             Bundle bundle = new Bundle();
