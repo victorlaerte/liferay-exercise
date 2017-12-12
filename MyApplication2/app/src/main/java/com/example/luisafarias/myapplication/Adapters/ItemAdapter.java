@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.NewsActivity;
 import com.example.luisafarias.myapplication.model.Item;
@@ -56,7 +58,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 	@Override
 	public void onBindViewHolder(final ItemHolder holder, int position) {
 		final Item item = _feedItems.get(position);
+		String urlImage = item.getUrlImage();
 		holder.titleTextField.setText(item.getTitle());
+		ImageView imageView = holder.imageView;
+
+		Glide.with(holder.view.getContext()).load(urlImage).into(imageView);
 
 		holder.view.setOnClickListener(v -> {
             Intent intent = new Intent(_context, NewsActivity.class);
@@ -69,19 +75,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
 	public class ItemHolder extends RecyclerView.ViewHolder {
 		protected TextView titleTextField;
-		protected TextView descriptionTextField;
 
-		private ImageView imageView;
-		private TextView publicationDateTextField;
+		public ImageView imageView;
 		protected View view;
 
 		public ItemHolder(View itemView) {
 			super(itemView);
 			view = itemView;
-			titleTextField = itemView.findViewById(R.id.title);
-			imageView = itemView.findViewById(R.id.image);
-			descriptionTextField = itemView.findViewById(R.id.description);
-			publicationDateTextField = itemView.findViewById(R.id.pubdate);
+			titleTextField = itemView.findViewById(R.id.titleItem);
+			imageView = itemView.findViewById(R.id.imageItem);
 		}
 	}
 
