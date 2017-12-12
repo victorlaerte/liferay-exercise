@@ -89,6 +89,17 @@ public class Item implements Parcelable {
                 + "]";
     }
 
+    public String getUrlImage(){
+        int indexBegin = 0;
+        int indexEnd = 0;
+        if (description.contains("<img src=") && description.contains(" /><br />")) {
+            indexBegin = description.indexOf("<img src=")+10;
+            indexEnd = description.indexOf(" /><br />")-1;
+
+        }
+        return description.substring(indexBegin,indexEnd);
+    }
+
     @Override
     public int describeContents() {
         return 0;
