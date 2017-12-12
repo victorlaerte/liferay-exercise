@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.NewsActivity;
 import com.example.luisafarias.myapplication.model.Item;
+import com.example.luisafarias.myapplication.util.AndroidUtil;
 import com.example.luisafarias.myapplication.util.Constants;
 import java.util.List;
 
@@ -58,11 +59,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 	@Override
 	public void onBindViewHolder(final ItemHolder holder, int position) {
 		final Item item = _feedItems.get(position);
-		String urlImage = item.getUrlImage();
 		holder.titleTextField.setText(item.getTitle());
-		ImageView imageView = holder.imageView;
+		if (AndroidUtil.isOnline(_context)){
+			String urlImage = item.getUrlImage();
+			ImageView imageView = holder.imageView;
 
-		Glide.with(holder.view.getContext()).load(urlImage).into(imageView);
+			Glide.with(holder.view.getContext()).load(urlImage).into(imageView);
+
+		}
 
 		holder.view.setOnClickListener(v -> {
             Intent intent = new Intent(_context, NewsActivity.class);
