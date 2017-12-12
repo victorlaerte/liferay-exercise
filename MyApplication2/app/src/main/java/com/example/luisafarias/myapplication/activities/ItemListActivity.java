@@ -84,7 +84,7 @@ public class ItemListActivity extends AppCompatActivity {
         _searchView = (SearchView) _menuItem.getActionView();
         _searchView.setQueryHint(getString(R.string.buscar));
 
-        if (!_rss.getChannel().getItem().isEmpty()) {
+        if (!_rssListViewModel.getSearchText().isEmpty()) {
             _menuItem.expandActionView();
             _searchView.setQuery(_rss.getChannel().getTitle(),
                     true);//entender o booleano
