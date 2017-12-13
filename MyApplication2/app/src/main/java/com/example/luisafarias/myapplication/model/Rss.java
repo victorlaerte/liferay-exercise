@@ -77,6 +77,14 @@ public class Rss implements Parcelable {
         this._userId = _userId;
     }
 
+    public Boolean getFavorite() {
+        return _favorite;
+    }
+
+    public void setFavorite(Boolean _favorite) {
+        this._favorite = _favorite;
+    }
+
     public String getURLHost() {
         int a = 0;
         if (_url.contains(".br")) {
@@ -126,8 +134,10 @@ public class Rss implements Parcelable {
     @Element(name = "channel")
     private Channel _channel;
     private String _description;
+    private Boolean _favorite = false;
     private String _id;
     private String _image;
     private String _url;
     private String _userId;
+
 }

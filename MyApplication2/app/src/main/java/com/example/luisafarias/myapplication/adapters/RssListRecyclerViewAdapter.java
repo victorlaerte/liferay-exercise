@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -72,6 +73,9 @@ public class RssListRecyclerViewAdapter
 			ImageView iv = holder.image;
 
 			Glide.with(holder.view.getContext()).load(url).into(iv);
+		}
+		if (holder.favorite.isChecked()){
+			rss.setFavorite(true);
 		}
 
 		holder.view.setOnLongClickListener(v -> {
@@ -152,6 +156,7 @@ public class RssListRecyclerViewAdapter
 		protected TextView id;
 		public ImageView image;
 		protected View view;
+		public CheckBox favorite;
 
 		public CustomViewHolder(View view) {
 			super(view);
@@ -159,6 +164,7 @@ public class RssListRecyclerViewAdapter
 			this.name = view.findViewById(R.id.nome_url_recebida);
 			this.id = view.findViewById(R.id.idUrlTest);
 			this.image = view.findViewById(R.id.imageView2);
+			this.favorite = view.findViewById(R.id.fav);
 		}
 	}
 
