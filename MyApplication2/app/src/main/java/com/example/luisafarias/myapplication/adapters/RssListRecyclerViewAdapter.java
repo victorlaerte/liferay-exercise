@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -74,9 +75,15 @@ public class RssListRecyclerViewAdapter
 
 			Glide.with(holder.view.getContext()).load(url).into(iv);
 		}
-		if (holder.favorite.isChecked()){
-			rss.setFavorite(true);
+		if (rss.getFavorite()){
+			holder.favorite.setChecked(true);
 		}
+
+		holder.favorite.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                rss.setFavorite(isChecked);
+
+        });
+
 
 		holder.view.setOnLongClickListener(v -> {
             Bundle bundle = new Bundle();
