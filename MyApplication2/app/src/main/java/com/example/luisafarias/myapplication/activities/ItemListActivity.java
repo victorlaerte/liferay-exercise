@@ -20,6 +20,7 @@ import com.example.luisafarias.myapplication.adapters.ItemAdapter;
 import com.example.luisafarias.myapplication.dao.RssDAO;
 import com.example.luisafarias.myapplication.interfaces.WeRetrofitService;
 import com.example.luisafarias.myapplication.model.Item;
+import com.example.luisafarias.myapplication.model.ItemListModel;
 import com.example.luisafarias.myapplication.model.RetrofitClient;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssListViewModel;
@@ -48,31 +49,36 @@ public class ItemListActivity extends AppCompatActivity {
 		Bundle data = getIntent().getBundleExtra(Constants.RSS);
 		_rss = data.getParcelable(Constants.RSS);
 
-        _rssListViewModel = ViewModelProviders.
-                of(this).get(RssListViewModel.class);
+        _itemListViewModel = ViewModelProviders.
+                of(this).get(ItemListModel.class);
 
 		_swipeRLayout = findViewById(R.id.swiperefresh_item);
 		recyclerView = findViewById(R.id.feed_news_list);
 
-		if (AndroidUtil.isOnline(this)) {
-			_rsfit = RetrofitClient.getInstance(_rss.getURLHost())
-				.create(WeRetrofitService.class);
-		}
-		_itemList = new ArrayList();
-		_adapter = new ItemAdapter(this, _itemList);
+		if (_itemListViewModel.getItemList() != null){
 
-		LinearLayoutManager layoutMgr = new LinearLayoutManager(this);
-		recyclerView.setLayoutManager(layoutMgr);
-		recyclerView.setAdapter(_adapter);
+		    _adapter = new ItemAdapter(this,_itemListViewModel.getItemList());
+			LinearLayoutManager layoutMgr = new LinearLayoutManager(this);
+			recyclerView.setLayoutManager(layoutMgr);
+			recyclerView.setAdapter(_adapter);
+			_adapter.setFeedItemsAux(_itemListViewModel.getItemList());
+        }else {
+			_itemList = new ArrayList();
+			_adapter = new ItemAdapter(this, _itemList);
+			LinearLayoutManager layoutMgr = new LinearLayoutManager(this);
+			recyclerView.setLayoutManager(layoutMgr);
+			recyclerView.setAdapter(_adapter);
 
-		if (AndroidUtil.isOnline(this)) {
+			if (AndroidUtil.isOnline(this)) {
+				_rsfit = RetrofitClient.getInstance(_rss.getURLHost())
+						.create(WeRetrofitService.class);
+			}
+
 			loadAnswers();
-			_swipeRLayout.setOnRefreshListener(
-					() -> loadAnswers());
-		} else {
-			_adapter.updateAnswers(_rss.getChannel().getItem());
-			_adapter.setFeedItemsAux(_rss.getChannel().getItem());
+
 		}
+
+
 	}
 
     @Override
@@ -84,12 +90,12 @@ public class ItemListActivity extends AppCompatActivity {
         _searchView = (SearchView) _menuItem.getActionView();
         _searchView.setQueryHint(getString(R.string.buscar));
 
-        if (!_rssListViewModel.getSearchText().isEmpty()) {
+        if (!_itemListViewModel.getSearchText().isEmpty()) {
             _menuItem.expandActionView();
-            _searchView.setQuery(_rss.getChannel().getTitle(),
+            _searchView.setQuery(_itemListViewModel.getSearchText(),
                     true);//entender o booleano
             _adapter.getFilter()
-                    .filter(_rssListViewModel.getSearchText());
+                    .filter(_itemListViewModel.getSearchText());
 
             query();
         } else {
@@ -124,7 +130,7 @@ public class ItemListActivity extends AppCompatActivity {
                     @Override
                     public boolean onQueryTextChange(String newText) {
                         _adapter.getFilter().filter(newText);
-                        _rssListViewModel.setSearchText(newText);
+                        _itemListViewModel.setSearchText(newText);
 
                         return false;
                     }
@@ -133,29 +139,41 @@ public class ItemListActivity extends AppCompatActivity {
 
     private void loadAnswers() {
 
-		_rsfit.getItems(_rss.getURLEndPoint()).enqueue(new Callback<Rss>() {
-			@Override
-			public void onResponse(Call<Rss> call, Response<Rss> response) {
-				if (response.isSuccessful()) {
-					_adapter.updateAnswers(
-						response.body().getChannel().getItem());
-					_adapter.setFeedItemsAux(response.body().getChannel().getItem());
-					RssDAO.getInstance().addRssRealm(response.body(), _rss);
-					Log.d(CLASS_NAME, getString(R.string.itens_atualizados));
+		if (AndroidUtil.isOnline(this)){
+
+			_rsfit.getItems(_rss.getURLEndPoint()).enqueue(new Callback<Rss>() {
+				@Override
+				public void onResponse(Call<Rss> call, Response<Rss> response) {
+					if (response.isSuccessful()) {
+						_adapter.updateAnswers(
+								response.body().getChannel().getItem());
+						_adapter.setFeedItemsAux(response.body().getChannel().getItem());
+						_itemListViewModel.setItemList(response.body().getChannel().getItem());
+						RssDAO.getInstance().addRssRealm(response.body(), _rss);
+						Log.d(CLASS_NAME, getString(R.string.itens_atualizados));
+					}
+
+					_swipeRLayout.setRefreshing(false);
 				}
 
-				_swipeRLayout.setRefreshing(false);
-			}
+				@Override
+				public void onFailure(Call<Rss> call, Throwable t) {
+					Log.e(CLASS_NAME, t.getMessage());
+					_swipeRLayout.setRefreshing(false);
+					Snackbar.make(findViewById(R.id.swiperefresh_item),
+							R.string.erro_itens_atualizados, Snackbar.LENGTH_LONG)
+							.show();
+				}
+			});
 
-			@Override
-			public void onFailure(Call<Rss> call, Throwable t) {
-				Log.e(CLASS_NAME, t.getMessage());
-				_swipeRLayout.setRefreshing(false);
-				Snackbar.make(findViewById(R.id.swiperefresh_item),
-					R.string.erro_itens_atualizados, Snackbar.LENGTH_LONG)
-					.show();
-			}
-		});
+		}else{
+
+			_adapter.updateAnswers(_rss.getChannel().getItem());
+			_adapter.setFeedItemsAux(_rss.getChannel().getItem());
+
+		}
+
+
 	}
 
     private MenuItem _menuItem;
@@ -165,7 +183,7 @@ public class ItemListActivity extends AppCompatActivity {
 	private SwipeRefreshLayout _swipeRLayout;
 	private List<Item> _itemList;
 	private ItemAdapter _adapter = null;
-    RssListViewModel _rssListViewModel;
+    ItemListModel _itemListViewModel;
 	private WeRetrofitService _rsfit;
 	final private String CLASS_NAME = "ItemListActivity";
 }
