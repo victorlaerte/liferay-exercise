@@ -1,9 +1,13 @@
 package com.example.luisafarias.myapplication.dao;
 
+import com.example.luisafarias.myapplication.model.Channel;
 import com.example.luisafarias.myapplication.model.Item;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssModel;
 import com.example.luisafarias.myapplication.util.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -55,6 +59,36 @@ public class RssDAO {
 
             rssResults.deleteAllFromRealm();
         });
+    }
+
+    public void setRealmRss(Rss rss, Rss rssId){
+        deleteRealmRss(rss);
+        addRssRealm(rss,rssId);
+    }
+
+    public List<Rss> rssModelToRss() {
+        List<RssModel>rssResults = _realm.where(RssModel.class).findAll();
+        List<Rss> rssList = new ArrayList();
+        List<Item> itemList = new ArrayList<>();
+
+        for (RssModel a : rssResults) {
+            Rss rss = new Rss();
+            Channel channel = new Channel();
+            rss.setChannel(channel);
+            rss.setId(a.getId());
+            rss.getChannel().setTitle(a.getChannelTitle());
+
+            for (String b : a.getItemListTitle()) {
+                Item item = new Item();
+                item.setTitle(b);
+                itemList.add(item);
+            }
+
+            rss.getChannel().setItem(itemList);
+
+            rssList.add(rss);
+        }
+        return rssList;
     }
 
     private Realm _realm;
