@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.ItemListActivity;
+import com.example.luisafarias.myapplication.dao.RssDAO;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.util.AndroidUtil;
@@ -81,6 +82,7 @@ public class RssListRecyclerViewAdapter
 
 		holder.favorite.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 rss.setFavorite(isChecked);
+			RssDAO.getInstance().setRealmRss(rss,rss);
 
         });
 
