@@ -30,8 +30,8 @@ import java.util.List;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> implements Filterable {
 
-	public ItemAdapter(Context context, List<Item> feed) {
-		this._feedItems = feed;
+	public ItemAdapter(Context context, List<Item> itemList) {
+		this._feedItems = itemList;
 		this._context = context;
 	}
 
