@@ -82,7 +82,8 @@ public class RssListRecyclerViewAdapter
 
 		holder.favorite.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 rss.setFavorite(isChecked);
-			RssDAO.getInstance().setRealmRss(rss,rss);
+                RssDAO.getInstance().deleteRealmRss(rss);
+			RssDAO.getInstance().addRssRealm(rss,rss);
 
         });
 

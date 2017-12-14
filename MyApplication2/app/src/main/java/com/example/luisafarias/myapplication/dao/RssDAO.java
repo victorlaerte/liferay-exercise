@@ -42,10 +42,14 @@ public class RssDAO {
                 RealmList<String> realmStringList = new RealmList<>();
                 RssModel rssModel = _realm.createObject(RssModel.class, rssId.getId());
                 rssModel.setChannelTitle(rss.getChannel().getTitle());
-                for (Item item : rss.getChannel().getItem()) {
-                    realmStringList.add(item.getTitle());
+                rssModel.setFavorite(rss.getFavorite());
+                if ( rss.getChannel().getItem() != null){
+                    for (Item item : rss.getChannel().getItem()) {
+                        realmStringList.add(item.getTitle());
+                    }
+                    rssModel.setItemListTitle(realmStringList);
                 }
-                rssModel.setItemListTitle(realmStringList);
+
             }
 
         });

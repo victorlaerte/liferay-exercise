@@ -1,8 +1,6 @@
 <menu
 xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-tools:context=".activities.MainActivity">
+xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/search"
         android:title="searchTitle"
@@ -15,4 +13,10 @@ tools:context=".activities.MainActivity">
     android:orderInCategory="101"
     android:icon="@mipmap/go_out"
     />
+
+    <item
+        android:id="@+id/favorite"
+        android:icon="@android:drawable/btn_star_big_on"
+        app:showAsAction="always|collapseActionView"
+        android:title="favorito" />
 </menu>
