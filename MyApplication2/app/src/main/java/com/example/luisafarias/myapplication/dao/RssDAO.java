@@ -75,14 +75,15 @@ public class RssDAO {
         List<Rss> rssList = new ArrayList();
         List<Item> itemList = new ArrayList<>();
 
-        for (RssModel a : rssResults) {
+        for (RssModel rssModel : rssResults) {
             Rss rss = new Rss();
             Channel channel = new Channel();
             rss.setChannel(channel);
-            rss.setId(a.getId());
-            rss.getChannel().setTitle(a.getChannelTitle());
+            rss.setId(rssModel.getId());
+            rss.setFavorite(rssModel.getFavorite());
+            rss.getChannel().setTitle(rssModel.getChannelTitle());
 
-            for (String b : a.getItemListTitle()) {
+            for (String b : rssModel.getItemListTitle()) {
                 Item item = new Item();
                 item.setTitle(b);
                 itemList.add(item);
