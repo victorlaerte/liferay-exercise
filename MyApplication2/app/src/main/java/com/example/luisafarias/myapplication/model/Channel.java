@@ -30,7 +30,9 @@ public class Channel implements Parcelable {
     @ElementList(name = "item", inline = true)
     private List<Item> item;
 
-    //private Image image;
+    @Element(name = "image")
+    private Image image;
+
     @Element(name = "language")
     private String language;
 
@@ -43,6 +45,7 @@ public class Channel implements Parcelable {
         //this._link = in.readString();
         item = in.createTypedArrayList(Item.CREATOR);
         //item_body = in.createTypedArray(Item.CREATOR);
+        image = (Image) in.readValue(Image.class.getClassLoader());
         language = in.readString();
         copyright = in.readString();
     }
@@ -56,6 +59,7 @@ public class Channel implements Parcelable {
         //dest.writeTypedArray(item_body, flags);
         dest.writeString(language);
         dest.writeString(copyright);
+        dest.writeValue(image);
     }
 
     @Override
@@ -89,6 +93,14 @@ public class Channel implements Parcelable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     //public String getLink ()

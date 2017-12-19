@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import com.example.luisafarias.myapplication.R;
+import com.example.luisafarias.myapplication.dao.RssDAO;
 import com.example.luisafarias.myapplication.model.Rss;
 import com.example.luisafarias.myapplication.model.RssListViewModel;
 import com.example.luisafarias.myapplication.model.RssModel;
@@ -42,8 +43,6 @@ public class PopUpFragment extends DialogFragment {
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		_realm = Realm.getDefaultInstance();
-
 		builder.setMessage(getString(R.string.deseja_excluir) + nome + "?")
 			.setPositiveButton(R.string.excluir,
 				(dialog, which) -> deleteRss(_rssListViewModel))
@@ -62,10 +61,8 @@ public class PopUpFragment extends DialogFragment {
 
 						rssListViewModel.deleteRss(_rss);
 
-						deleteRealmRss();
+						RssDAO.getInstance().deleteRealmRss(_rss);
 
-						Log.d(CLASS_NAME,
-							getString(R.string.excluido_com_sucesso));
 					}
 
 					@Override
@@ -74,15 +71,6 @@ public class PopUpFragment extends DialogFragment {
 					}
 				});
 		}
-	}
-
-	private void deleteRealmRss() {
-		_realm.executeTransaction(realm -> {
-			_rssResults = _realm.where(RssModel.class).
-				equalTo(Constants._ID, _rss.getId()).findAll();
-
-			_rssResults.deleteAllFromRealm();
-		});
 	}
 
 	@Override
@@ -96,8 +84,6 @@ public class PopUpFragment extends DialogFragment {
 
 	final private String CLASS_NAME = "PopUpFragment";
 	private Authorization _authorization;
-	private Realm _realm;
-	private RealmResults<RssModel> _rssResults;
 	private Rss _rss;
 	private RssListViewModel _rssListViewModel;
 }

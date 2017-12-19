@@ -16,9 +16,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.MainActivity;
 import com.example.luisafarias.myapplication.adapters.RssListRecyclerViewAdapter;
+import com.example.luisafarias.myapplication.dao.RssDAO;
 import com.example.luisafarias.myapplication.model.Channel;
 import com.example.luisafarias.myapplication.model.Item;
 import com.example.luisafarias.myapplication.model.Rss;
@@ -55,9 +58,6 @@ public class RssListFragment extends Fragment {
 
 		_view = inflater.inflate(R.layout.fragment_rss_list, container, false);
 
-		_realm = Realm.getDefaultInstance();
-		_rssResults = _realm.where(RssModel.class).findAll();
-
 		_rssListViewModel = ViewModelProviders.
 			of((FragmentActivity) getActivity()).
 			get(RssListViewModel.class);
@@ -83,12 +83,7 @@ public class RssListFragment extends Fragment {
 		_swipeRLayout = _view.findViewById(R.id.swiperefresh);
 
 		_swipeRLayout.setOnRefreshListener(
-			new SwipeRefreshLayout.OnRefreshListener() {
-				@Override
-				public void onRefresh() {
-					reloadFeeds();
-				}
-			});
+				() -> reloadFeeds());
 		_swipeRLayout.setColorSchemeColors(android.R.color.holo_blue_light,
 			android.R.color.holo_orange_light);//nao funciona ainda as cores
 	}
@@ -127,7 +122,7 @@ public class RssListFragment extends Fragment {
 						}
 					});
 		} else {
-			List<Rss> listRealm = rssModelToRss(_rssResults);
+			List<Rss> listRealm = RssDAO.getInstance().rssModelToRss();
 			_rssListViewModel.setRssList(listRealm);
 			_recycleViewAdapter.setRssListAux(listRealm);
 			_recycleViewAdapter.updateAnswers(_rssListViewModel.getRssList());
@@ -164,10 +159,32 @@ public class RssListFragment extends Fragment {
 			case R.id.search:
 				query();
 
+			case R.id.favorite:
+					if(_active){
+						favoriteList();
+						_active = false;
+					}else {
+						reloadFeeds();
+						_active = true;
+					}
+
+
 				return true;
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void favoriteList() {
+		List<Rss> list = _rssListViewModel.getRssList();
+		List<Rss> listAux = new ArrayList<>();
+		for (Rss rss : list){
+			if (rss.getFavorite() == true){
+				listAux.add(rss);
+			}
+		}
+		settingRecycleView(listAux);
+		_recycleViewAdapter.setRssListAux(listAux);
 	}
 
 	private void query() {
@@ -188,34 +205,9 @@ public class RssListFragment extends Fragment {
 			});
 	}
 
-	private List<Rss> rssModelToRss(List<RssModel> rssModelList) {
-		List<Rss> rssList = new ArrayList();
-		List<Item> itemList = new ArrayList<>();
-
-		for (RssModel a : rssModelList) {
-			Rss rss = new Rss();
-			Channel channel = new Channel();
-			rss.setChannel(channel);
-			rss.setId(a.getId());
-			rss.getChannel().setTitle(a.getChannelTitle());
-
-			for (String b : a.getItemListTitle()) {
-				Item item = new Item();
-				item.setTitle(b);
-				itemList.add(item);
-			}
-
-			rss.getChannel().setItem(itemList);
-
-			rssList.add(rss);
-		}
-		return rssList;
-	}
-
+	private Boolean _active = true;
 	private Authorization _authorization;
 	private MenuItem _menuItem;
-	private Realm _realm;
-	private RealmResults<RssModel> _rssResults;
 	private RssListRecyclerViewAdapter _recycleViewAdapter;
 	private RecyclerView _recycleView;
 	RssListViewModel _rssListViewModel;

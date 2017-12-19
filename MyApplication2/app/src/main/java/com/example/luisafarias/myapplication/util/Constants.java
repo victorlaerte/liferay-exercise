@@ -40,4 +40,6 @@ public class Constants {
 	public final static String FEEDS = "Feeds";
 
 	public final static String RSS_RSS = "Rss";
+
+	public final static String IMAGE_URL = "imageUrl";
 }

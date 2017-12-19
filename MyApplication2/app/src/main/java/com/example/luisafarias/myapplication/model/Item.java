@@ -23,7 +23,7 @@ public class Item implements Parcelable {
     public Item() {
     }
 
-    ;//para desserializar precisa do construtor vazio public
+    //para desserializar precisa do construtor vazio public
 
     protected Item(Parcel in) {
         pubDate = in.readString();
@@ -87,6 +87,17 @@ public class Item implements Parcelable {
                 + ", link = "
                 + link
                 + "]";
+    }
+
+    public String getUrlImage(){
+        int indexBegin = 0;
+        int indexEnd = 0;
+        if (description.contains("<img src=") && description.contains(" /><br />")) {
+            indexBegin = description.indexOf("<img src=")+10;
+            indexEnd = description.indexOf(" /><br />")-1;
+
+        }
+        return description.substring(indexBegin,indexEnd);
     }
 
     @Override

@@ -19,7 +19,6 @@ public class CustomApplication extends Application{
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .name(Constants.REALM_DB)
-                //.deleteRealmIfMigrationNeeded()
                 .build();
 
         Realm.setDefaultConfiguration(realmConfiguration);

@@ -27,6 +27,17 @@ public class RssModel extends RealmObject {
 
     private String _userId;
 
+    @Required
+    private Boolean _favorite;
+
+    public Boolean getFavorite() {
+        return _favorite;
+    }
+
+    public void setFavorite(Boolean _favorite) {
+        this._favorite = _favorite;
+    }
+
     public String getId() {
         return _id;
     }

@@ -5,17 +5,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.example.luisafarias.myapplication.R;
 import com.example.luisafarias.myapplication.activities.ItemListActivity;
+import com.example.luisafarias.myapplication.dao.RssDAO;
 import com.example.luisafarias.myapplication.fragments.PopUpFragment;
 import com.example.luisafarias.myapplication.model.Rss;
+import com.example.luisafarias.myapplication.util.AndroidUtil;
 import com.example.luisafarias.myapplication.util.Constants;
+
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,32 +70,48 @@ public class RssListRecyclerViewAdapter
 		final Rss rss = _rssList.get(position);
 		holder.name.setText(rss.getChannel().getTitle());
 		holder.id.setText(rss.getId());
+		if (AndroidUtil.isOnline(_context)){
+			String url = rss.getChannel().getImage().getUrl();
+			ImageView iv = holder.image;
 
-		holder.view.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				Bundle bundle = new Bundle();
-				bundle.putParcelable(Constants.RSS, rss);
-				bundle.putString(Constants.TOKEN, _token);
-				PopUpFragment popUpFragment = new PopUpFragment();
-				popUpFragment.setArguments(bundle);
-				popUpFragment.show(
-					((FragmentActivity) _context).getSupportFragmentManager(),
-					Constants.ID_POPUP);
-				return false;
-			}
-		});
+			Glide.with(holder.view.getContext()).load(url).into(iv);
+		}
+		Rss rssAux = RssDAO.getInstance().getRssRealm(rss);
+		if (rssAux != null){
+			rss.setFavorite(rssAux.getFavorite());
+		}
 
-		holder.view.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(_context, ItemListActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putParcelable(Constants.RSS, rss);
-				intent.putExtra(Constants.RSS, bundle);
-				_context.startActivity(intent);
-			}
-		});
+		if (rss.getFavorite()){
+			holder.favorite.setChecked(true);
+		}
+
+		holder.favorite.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                rss.setFavorite(isChecked);
+                RssDAO.getInstance().deleteRealmRss(rss);
+			RssDAO.getInstance().addRssRealm(rss,rss);
+
+        });
+
+
+		holder.view.setOnLongClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(Constants.RSS, rss);
+            bundle.putString(Constants.TOKEN, _token);
+            PopUpFragment popUpFragment = new PopUpFragment();
+            popUpFragment.setArguments(bundle);
+            popUpFragment.show(
+                ((FragmentActivity) _context).getSupportFragmentManager(),
+                Constants.ID_POPUP);
+            return false;
+        });
+
+		holder.view.setOnClickListener(v -> {
+            Intent intent = new Intent(_context, ItemListActivity.class);
+            Bundle bundle = new Bundle();
+			bundle.putParcelable(Constants.RSS, rss);
+            intent.putExtra(Constants.RSS, bundle);
+            _context.startActivity(intent);
+        });
 	}
 
 	@Override
@@ -115,10 +141,9 @@ public class RssListRecyclerViewAdapter
 
 						List<Rss> rssListAux = new ArrayList<>();
 
-						// TODO: Tentar tratar os casos com acento
 						for (Rss r : _rssListAux) {
-							if (r.getChannel().getTitle().toUpperCase().
-								contains(constraint.toString().toUpperCase())) {
+							if (removeAccent(r.getChannel().getTitle().toUpperCase()).
+								contains(removeAccent(constraint.toString().toUpperCase()))) {
 								rssListAux.add(r);
 							}
 						}
@@ -144,14 +169,26 @@ public class RssListRecyclerViewAdapter
 	class CustomViewHolder extends RecyclerView.ViewHolder {
 		protected TextView name;
 		protected TextView id;
+		public ImageView image;
 		protected View view;
+		public CheckBox favorite;
 
 		public CustomViewHolder(View view) {
 			super(view);
 			this.view = view;
 			this.name = view.findViewById(R.id.nome_url_recebida);
 			this.id = view.findViewById(R.id.idUrlTest);
+			this.image = view.findViewById(R.id.imageView2);
+			this.favorite = view.findViewById(R.id.fav);
 		}
+	}
+
+	private String removeAccent(String str){
+		if (str != null){
+			str = Normalizer.normalize(str, Normalizer.Form.NFD);
+			str = str.replaceAll("[^\\p{ASCII}]", "");
+		}
+		return str;
 	}
 
 	private List<Rss> _rssList;
