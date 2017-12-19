@@ -58,9 +58,6 @@ public class RssListFragment extends Fragment {
 
 		_view = inflater.inflate(R.layout.fragment_rss_list, container, false);
 
-		//_realm = Realm.getDefaultInstance();
-		//_rssResults = _realm.where(RssModel.class).findAll();
-
 		_rssListViewModel = ViewModelProviders.
 			of((FragmentActivity) getActivity()).
 			get(RssListViewModel.class);

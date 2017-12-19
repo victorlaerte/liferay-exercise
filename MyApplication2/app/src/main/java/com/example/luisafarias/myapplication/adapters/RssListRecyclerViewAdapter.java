@@ -77,7 +77,9 @@ public class RssListRecyclerViewAdapter
 			Glide.with(holder.view.getContext()).load(url).into(iv);
 		}
 		Rss rssAux = RssDAO.getInstance().getRssRealm(rss);
-		rss.setFavorite(rssAux.getFavorite());
+		if (rssAux != null){
+			rss.setFavorite(rssAux.getFavorite());
+		}
 
 		if (rss.getFavorite()){
 			holder.favorite.setChecked(true);

@@ -63,27 +63,33 @@ public class RssDAO {
 
             rssResults.deleteAllFromRealm();
         });
+
+        //Testing
+        
     }
 
     public Rss getRssRealm(Rss rss){
+        Rss rss1 = new Rss();
         RealmResults<RssModel> rssResults = _realm.where(RssModel.class).
                 equalTo(Constants._ID, rss.getId()).findAll();
-        RssModel rssModel = rssResults.first();
-        Rss rss1 = new Rss();
-        Channel channel = new Channel();
-        List<Item> itemList = new ArrayList<>();
-        rss1.setChannel(channel);
-        rss1.setId(rssModel.getId());
-        rss1.setFavorite(rssModel.getFavorite());
-        rss1.getChannel().setTitle(rssModel.getChannelTitle());
+        if (!rssResults.isEmpty()){
+            RssModel rssModel = rssResults.first();
+            Channel channel = new Channel();
+            List<Item> itemList = new ArrayList<>();
+            rss1.setChannel(channel);
+            rss1.setId(rssModel.getId());
+            rss1.setFavorite(rssModel.getFavorite());
+            rss1.getChannel().setTitle(rssModel.getChannelTitle());
 
-        for (String b : rssModel.getItemListTitle()) {
-            Item item = new Item();
-            item.setTitle(b);
-            itemList.add(item);
+            for (String b : rssModel.getItemListTitle()) {
+                Item item = new Item();
+                item.setTitle(b);
+                itemList.add(item);
+            }
+
+            rss1.getChannel().setItem(itemList);
+
         }
-
-        rss1.getChannel().setItem(itemList);
 
         return rss1;
     }
